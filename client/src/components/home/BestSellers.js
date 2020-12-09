@@ -36,13 +36,15 @@ const BestSellers = () => {
                 <LoadingCard count={3} />
             ) : (
                 <ProductCardCarousel>
-                    {products.map((product) => (
-                        <ProductCard
-                            caption="Hot"
-                            key={product._id}
-                            product={product}
-                        />
-                    ))}
+                    {products &&
+                        products.length &&
+                        products.map((product) => (
+                            <ProductCard
+                                caption="Hot"
+                                key={product._id}
+                                product={product}
+                            />
+                        ))}
                 </ProductCardCarousel>
             )}
         </div>

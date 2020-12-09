@@ -60,17 +60,19 @@ const AllProducts = () => {
                         <h4 className="dashboard__page-title">All Products</h4>
                     )}
                     <div className="row">
-                        {products.map((product) => (
-                            <div
-                                key={product._id}
-                                className="col-6 col-md-4 col-lg-3 px-2 mb-3"
-                            >
-                                <AdminProductCard
-                                    product={product}
-                                    handleRemove={handleRemove}
-                                />
-                            </div>
-                        ))}
+                        {products &&
+                            products.length &&
+                            products.map((product) => (
+                                <div
+                                    key={product._id}
+                                    className="col-6 col-md-4 col-lg-3 px-2 mb-3"
+                                >
+                                    <AdminProductCard
+                                        product={product}
+                                        handleRemove={handleRemove}
+                                    />
+                                </div>
+                            ))}
                     </div>
                 </div>
             </div>

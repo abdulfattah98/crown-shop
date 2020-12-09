@@ -23,12 +23,14 @@ import React from 'react';
 // ];
 
 const Gallery = ({ images }) => {
-    const newImages = images.map((image) => {
-        return {
-            original: image.url,
-            thumbnail: image.url,
-        };
-    });
+    if (images && images.length) {
+        const newImages = images.map((image) => {
+            return {
+                original: image.url,
+                thumbnail: image.url,
+            };
+        });
+    }
     return (
         <>
             <div className="d-none d-lg-block">

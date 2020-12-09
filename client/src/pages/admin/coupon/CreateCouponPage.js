@@ -151,23 +151,27 @@ const CreateCouponPage = () => {
                         </thead>
 
                         <tbody>
-                            {coupons.map((c) => (
-                                <tr className="table-b" key={c._id}>
-                                    <td>{c.name}</td>
-                                    <td>
-                                        {new Date(
-                                            c.expiry
-                                        ).toLocaleDateString()}
-                                    </td>
-                                    <td>{c.discount}%</td>
-                                    <td className="delete">
-                                        <DeleteOutlined
-                                            onClick={() => handleRemove(c._id)}
-                                            className="pointer"
-                                        />
-                                    </td>
-                                </tr>
-                            ))}
+                            {coupons &&
+                                coupons.length &&
+                                coupons.map((c) => (
+                                    <tr className="table-b" key={c._id}>
+                                        <td>{c.name}</td>
+                                        <td>
+                                            {new Date(
+                                                c.expiry
+                                            ).toLocaleDateString()}
+                                        </td>
+                                        <td>{c.discount}%</td>
+                                        <td className="delete">
+                                            <DeleteOutlined
+                                                onClick={() =>
+                                                    handleRemove(c._id)
+                                                }
+                                                className="pointer"
+                                            />
+                                        </td>
+                                    </tr>
+                                ))}
                         </tbody>
                     </table>
                 </div>

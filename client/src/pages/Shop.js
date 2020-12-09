@@ -118,25 +118,28 @@ const Shop = () => {
 
     // 4. load products based on category
     // show categories in a list of checkbox
-    const showCategories = () =>
-        categories.map((c) => {
-            return (
-                <div key={c._id}>
-                    <Checkbox
-                        onChange={handleCheck}
-                        className="pb-2 pl-4"
-                        value={c._id}
-                        name="category"
-                        checked={categoryIds.includes(c._id)}
-                    >
-                        {c.name.length > 20
-                            ? c.name.slice(0, 20) + '...'
-                            : c.name}
-                    </Checkbox>
-                    <br />
-                </div>
-            );
-        });
+    const showCategories = () => {
+        if (categories && categories.length) {
+            return categories.map((c) => {
+                return (
+                    <div key={c._id}>
+                        <Checkbox
+                            onChange={handleCheck}
+                            className="pb-2 pl-4"
+                            value={c._id}
+                            name="category"
+                            checked={categoryIds.includes(c._id)}
+                        >
+                            {c.name.length > 20
+                                ? c.name.slice(0, 20) + '...'
+                                : c.name}
+                        </Checkbox>
+                        <br />
+                    </div>
+                );
+            });
+        }
+    };
 
     // handle check for categories
     const handleCheck = (e) => {
@@ -205,17 +208,20 @@ const Shop = () => {
     };
 
     // 6. show products by sub category
-    const showSubs = () =>
-        subs.map((s) => (
-            <div
-                key={s._id}
-                onClick={() => handleSub(s)}
-                className="p-1 m-1 badge badge-secondary"
-                style={{ cursor: 'pointer' }}
-            >
-                {s.name}
-            </div>
-        ));
+    const showSubs = () => {
+        if (subs && subs.length) {
+            return subs.map((s) => (
+                <div
+                    key={s._id}
+                    onClick={() => handleSub(s)}
+                    className="p-1 m-1 badge badge-secondary"
+                    style={{ cursor: 'pointer' }}
+                >
+                    {s.name}
+                </div>
+            ));
+        }
+    };
 
     const handleSub = (sub) => {
         // console.log("SUB", sub);
@@ -237,20 +243,22 @@ const Shop = () => {
     const showBrands = () => {
         return (
             <div className="row">
-                {brands.map((b) => (
-                    <div className="col-6 mb-1">
-                        <Radio
-                            key={b}
-                            value={b}
-                            name={b}
-                            checked={b === brand}
-                            onChange={handleBrand}
-                            className=" "
-                        >
-                            {b}
-                        </Radio>
-                    </div>
-                ))}
+                {brands &&
+                    brands.length &&
+                    brands.map((b) => (
+                        <div className="col-6 mb-1">
+                            <Radio
+                                key={b}
+                                value={b}
+                                name={b}
+                                checked={b === brand}
+                                onChange={handleBrand}
+                                className=" "
+                            >
+                                {b}
+                            </Radio>
+                        </div>
+                    ))}
             </div>
         );
     };
@@ -271,20 +279,22 @@ const Shop = () => {
     };
 
     // 8. show products based on color
-    const showColors = () =>
-        colors.map((c) => (
-            <Radio
-                key={c}
-                value={c}
-                name={c}
-                checked={c === color}
-                onChange={handleColor}
-                className="pb-1 pl-4"
-            >
-                {c}
-            </Radio>
-        ));
-
+    const showColors = () => {
+        if (colors && colors.length) {
+            return colors.map((c) => (
+                <Radio
+                    key={c}
+                    value={c}
+                    name={c}
+                    checked={c === color}
+                    onChange={handleColor}
+                    className="pb-1 pl-4"
+                >
+                    {c}
+                </Radio>
+            ));
+        }
+    };
     const handleColor = (e) => {
         setSub('');
         dispatch({
@@ -700,27 +710,29 @@ const Shop = () => {
                                 )}
                             </div>
                         </div>
-                        {products.map((p, idx) => (
-                            <div
-                                key={p._id}
-                                className={`${
-                                    view === 'grid' && idx % 2 === 0
-                                        ? 'col-6 col-sm-4 col-md-6 col-lg-4 col-xl-3 pl-0 pr-2 px-sm-3'
-                                        : view === 'grid' && idx % 2 === 1
-                                        ? 'col-6 col-sm-4 col-md-6 col-lg-4 col-xl-3 pr-0 pl-2 px-sm-3'
-                                        : 'col-12 px-0 px-md-3'
-                                } mb-3`}
-                            >
-                                {view === 'grid' ? (
-                                    <ProductCard product={p} />
-                                ) : (
-                                    <ProductCardRow
-                                        p={p}
-                                        wishListCard={false}
-                                    />
-                                )}
-                            </div>
-                        ))}
+                        {products &&
+                            products.length &&
+                            products.map((p, idx) => (
+                                <div
+                                    key={p._id}
+                                    className={`${
+                                        view === 'grid' && idx % 2 === 0
+                                            ? 'col-6 col-sm-4 col-md-6 col-lg-4 col-xl-3 pl-0 pr-2 px-sm-3'
+                                            : view === 'grid' && idx % 2 === 1
+                                            ? 'col-6 col-sm-4 col-md-6 col-lg-4 col-xl-3 pr-0 pl-2 px-sm-3'
+                                            : 'col-12 px-0 px-md-3'
+                                    } mb-3`}
+                                >
+                                    {view === 'grid' ? (
+                                        <ProductCard product={p} />
+                                    ) : (
+                                        <ProductCardRow
+                                            p={p}
+                                            wishListCard={false}
+                                        />
+                                    )}
+                                </div>
+                            ))}
                     </div>
                 </div>
             </div>

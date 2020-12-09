@@ -273,7 +273,9 @@ const ProductCardRow = ({ p, wishListCard, loadWishlist }) => {
                                 value={currentColor}
                                 onChange={(e) => changeColor(e)}
                             >
-                                {p.color &&
+                                {p &&
+                                    p.color &&
+                                    p.color.length &&
                                     p.color.map((c, index) => {
                                         let v = false;
                                         if (currentColor == c) {

@@ -98,38 +98,42 @@ const CategoryCreate = () => {
 
                     {/* step 5 */}
                     <div className="row">
-                        {categories.filter(searched(keyword)).map((c) => {
-                            const name = c.name;
-                            return (
-                                <div className="col-6 col-lg-3 col-md-4 px-2 mb-3">
-                                    <Card
-                                        actions={[
-                                            <Link
-                                                to={`/admin/category/${c.slug}`}
-                                            >
-                                                <EditOutlined className="edit" />
-                                            </Link>,
-                                            <DeleteOutlined
-                                                onClick={() =>
-                                                    handleRemove(c.slug)
-                                                }
-                                                className="delete"
-                                            />,
-                                        ]}
-                                    >
-                                        <Meta
-                                            title={`${
-                                                name.length > 50
-                                                    ? name.substring(0, 50) +
-                                                      '...'
-                                                    : name
-                                            }`}
-                                            className="text-center cat"
-                                        />
-                                    </Card>
-                                </div>
-                            );
-                        })}
+                        {categories &&
+                            categories.length &&
+                            categories.filter(searched(keyword)).map((c) => {
+                                const name = c.name;
+                                return (
+                                    <div className="col-6 col-lg-3 col-md-4 px-2 mb-3">
+                                        <Card
+                                            actions={[
+                                                <Link
+                                                    to={`/admin/category/${c.slug}`}
+                                                >
+                                                    <EditOutlined className="edit" />
+                                                </Link>,
+                                                <DeleteOutlined
+                                                    onClick={() =>
+                                                        handleRemove(c.slug)
+                                                    }
+                                                    className="delete"
+                                                />,
+                                            ]}
+                                        >
+                                            <Meta
+                                                title={`${
+                                                    name.length > 50
+                                                        ? name.substring(
+                                                              0,
+                                                              50
+                                                          ) + '...'
+                                                        : name
+                                                }`}
+                                                className="text-center cat"
+                                            />
+                                        </Card>
+                                    </div>
+                                );
+                            })}
                     </div>
                 </div>
             </div>

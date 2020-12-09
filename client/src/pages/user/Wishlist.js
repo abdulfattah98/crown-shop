@@ -62,7 +62,7 @@ const Wishlist = () => {
                                 <DeleteOutlined className="text-danger" />
                             </span> */}
                     <div className="wishlist h-100">
-                        {wishlist.length ? (
+                        {user && wishlist && wishlist.length ? (
                             <div className="wishlist__products">
                                 {wishlist.map((p) => {
                                     return (
