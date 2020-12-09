@@ -54,46 +54,47 @@ const Orders = ({ orders, handleStatusChange }) => {
         </table>
     );
 
+    console.log('orders before the return ' + orders);
     return (
         <>
-            {orders &&
-                orders.length &&
-                orders.map((order) => (
-                    <div key={order._id} className="row order">
-                        <div className="col-11 col-md-9 col-lg-6 px-0  mx-auto mb-5 order-status">
-                            <span className="text">Order Status:</span>
+            {orders && orders.length
+                ? orders.map((order) => (
+                      <div key={order._id} className="row order">
+                          <div className="col-11 col-md-9 col-lg-6 px-0  mx-auto mb-5 order-status">
+                              <span className="text">Order Status:</span>
 
-                            <Select
-                                style={{ width: '100%' }}
-                                placeholder="Set Status"
-                                // value={color}
-                                onChange={(e) =>
-                                    handleStatusChange(order._id, e)
-                                }
-                            >
-                                <Option value="Not Processed">
-                                    Not Processed
-                                </Option>
-                                <Option value="Cash On Delivery">
-                                    Cash On Delivery
-                                </Option>
-                                <Option value="Processing">Processing</Option>
-                                <Option value="Dispatched">Dispatched</Option>
-                                <Option value="Cancelled">Cancelled</Option>
-                                <Option value="Completed">Completed</Option>
-                            </Select>
-                        </div>
+                              <Select
+                                  style={{ width: '100%' }}
+                                  placeholder="Set Status"
+                                  // value={color}
+                                  onChange={(e) =>
+                                      handleStatusChange(order._id, e)
+                                  }
+                              >
+                                  <Option value="Not Processed">
+                                      Not Processed
+                                  </Option>
+                                  <Option value="Cash On Delivery">
+                                      Cash On Delivery
+                                  </Option>
+                                  <Option value="Processing">Processing</Option>
+                                  <Option value="Dispatched">Dispatched</Option>
+                                  <Option value="Cancelled">Cancelled</Option>
+                                  <Option value="Completed">Completed</Option>
+                              </Select>
+                          </div>
 
-                        <div className="col-12 px-0">
-                            {showOrderInTable(order)}
-                        </div>
-                        <ShowPaymentInfo
-                            order={order}
-                            showStatus={false}
-                            handleStatusChange={handleStatusChange}
-                        />
-                    </div>
-                ))}
+                          <div className="col-12 px-0">
+                              {showOrderInTable(order)}
+                          </div>
+                          <ShowPaymentInfo
+                              order={order}
+                              showStatus={false}
+                              handleStatusChange={handleStatusChange}
+                          />
+                      </div>
+                  ))
+                : null}
         </>
     );
 };
