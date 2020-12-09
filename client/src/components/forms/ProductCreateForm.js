@@ -159,7 +159,7 @@ const ProductCreateForm = ({
                             onChange={(e) => handleChange(e, 'brand')}
                         >
                             {brands &&
-                                brans.length &&
+                                brands.length &&
                                 brands.map((b) => (
                                     <Option key={b} value={b}>
                                         {b}
