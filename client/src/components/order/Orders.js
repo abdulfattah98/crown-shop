@@ -54,7 +54,6 @@ const Orders = ({ orders, handleStatusChange }) => {
         </table>
     );
 
-    console.log('orders before the return ' + orders);
     return (
         <>
             {orders && orders.length

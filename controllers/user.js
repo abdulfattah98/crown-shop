@@ -165,6 +165,7 @@ exports.orders = async (req, res) => {
         .exec();
 
     res.json(userOrders);
+    console.log(userOrders);
 };
 
 // addToWishlist wishlist removeFromWishlist
