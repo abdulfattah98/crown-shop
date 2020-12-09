@@ -23,8 +23,9 @@ import React from 'react';
 // ];
 
 const Gallery = ({ images }) => {
+    let newImages;
     if (images && images.length) {
-        const newImages = images.map((image) => {
+        newImages = images.map((image) => {
             return {
                 original: image.url,
                 thumbnail: image.url,
