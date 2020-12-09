@@ -13,8 +13,7 @@ const app = express();
 // db
 mongoose
     .connect(
-        // 'mongodb+srv://moath_abd:TBErfNIU1OjlkIYQ@cluster0.zqwvq.mongodb.net/ecommerce?retryWrites=true&w=majority'
-        process.env.DATABASE,
+        'mongodb+srv://moath_abd:TBErfNIU1OjlkIYQ@cluster0.zqwvq.mongodb.net/ecommerce?retryWrites=true&w=majority',
         {
             useNewUrlParser: true,
             useCreateIndex: true,
