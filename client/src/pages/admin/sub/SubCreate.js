@@ -106,8 +106,7 @@ const SubCreate = () => {
                                         placeholder="Select Category"
                                         onChange={(e) => setCategory(e)}
                                     >
-                                        {categories &&
-                                            categories.length &&
+                                        {categories.length > 0 &&
                                             categories.map((c) => (
                                                 <Option
                                                     key={c._id}
@@ -134,7 +133,7 @@ const SubCreate = () => {
                                     />
                                 </div>
                             </div>
-                            <div className="col-md-4 col-6 pl-0 mt-3">
+                            <div className="col-md-4 col-6 pl-0 mt-3 mt-md-0">
                                 <button className="form-save-button add-category">
                                     Save
                                 </button>
@@ -146,43 +145,37 @@ const SubCreate = () => {
 
                     {/* step 5 */}
                     <div className="row">
-                        {subs &&
-                            subs.length &&
-                            subs.filter(searched(keyword)).map((s) => {
-                                const name = s.name;
+                        {subs.filter(searched(keyword)).map((s) => {
+                            const name = s.name;
 
-                                return (
-                                    <div className="col-lg-3 col-6 col-md-4 pl-0 mb-3">
-                                        <Card
-                                            actions={[
-                                                <Link
-                                                    to={`/admin/sub/${s.slug}`}
-                                                >
-                                                    <EditOutlined className="edit" />
-                                                </Link>,
-                                                <DeleteOutlined
-                                                    onClick={() =>
-                                                        handleRemove(s.slug)
-                                                    }
-                                                    className="delete"
-                                                />,
-                                            ]}
-                                        >
-                                            <Meta
-                                                title={`${
-                                                    name.length > 50
-                                                        ? name.substring(
-                                                              0,
-                                                              50
-                                                          ) + '...'
-                                                        : name
-                                                }`}
-                                                className="text-center cat"
-                                            />
-                                        </Card>
-                                    </div>
-                                );
-                            })}
+                            return (
+                                <div className="col-lg-3 col-6 col-md-4 pl-0 mb-3">
+                                    <Card
+                                        actions={[
+                                            <Link to={`/admin/sub/${s.slug}`}>
+                                                <EditOutlined className="edit" />
+                                            </Link>,
+                                            <DeleteOutlined
+                                                onClick={() =>
+                                                    handleRemove(s.slug)
+                                                }
+                                                className="delete"
+                                            />,
+                                        ]}
+                                    >
+                                        <Meta
+                                            title={`${
+                                                name.length > 50
+                                                    ? name.substring(0, 50) +
+                                                      '...'
+                                                    : name
+                                            }`}
+                                            className="text-center cat"
+                                        />
+                                    </Card>
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
             </div>

@@ -105,7 +105,7 @@ form {
         padding: 1.5rem 3rem;
 
         @include respond-to('sm') {
-            padding: 1.5rem 2rem;
+            padding: 2rem 2rem;
         }
         display: flex;
         align-items: center;
@@ -146,7 +146,7 @@ form {
             width: 100%;
             height: 100%;
             border: none;
-            border-radius: 3px;
+            // border-radius: 3px;
             padding: 1.7rem;
             font-size: 1.7rem;
             color: #555;
@@ -206,6 +206,7 @@ form {
 
         &-input--sm {
             // padding: 3rem;
+            // padding: 0;
             height: 100%;
             &::placeholder {
                 font-size: 1.5rem;
@@ -214,8 +215,8 @@ form {
         &-searchButton--sm {
             // width: 6rem;
             height: 100%;
-            border-top-left-radius: 2px;
-            border-bottom-left-radius: 2px;
+            // border-top-left-radius: 2px;
+            // border-bottom-left-radius: 2px;
             margin-left: -48px;
             font-size: 10px;
             background-color: rgb(56, 102, 223);
@@ -243,8 +244,10 @@ form {
                 width: 100%;
             }
 
-            &:hover {
-                fill: rgba(#404553, 0.6);
+            @media (hover: hover) {
+                &:hover {
+                    fill: rgba(#404553, 0.6);
+                }
             }
         }
     }
@@ -261,10 +264,11 @@ form {
             position: relative;
             &__badge {
                 position: absolute;
-                top: -3px;
-                right: -9px;
-                width: 18px;
-                height: 18px;
+                top: -5px;
+                right: -8px;
+                width: 20px;
+                height: 20px;
+                padding-left: 1px;
                 border-radius: 50%;
                 margin-right: 0;
                 display: flex;
@@ -275,21 +279,33 @@ form {
                 background-color: #3866df;
                 font-size: 12px;
                 @include respond-to('md') {
+                    padding-top: 2px;
+                    padding-left: 1px;
+                    font-size: 11px;
+                    width: 18px;
+                    height: 18px;
+                }
+                @include respond-to('sm') {
                     padding-top: 1px;
                     padding-left: 1px;
+                    // font-size: 10px;
                 }
             }
-            &:hover *:not(.dash-cont__badge),
-            &:hover *:not(.dash-cont.myAccount) {
-                color: rgba(#404553, 0.6);
-                fill: rgba(#404553, 0.6);
+            @media (hover: hover) {
+                &:hover *:not(.dash-cont__badge),
+                &:hover *:not(.dash-cont.myAccount) {
+                    color: rgba(#404553, 0.6);
+                    fill: rgba(#404553, 0.6);
+                }
             }
         }
 
         & .dash-cont.cart {
-            &:hover *:not(.dash-cont__badge) {
-                color: rgba(#404553, 0.6);
-                fill: rgba(#404553, 0.6);
+            @media (hover: hover) {
+                &:hover *:not(.dash-cont__badge) {
+                    color: rgba(#404553, 0.6);
+                    fill: rgba(#404553, 0.6);
+                }
             }
         }
 
@@ -338,8 +354,10 @@ form {
                     // justify-content: center;
                     // margin: auto;
                     // text-align: center;
-                    &:hover * {
-                        opacity: 0.8;
+                    @media (hover: hover) {
+                        &:hover * {
+                            opacity: 0.8;
+                        }
                     }
 
                     & a {
@@ -386,26 +404,30 @@ form {
             }
         }
 
-        &:hover > *,
-        &:hover .d-flex div > * {
-            color: rgba(#404553, 0.6);
-            fill: rgba(#404553, 0.6);
+        @media (hover: hover) {
+            &:hover > *,
+            &:hover .d-flex div > * {
+                color: rgba(#404553, 0.6);
+                fill: rgba(#404553, 0.6);
+            }
+            &:hover .dash-cont__badge {
+                background-color: #bbbbbb;
+            }
         }
-        &:hover .dash-cont__badge {
-            background-color: #bbbbbb;
-        }
+
         span,
         a {
             transition: all 0.2s ease-out;
             font-size: 1.3rem;
+            // text-transform: uppercase;/
             font-weight: 700;
-            margin-right: 1rem;
+            // margin-right: 1rem;
             color: $color-dark;
             text-transform: capitalize;
             display: inline-block;
             height: 100%;
             span {
-                margin-top: 3px;
+                margin-top: 4px;
             }
         }
     }
@@ -415,12 +437,14 @@ form {
             font-size: 1.5rem;
         }
         & .user-icon {
-            width: 2rem;
-            height: 2rem;
+            width: 3.5rem;
+            height: 3.5rem;
+            margin-right: 5px;
         }
         & .user-icon.loggedin {
-            width: 1.5rem;
-            height: 1.5rem;
+            width: 1.2rem;
+            height: 1.2rem;
+            margin-left: 5px;
         }
     }
 
@@ -462,10 +486,13 @@ form {
             height: 100%;
             display: flex;
             align-items: center;
-            &:hover {
-                box-shadow: 2px 0 2px -2px rgba(0, 0, 0, 0.3),
-                    -2px 0 2px -2px rgba(0, 0, 0, 0.3);
+            @media (hover: hover) {
+                &:hover {
+                    box-shadow: 2px 0 2px -2px rgba(0, 0, 0, 0.3),
+                        -2px 0 2px -2px rgba(0, 0, 0, 0.3);
+                }
             }
+
             &-link {
                 padding: 0 1rem;
                 display: flex;
@@ -476,9 +503,11 @@ form {
                 text-transform: uppercase;
                 color: inherit;
                 font-weight: 600;
-                &:hover {
-                    text-decoration: none;
-                    color: $color-dark;
+                @media (hover: hover) {
+                    &:hover {
+                        text-decoration: none;
+                        color: $color-dark;
+                    }
                 }
             }
         }
@@ -525,19 +554,24 @@ form {
             height: 2rem;
         }
         &-logo {
-            width: 100%;
-            height: 100%;
+            width: 80px;
+            margin-top: 2px;
         }
     }
 
     &__main-links {
-        padding: 2rem 4rem;
+        padding: 2.5rem 2rem;
         list-style: none;
         border-bottom: 1px solid #ddd;
 
         display: flex;
         justify-content: center;
         justify-content: space-around;
+
+        @include respond-to('sm') {
+            justify-content: space-evenly;
+            padding: 3rem 2rem;
+        }
         &__item {
             &-link {
                 width: 4.5rem;
@@ -560,6 +594,12 @@ form {
                 &-icon {
                     width: 50%;
                     height: 50%;
+                    fill: #333;
+                }
+                &-icon.new-icon {
+                    width: 27px;
+                    height: 27px;
+                    fill: #333;
                 }
                 &-text {
                     color: $color-dark;
@@ -598,13 +638,19 @@ form {
             text-transform: uppercase;
         }
         &-item {
-            padding: 1.5rem 0;
             border-bottom: 1px solid #ddd;
             &-link {
-                &:active,
-                &:hover {
-                    color: $color-dark;
+                display: inline-block;
+                height: 100%;
+                width: 100%;
+                padding: 2rem 0;
+                @media (hover: hover) {
+                    &:active,
+                    &:hover {
+                        color: $color-dark;
+                    }
                 }
+
                 color: $color-dark;
                 text-transform: uppercase;
                 display: flex;
@@ -708,8 +754,10 @@ form {
             font-size: 11px;
             font-weight: 600;
         }
-        &:hover {
-            opacity: 0.8;
+        @media (hover: hover) {
+            &:hover {
+                opacity: 0.8;
+            }
         }
     }
 
@@ -749,9 +797,11 @@ form {
         justify-content: center;
         transition: all 0.2s ease-out;
 
-        &:hover,
-        &:hover &-icon {
-            opacity: 0.8;
+        @media (hover: hover) {
+            &:hover,
+            &:hover &-icon {
+                opacity: 0.8;
+            }
         }
 
         &-icon {
@@ -798,9 +848,10 @@ form {
                 height: 17px;
                 fill: white;
             }
-
-            &:hover {
-                opacity: 0.8;
+            @media (hover: hover) {
+                &:hover {
+                    opacity: 0.8;
+                }
             }
         }
 
@@ -877,9 +928,11 @@ form {
 
             & .list-item {
                 width: 100%;
-                &:hover * {
-                    color: rgba(#404553, 0.5) !important;
-                    fill: rgba(#404553, 0.6);
+                @media (hover: hover) {
+                    &:hover * {
+                        color: rgba(#404553, 0.5) !important;
+                        fill: rgba(#404553, 0.6);
+                    }
                 }
 
                 @include respond-to('md') {
@@ -950,8 +1003,10 @@ form {
                             display: inline-block;
                             font-size: 1.2rem;
                             margin-bottom: 1rem;
-                            &:hover {
-                                text-decoration: underline !important;
+                            @media (hover: hover) {
+                                &:hover {
+                                    text-decoration: underline !important;
+                                }
                             }
                         }
                     }
@@ -983,10 +1038,13 @@ form {
                     margin-right: 2rem;
                 }
                 & .link {
-                    &:hover * {
-                        opacity: 0.8;
-                        transition: all 0.2s ease-out;
+                    @media (hover: hover) {
+                        &:hover * {
+                            opacity: 0.8;
+                            transition: all 0.2s ease-out;
+                        }
                     }
+
                     width: 5rem;
                     height: 5rem;
                     background-color: $color-primary;
@@ -1034,8 +1092,10 @@ form {
                     color: $color-blue-light;
                     font-size: 1.2rem;
                     text-transform: uppercase;
-                    &:hover {
-                        text-decoration: underline !important;
+                    @media (hover: hover) {
+                        &:hover {
+                            text-decoration: underline !important;
+                        }
                     }
                 }
             }
@@ -1048,8 +1108,8 @@ form {
     padding: 14px 0;
     background-color: #f7f7fa;
 
-    &__layout {
-    }
+    // &__layout {
+    // }
 
     &__filters {
         &-list {
@@ -1059,10 +1119,12 @@ form {
             }
             & .filter-type {
                 cursor: pointer;
-                &:hover .filter-info > * {
-                    color: rgba(#404553, 0.6);
-                    fill: rgba(#404553, 0.6);
-                    transition: all 0.2s ease-out;
+                @media (hover: hover) {
+                    &:hover .filter-info > * {
+                        color: rgba(#404553, 0.6);
+                        fill: rgba(#404553, 0.6);
+                        transition: all 0.2s ease-out;
+                    }
                 }
 
                 & .filter-info {
@@ -1176,10 +1238,13 @@ form {
             margin-bottom: 0;
             transition: all 0.2s ease-out;
         }
-        &:hover * {
-            color: rgba(#404553, 0.6);
-            fill: rgba(#404553, 0.6);
+        @media (hover: hover) {
+            &:hover * {
+                color: rgba(#404553, 0.6);
+                fill: rgba(#404553, 0.6);
+            }
         }
+
         & i::before,
         & i::after {
             display: none !important;
@@ -1199,8 +1264,8 @@ form {
     }
     &__list {
         list-style: none;
-        &-item {
-        }
+        // &-item {
+        // }
     }
 }
 
@@ -1272,10 +1337,13 @@ form {
         border-radius: 50%;
         background-color: #f7f7fae6;
         transition: all 0.2s ease-out;
-        &:hover,
-        &:hover &-icon {
-            opacity: 0.8;
+        @media (hover: hover) {
+            &:hover,
+            &:hover &-icon {
+                opacity: 0.8;
+            }
         }
+
         &__icon {
             width: 2rem;
             height: 2rem;
@@ -1294,6 +1362,7 @@ form {
             font-size: 13px;
             // margin-top: 2px;
             cursor: pointer;
+
             &:hover {
                 text-decoration: underline;
             }
@@ -1507,8 +1576,10 @@ form {
                         @include respond-to('sm') {
                             font-size: 11px;
                         }
-                        &:hover {
-                            opacity: 0.8;
+                        @media (hover: hover) {
+                            &:hover {
+                                opacity: 0.8;
+                            }
                         }
                     }
                     &__shipping {
@@ -1584,8 +1655,10 @@ form {
                                 fill: white;
                             }
 
-                            &:hover {
-                                opacity: 0.8;
+                            @media (hover: hover) {
+                                &:hover {
+                                    opacity: 0.8;
+                                }
                             }
                         }
                     }
@@ -1699,9 +1772,10 @@ form {
                         height: 17px;
                         fill: white;
                     }
-
-                    &:hover {
-                        opacity: 0.8;
+                    @media (hover: hover) {
+                        &:hover {
+                            opacity: 0.8;
+                        }
                     }
                 }
 
@@ -1896,6 +1970,7 @@ form {
     & .products-found {
         font-size: 14px;
         font-weight: bold;
+        text-transform: capitalize;
         color: #404553;
         margin-left: 10px;
     }
@@ -2526,8 +2601,10 @@ form {
         height: 25px;
         fill: #666666;
     }
-    &:hover svg {
-        fill: black;
+    @media (hover: hover) {
+        &:hover svg {
+            fill: black;
+        }
     }
 }
 
@@ -2630,8 +2707,11 @@ form {
 }
 
 #signin {
-    &:hover * {
-        color: rgba(#404553, 0.6);
+    @media (hover: hover) {
+        &:hover * {
+            color: rgba(#404553, 0.6);
+            fill: rgba(#404553, 0.6);
+        }
     }
 }
 
@@ -2650,7 +2730,7 @@ form {
     padding: 0;
     background-color: rgb(56, 102, 223);
     & a {
-        padding: 10px 17px;
+        padding: 10px 30px;
         color: white;
         height: 100%;
         width: 100%;
@@ -2854,9 +2934,10 @@ form {
         height: 17px;
         fill: white;
     }
-
-    &:hover {
-        opacity: 0.8;
+    @media (hover: hover) {
+        &:hover {
+            opacity: 0.8;
+        }
     }
 }
 
@@ -3001,7 +3082,7 @@ form {
     position: absolute;
     right: -8px;
     bottom: 0px;
-    z-index: 9999;
+    z-index: 10;
     height: 100%;
     width: 10px;
     background: linear-gradient(
@@ -3040,7 +3121,7 @@ form {
 }
 .error .msg {
     position: relative;
-    z-index: 9999;
+    z-index: 10;
     display: block;
     background: #535353;
     color: #a2a2a2;
@@ -3049,7 +3130,7 @@ form {
 }
 .error .triangle {
     position: absolute;
-    z-index: 999;
+    z-index: 5;
     transform: rotate(45deg);
     content: '';
     width: 0;
@@ -3202,3 +3283,29 @@ hr {
     border-top: 1px dashed #999;
 }
 /*--------------------------------------------FrameWork------------------------*/
+
+.login-form {
+    background-color: white;
+
+    &__header {
+        padding: 20px;
+        & .title {
+            color: rgb(64, 69, 83);
+            font-size: 25px;
+            text-align: center;
+            font-stretch: 100%;
+            font-weight: 300;
+        }
+        & .subtitle {
+            color: rgb(64, 69, 83);
+            font-size: 20px;
+            font-weight: 900;
+            text-align: center;
+        }
+    }
+}
+
+.not-found-icon {
+    width: 250px;
+    height: 250px;
+}

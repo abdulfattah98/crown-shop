@@ -53,6 +53,10 @@ const ProductCreateForm = ({
     }, [values]);
 
     useEffect(() => {
+        setLoading(false);
+    }, []);
+
+    useEffect(() => {
         if (currentColors) {
             handleColorImagesRemove(currentColors);
             setValues({ ...values, color: currentColors });
@@ -69,9 +73,11 @@ const ProductCreateForm = ({
         const deletedColor = [...color].find(
             (c) => !colorObj.hasOwnProperty(c)
         );
+        console.log(deletedColor);
         const imgs = images.filter((image) => image.color === deletedColor);
+        console.log(imgs);
 
-        if (!deletedColor || !imgs) {
+        if (deletedColor == undefined || imgs.length === 0) {
             setLoading(false);
         }
 
@@ -158,13 +164,11 @@ const ProductCreateForm = ({
                             // value={color}
                             onChange={(e) => handleChange(e, 'brand')}
                         >
-                            {brands &&
-                                brands.length &&
-                                brands.map((b) => (
-                                    <Option key={b} value={b}>
-                                        {b}
-                                    </Option>
-                                ))}
+                            {brands.map((b) => (
+                                <Option key={b} value={b}>
+                                    {b}
+                                </Option>
+                            ))}
                         </Select>
                     </div>
                 </div>
@@ -190,8 +194,7 @@ const ProductCreateForm = ({
                             // value={color}
                             onChange={(e) => handleCatagoryChange(e)}
                         >
-                            {categories &&
-                                categories.length &&
+                            {categories.length > 0 &&
                                 categories.map((c) => (
                                     <Option key={c._id} value={c._id}>
                                         {c.name}
@@ -214,8 +217,7 @@ const ProductCreateForm = ({
                                     setValues({ ...values, subs: value })
                                 }
                             >
-                                {subOptions &&
-                                    subOptions.length &&
+                                {subOptions.length &&
                                     subOptions.map((s) => (
                                         <Option key={s._id} value={s._id}>
                                             {s.name}
@@ -318,8 +320,7 @@ const ProductCreateForm = ({
                                 setCurrentColors(value);
                             }}
                         >
-                            {colors &&
-                                colors.length &&
+                            {colors.length &&
                                 colors.map((s) => (
                                     <Option key={s} value={s}>
                                         {s}
@@ -348,10 +349,7 @@ const ProductCreateForm = ({
                                 }`}
                                 style={{ minHeight: '0', minHeight: '15rem' }}
                             >
-                                {!loading &&
-                                values &&
-                                values.images &&
-                                values.images.length ? (
+                                {!loading ? (
                                     values.images.map((image) => {
                                         console.log(image.color);
                                         return (

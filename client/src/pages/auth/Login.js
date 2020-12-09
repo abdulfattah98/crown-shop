@@ -146,14 +146,21 @@ const Login = ({ history }) => {
     );
 
     return (
-        <div className="container p-5">
+        <div className="p-5">
             <div className="row">
-                <div className="col-md-6 offset-md-3">
-                    {loading ? (
-                        <h4 className="text-danger">Loading...</h4>
-                    ) : (
-                        <h4>Login</h4>
-                    )}
+                <div className="col col-sm-3 offset-sm-4 col-md-6 offset-md-3 login-form">
+                    <div className="login-form__header">
+                        {loading ? (
+                            <h4 className="text-danger">Loading...</h4>
+                        ) : (
+                            <>
+                                <h2 className="title">Welcome back!</h2>
+                                <h2 className="subtitle">
+                                    Sign in to your account
+                                </h2>
+                            </>
+                        )}
+                    </div>
                     {loginForm()}
 
                     <Button

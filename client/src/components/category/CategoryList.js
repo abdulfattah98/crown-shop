@@ -14,20 +14,15 @@ const CategoryList = () => {
         });
     }, []);
 
-    const showCategories = () => {
-        if (categories && categories.length) {
-            return categories.map((c) => (
-                <div
-                    key={c._id}
-                    className="col btn btn-outlined-primary btn-lg btn-block btn-raised m-3"
-                >
-                    <Link to={`/category/${c.slug}`}>{c.name}</Link>
-                </div>
-            ));
-        } else {
-            return;
-        }
-    };
+    const showCategories = () =>
+        categories.map((c) => (
+            <div
+                key={c._id}
+                className="col btn btn-outlined-primary btn-lg btn-block btn-raised m-3"
+            >
+                <Link to={`/category/${c.slug}`}>{c.name}</Link>
+            </div>
+        ));
 
     return (
         <div className="container">

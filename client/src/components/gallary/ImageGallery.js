@@ -1405,17 +1405,14 @@ export default class ImageGallery extends React.Component {
                         onLoad={(event) => this.handleImageLoaded(event, item)}
                         onError={handleImageError}
                     >
-                        {item &&
-                            item.imageSet &&
-                            item.imageSet.length &&
-                            item.imageSet.map((source, index) => (
-                                <source
-                                    key={`media-${source.srcSet}-${index}`}
-                                    media={source.media}
-                                    srcSet={source.srcSet}
-                                    type={source.type}
-                                />
-                            ))}
+                        {item.imageSet.map((source, index) => (
+                            <source
+                                key={`media-${source.srcSet}-${index}`}
+                                media={source.media}
+                                srcSet={source.srcSet}
+                                type={source.type}
+                            />
+                        ))}
                         <img
                             className="image-gallery-image"
                             alt={item.originalAlt}

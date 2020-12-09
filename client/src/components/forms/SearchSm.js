@@ -27,11 +27,12 @@ const Search = () => {
 
     return (
         <form className="mb-0 d-block d-md-none" style={{ height: '5rem' }}>
-            <div className="d-flex h-100">
+            <div className="d-flex h-100 overflow-hidden">
                 <input
                     type="text"
                     placeholder="What are you looking for?"
                     className="Navbar__search-input Navbar__search--sm-input--sm w-100"
+                    // style={{ borderRadius: '0' }}
                 />
                 {/* <SearchIcon className="Navbar__search-icon Navbar__search--sm-icon--sm" /> */}
                 <button

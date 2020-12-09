@@ -287,7 +287,6 @@ const SingleProduct = ({ product, onStarClick, star }) => {
                             onChange={(e) => changeColor(e)}
                         >
                             {color &&
-                                color.length &&
                                 color.map((c, index) => {
                                     let v = false;
                                     if (currentColor == c) {

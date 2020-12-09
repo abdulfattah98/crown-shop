@@ -2,7 +2,7 @@ import React from 'react';
 import StarRating from 'react-star-ratings';
 
 export const showAverage = (p, starSize, starSpace, starColor) => {
-    if (p && p.ratings && p.ratings.length) {
+    if (p && p.ratings) {
         let ratingsArray = p && p.ratings;
         let total = [];
         let length = ratingsArray.length;

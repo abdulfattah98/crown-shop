@@ -47,40 +47,38 @@ const SideDrawer = () => {
             }}
             visible={drawer}
         >
-            {cart &&
-                cart.length &&
-                cart.map((p) => (
-                    <div key={p._id} className="drawer">
-                        {p.images[0] ? (
-                            <div className="d-flex align-items-center product-container">
-                                <div className="image-container">
-                                    <img src={p.images[0].url} />
-                                    <span className="pcs">{p.count}</span>
-                                </div>
-                                <div className="details">
-                                    <p className="name">{p.title}</p>
-                                    <span className="notif">
-                                        Added To Cart{' '}
-                                        <CheckCircleOutlined className="icon" />
-                                    </span>
-                                </div>
+            {cart.map((p) => (
+                <div key={p._id} className="drawer">
+                    {p.images[0] ? (
+                        <div className="d-flex align-items-center product-container">
+                            <div className="image-container">
+                                <img src={p.images[0].url} />
+                                <span className="pcs">{p.count}</span>
                             </div>
-                        ) : (
-                            <div className="d-flex align-items-center">
-                                <div className="image-container">
-                                    <img src={laptop} />
-                                </div>
-                                <div className="details">
-                                    <p className="name">{p.title}</p>
-                                    <span className="notif">
-                                        Added To Cart{' '}
-                                        <CheckCircleOutlined className="icon" />
-                                    </span>
-                                </div>
+                            <div className="details">
+                                <p className="name">{p.title}</p>
+                                <span className="notif">
+                                    Added To Cart{' '}
+                                    <CheckCircleOutlined className="icon" />
+                                </span>
                             </div>
-                        )}
-                    </div>
-                ))}
+                        </div>
+                    ) : (
+                        <div className="d-flex align-items-center">
+                            <div className="image-container">
+                                <img src={laptop} />
+                            </div>
+                            <div className="details">
+                                <p className="name">{p.title}</p>
+                                <span className="notif">
+                                    Added To Cart{' '}
+                                    <CheckCircleOutlined className="icon" />
+                                </span>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            ))}
 
             {/* <Link to="/cart">
                 <button

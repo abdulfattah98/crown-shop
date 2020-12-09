@@ -3,6 +3,7 @@ import {
     getProductsByCount,
     fetchProductsByFilter,
 } from '../functions/product';
+import { Link } from 'react-router-dom';
 import { getCategories } from '../functions/category';
 import { getSubs } from '../functions/sub';
 import { useSelector, useDispatch } from 'react-redux';
@@ -21,6 +22,7 @@ import { ReactComponent as FilterIcon } from './filter.svg';
 import { ReactComponent as ListIcon } from './list.svg';
 import { ReactComponent as GridIcon } from './grid.svg';
 import { ReactComponent as CloseIcon } from './close.svg';
+import { ReactComponent as NotFoundIcon } from './notfound.svg';
 
 const { SubMenu, ItemGroup } = Menu;
 
@@ -118,28 +120,25 @@ const Shop = () => {
 
     // 4. load products based on category
     // show categories in a list of checkbox
-    const showCategories = () => {
-        if (categories && categories.length) {
-            return categories.map((c) => {
-                return (
-                    <div key={c._id}>
-                        <Checkbox
-                            onChange={handleCheck}
-                            className="pb-2 pl-4"
-                            value={c._id}
-                            name="category"
-                            checked={categoryIds.includes(c._id)}
-                        >
-                            {c.name.length > 20
-                                ? c.name.slice(0, 20) + '...'
-                                : c.name}
-                        </Checkbox>
-                        <br />
-                    </div>
-                );
-            });
-        }
-    };
+    const showCategories = () =>
+        categories.map((c) => {
+            return (
+                <div key={c._id}>
+                    <Checkbox
+                        onChange={handleCheck}
+                        className="pb-2 pl-4"
+                        value={c._id}
+                        name="category"
+                        checked={categoryIds.includes(c._id)}
+                    >
+                        {c.name.length > 20
+                            ? c.name.slice(0, 20) + '...'
+                            : c.name}
+                    </Checkbox>
+                    <br />
+                </div>
+            );
+        });
 
     // handle check for categories
     const handleCheck = (e) => {
@@ -208,20 +207,17 @@ const Shop = () => {
     };
 
     // 6. show products by sub category
-    const showSubs = () => {
-        if (subs && subs.length) {
-            return subs.map((s) => (
-                <div
-                    key={s._id}
-                    onClick={() => handleSub(s)}
-                    className="p-1 m-1 badge badge-secondary"
-                    style={{ cursor: 'pointer' }}
-                >
-                    {s.name}
-                </div>
-            ));
-        }
-    };
+    const showSubs = () =>
+        subs.map((s) => (
+            <div
+                key={s._id}
+                onClick={() => handleSub(s)}
+                className="p-1 m-1 badge badge-secondary"
+                style={{ cursor: 'pointer' }}
+            >
+                {s.name}
+            </div>
+        ));
 
     const handleSub = (sub) => {
         // console.log("SUB", sub);
@@ -243,22 +239,20 @@ const Shop = () => {
     const showBrands = () => {
         return (
             <div className="row">
-                {brands &&
-                    brands.length &&
-                    brands.map((b) => (
-                        <div className="col-6 mb-1">
-                            <Radio
-                                key={b}
-                                value={b}
-                                name={b}
-                                checked={b === brand}
-                                onChange={handleBrand}
-                                className=" "
-                            >
-                                {b}
-                            </Radio>
-                        </div>
-                    ))}
+                {brands.map((b) => (
+                    <div className="col-6 mb-1">
+                        <Radio
+                            key={b}
+                            value={b}
+                            name={b}
+                            checked={b === brand}
+                            onChange={handleBrand}
+                            className=" "
+                        >
+                            {b}
+                        </Radio>
+                    </div>
+                ))}
             </div>
         );
     };
@@ -279,22 +273,20 @@ const Shop = () => {
     };
 
     // 8. show products based on color
-    const showColors = () => {
-        if (colors && colors.length) {
-            return colors.map((c) => (
-                <Radio
-                    key={c}
-                    value={c}
-                    name={c}
-                    checked={c === color}
-                    onChange={handleColor}
-                    className="pb-1 pl-4"
-                >
-                    {c}
-                </Radio>
-            ));
-        }
-    };
+    const showColors = () =>
+        colors.map((c) => (
+            <Radio
+                key={c}
+                value={c}
+                name={c}
+                checked={c === color}
+                onChange={handleColor}
+                className="pb-1 pl-4"
+            >
+                {c}
+            </Radio>
+        ));
+
     const handleColor = (e) => {
         setSub('');
         dispatch({
@@ -349,393 +341,454 @@ const Shop = () => {
     };
 
     return (
-        <div className="position-relative">
-            <div className={`filters-sm ${showFilters ? 'active' : ''}`}>
-                <Menu
-                    className="products-fliters pt-0 pt-md-5"
-                    defaultOpenKeys={['1']}
-                    mode="inline"
-                >
-                    <div className="filters-sm__top">
-                        <h2 className="title">Filter</h2>
-                        <CloseIcon onClick={() => setShowFilters(false)} />
-                    </div>
-                    <SubMenu
-                        className="products-filters__filter-outer"
-                        key="1"
-                        title={
-                            <div>
-                                {/* <DollarOutlined /> Price */}
-                                <h3>Price</h3>
-                                <div className="arrow"></div>
-                            </div>
-                        }
+        <div
+            className={`${
+                products.length >= 1
+                    ? 'position-relative'
+                    : 'd-flex justify-content-center align-items-center pb-5 px-4'
+            }`}
+            style={{
+                minHeight: `${products.length < 1 && '80vh'}`,
+            }}
+        >
+            {products.length >= 1 ? (
+                <>
+                    <div
+                        className={`filters-sm ${showFilters ? 'active' : ''}`}
                     >
-                        <div>
-                            <Slider
-                                className="ml-5 mr-4"
-                                tipFormatter={(v) => `$${v}`}
-                                range
-                                defaultValue={[1, 1000]}
-                                onChange={handleSlider}
-                                max="5000"
-                            />
-                        </div>
-                    </SubMenu>
-
-                    {/* category */}
-                    <SubMenu
-                        className="products-filters__filter-outer"
-                        key="2"
-                        title={
-                            <div>
-                                {/* <DollarOutlined /> Price */}
-                                <h3>Categories</h3>
-                                <div className="arrow"></div>
-                            </div>
-                        }
-                    >
-                        <div style={{ maringTop: '-10px' }}>
-                            {showCategories()}
-                        </div>
-                    </SubMenu>
-
-                    {/* stars */}
-                    <SubMenu
-                        className="products-filters__filter-outer"
-                        key="3"
-                        title={
-                            <div>
-                                {/* <DollarOutlined /> Price */}
-                                <h3>Rating</h3>
-                                <div className="arrow"></div>
-                            </div>
-                        }
-                    >
-                        <div style={{ maringTop: '-10px' }}>{showStars()}</div>
-                    </SubMenu>
-
-                    {/* sub category */}
-
-                    {/* brands */}
-                    <SubMenu
-                        className="products-filters__filter-outer"
-                        key="4"
-                        title={
-                            <div>
-                                {/* <DollarOutlined /> Price */}
-                                <h3>Brands</h3>
-                                <div className="arrow"></div>
-                            </div>
-                        }
-                    >
-                        <div style={{ maringTop: '-10px' }} className="pr-5">
-                            {showBrands()}
-                        </div>
-                    </SubMenu>
-
-                    {/* colors */}
-                    <SubMenu
-                        className="products-filters__filter-outer"
-                        key="5"
-                        title={
-                            <div>
-                                {/* <DollarOutlined /> Price */}
-                                <h3>Colors</h3>
-                                <div className="arrow"></div>
-                            </div>
-                        }
-                    >
-                        <div style={{ maringTop: '-10px' }} className="pr-5">
-                            {showColors()}
-                        </div>
-                    </SubMenu>
-
-                    {/* shipping */}
-                    <SubMenu
-                        className="products-filters__filter-outer"
-                        key="6"
-                        title={
-                            <div>
-                                {/* <DollarOutlined /> Price */}
-                                <h3>Shipping</h3>
-                                <div className="arrow"></div>
-                            </div>
-                        }
-                    >
-                        <div style={{ maringTop: '-10px' }} className="pr-5">
-                            {showShipping()}
-                        </div>
-                    </SubMenu>
-                </Menu>
-            </div>
-            <div className="row">
-                <div className="col-md-4 col-lg-3 d-none d-md-block px-0">
-                    <Menu
-                        className="products-fliters"
-                        defaultOpenKeys={['1']}
-                        mode="inline"
-                    >
-                        <SubMenu
-                            className="products-filters__filter-outer"
-                            key="1"
-                            title={
-                                <div>
-                                    {/* <DollarOutlined /> Price */}
-                                    <h3>Price</h3>
-                                    <div className="arrow"></div>
-                                </div>
-                            }
+                        <Menu
+                            className="products-fliters pt-0 pt-md-5"
+                            defaultOpenKeys={['1']}
+                            mode="inline"
                         >
-                            <div>
-                                <Slider
-                                    className="ml-5 mr-4"
-                                    tipFormatter={(v) => `$${v}`}
-                                    range
-                                    defaultValue={[1, 1000]}
-                                    onChange={handleSlider}
-                                    max="5000"
+                            <div className="filters-sm__top">
+                                <h2 className="title">Filter</h2>
+                                <CloseIcon
+                                    onClick={() => setShowFilters(false)}
                                 />
                             </div>
-                        </SubMenu>
-
-                        {/* category */}
-                        <SubMenu
-                            className="products-filters__filter-outer"
-                            key="2"
-                            title={
-                                <div>
-                                    {/* <DollarOutlined /> Price */}
-                                    <h3>Categories</h3>
-                                    <div className="arrow"></div>
-                                </div>
-                            }
-                        >
-                            <div style={{ maringTop: '-10px' }}>
-                                {showCategories()}
-                            </div>
-                        </SubMenu>
-
-                        {/* stars */}
-                        <SubMenu
-                            className="products-filters__filter-outer"
-                            key="3"
-                            title={
-                                <div>
-                                    {/* <DollarOutlined /> Price */}
-                                    <h3>Rating</h3>
-                                    <div className="arrow"></div>
-                                </div>
-                            }
-                        >
-                            <div style={{ maringTop: '-10px' }}>
-                                {showStars()}
-                            </div>
-                        </SubMenu>
-
-                        {/* sub category */}
-
-                        {/* brands */}
-                        <SubMenu
-                            className="products-filters__filter-outer"
-                            key="4"
-                            title={
-                                <div>
-                                    {/* <DollarOutlined /> Price */}
-                                    <h3>Brands</h3>
-                                    <div className="arrow"></div>
-                                </div>
-                            }
-                        >
-                            <div
-                                style={{ maringTop: '-10px' }}
-                                className="pr-5"
+                            <SubMenu
+                                className="products-filters__filter-outer"
+                                key="1"
+                                title={
+                                    <div>
+                                        {/* <DollarOutlined /> Price */}
+                                        <h3>Price</h3>
+                                        <div className="arrow"></div>
+                                    </div>
+                                }
                             >
-                                {showBrands()}
-                            </div>
-                        </SubMenu>
-
-                        {/* colors */}
-                        <SubMenu
-                            className="products-filters__filter-outer"
-                            key="5"
-                            title={
                                 <div>
-                                    {/* <DollarOutlined /> Price */}
-                                    <h3>Colors</h3>
-                                    <div className="arrow"></div>
+                                    <Slider
+                                        className="ml-5 mr-4"
+                                        tipFormatter={(v) => `$${v}`}
+                                        range
+                                        defaultValue={[1, 1000]}
+                                        onChange={handleSlider}
+                                        max="5000"
+                                    />
                                 </div>
-                            }
-                        >
-                            <div
-                                style={{ maringTop: '-10px' }}
-                                className="pr-5"
-                            >
-                                {showColors()}
-                            </div>
-                        </SubMenu>
+                            </SubMenu>
 
-                        {/* shipping */}
-                        <SubMenu
-                            className="products-filters__filter-outer"
-                            key="6"
-                            title={
-                                <div>
-                                    {/* <DollarOutlined /> Price */}
-                                    <h3>Shipping</h3>
-                                    <div className="arrow"></div>
+                            {/* category */}
+                            <SubMenu
+                                className="products-filters__filter-outer"
+                                key="2"
+                                title={
+                                    <div>
+                                        {/* <DollarOutlined /> Price */}
+                                        <h3>Categories</h3>
+                                        <div className="arrow"></div>
+                                    </div>
+                                }
+                            >
+                                <div style={{ maringTop: '-10px' }}>
+                                    {showCategories()}
                                 </div>
-                            }
-                        >
-                            <div
-                                style={{ maringTop: '-10px' }}
-                                className="pr-5"
-                            >
-                                {showShipping()}
-                            </div>
-                        </SubMenu>
-                    </Menu>
-                </div>
+                            </SubMenu>
 
-                <div className="col-12 col-md-8 col-lg-9 pt-0 pt-md-2 px-0 px-md-3">
-                    {/* {loading ? (
+                            {/* stars */}
+                            <SubMenu
+                                className="products-filters__filter-outer"
+                                key="3"
+                                title={
+                                    <div>
+                                        {/* <DollarOutlined /> Price */}
+                                        <h3>Rating</h3>
+                                        <div className="arrow"></div>
+                                    </div>
+                                }
+                            >
+                                <div style={{ maringTop: '-10px' }}>
+                                    {showStars()}
+                                </div>
+                            </SubMenu>
+
+                            {/* sub category */}
+
+                            {/* brands */}
+                            <SubMenu
+                                className="products-filters__filter-outer"
+                                key="4"
+                                title={
+                                    <div>
+                                        {/* <DollarOutlined /> Price */}
+                                        <h3>Brands</h3>
+                                        <div className="arrow"></div>
+                                    </div>
+                                }
+                            >
+                                <div
+                                    style={{ maringTop: '-10px' }}
+                                    className="pr-5"
+                                >
+                                    {showBrands()}
+                                </div>
+                            </SubMenu>
+
+                            {/* colors */}
+                            <SubMenu
+                                className="products-filters__filter-outer"
+                                key="5"
+                                title={
+                                    <div>
+                                        {/* <DollarOutlined /> Price */}
+                                        <h3>Colors</h3>
+                                        <div className="arrow"></div>
+                                    </div>
+                                }
+                            >
+                                <div
+                                    style={{ maringTop: '-10px' }}
+                                    className="pr-5"
+                                >
+                                    {showColors()}
+                                </div>
+                            </SubMenu>
+
+                            {/* shipping */}
+                            <SubMenu
+                                className="products-filters__filter-outer"
+                                key="6"
+                                title={
+                                    <div>
+                                        {/* <DollarOutlined /> Price */}
+                                        <h3>Shipping</h3>
+                                        <div className="arrow"></div>
+                                    </div>
+                                }
+                            >
+                                <div
+                                    style={{ maringTop: '-10px' }}
+                                    className="pr-5"
+                                >
+                                    {showShipping()}
+                                </div>
+                            </SubMenu>
+                        </Menu>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-4 col-lg-3 d-none d-md-block px-0">
+                            <Menu
+                                className="products-fliters"
+                                defaultOpenKeys={['1']}
+                                mode="inline"
+                            >
+                                <SubMenu
+                                    className="products-filters__filter-outer"
+                                    key="1"
+                                    title={
+                                        <div>
+                                            {/* <DollarOutlined /> Price */}
+                                            <h3>Price</h3>
+                                            <div className="arrow"></div>
+                                        </div>
+                                    }
+                                >
+                                    <div>
+                                        <Slider
+                                            className="ml-5 mr-4"
+                                            tipFormatter={(v) => `$${v}`}
+                                            range
+                                            defaultValue={[1, 1000]}
+                                            onChange={handleSlider}
+                                            max="5000"
+                                        />
+                                    </div>
+                                </SubMenu>
+
+                                {/* category */}
+                                <SubMenu
+                                    className="products-filters__filter-outer"
+                                    key="2"
+                                    title={
+                                        <div>
+                                            {/* <DollarOutlined /> Price */}
+                                            <h3>Categories</h3>
+                                            <div className="arrow"></div>
+                                        </div>
+                                    }
+                                >
+                                    <div style={{ maringTop: '-10px' }}>
+                                        {showCategories()}
+                                    </div>
+                                </SubMenu>
+
+                                {/* stars */}
+                                <SubMenu
+                                    className="products-filters__filter-outer"
+                                    key="3"
+                                    title={
+                                        <div>
+                                            {/* <DollarOutlined /> Price */}
+                                            <h3>Rating</h3>
+                                            <div className="arrow"></div>
+                                        </div>
+                                    }
+                                >
+                                    <div style={{ maringTop: '-10px' }}>
+                                        {showStars()}
+                                    </div>
+                                </SubMenu>
+
+                                {/* sub category */}
+
+                                {/* brands */}
+                                <SubMenu
+                                    className="products-filters__filter-outer"
+                                    key="4"
+                                    title={
+                                        <div>
+                                            {/* <DollarOutlined /> Price */}
+                                            <h3>Brands</h3>
+                                            <div className="arrow"></div>
+                                        </div>
+                                    }
+                                >
+                                    <div
+                                        style={{ maringTop: '-10px' }}
+                                        className="pr-5"
+                                    >
+                                        {showBrands()}
+                                    </div>
+                                </SubMenu>
+
+                                {/* colors */}
+                                <SubMenu
+                                    className="products-filters__filter-outer"
+                                    key="5"
+                                    title={
+                                        <div>
+                                            {/* <DollarOutlined /> Price */}
+                                            <h3>Colors</h3>
+                                            <div className="arrow"></div>
+                                        </div>
+                                    }
+                                >
+                                    <div
+                                        style={{ maringTop: '-10px' }}
+                                        className="pr-5"
+                                    >
+                                        {showColors()}
+                                    </div>
+                                </SubMenu>
+
+                                {/* shipping */}
+                                <SubMenu
+                                    className="products-filters__filter-outer"
+                                    key="6"
+                                    title={
+                                        <div>
+                                            {/* <DollarOutlined /> Price */}
+                                            <h3>Shipping</h3>
+                                            <div className="arrow"></div>
+                                        </div>
+                                    }
+                                >
+                                    <div
+                                        style={{ maringTop: '-10px' }}
+                                        className="pr-5"
+                                    >
+                                        {showShipping()}
+                                    </div>
+                                </SubMenu>
+                            </Menu>
+                        </div>
+
+                        <div className="col-12 col-md-8 col-lg-9 pt-0 pt-md-2 px-0 px-md-3">
+                            {/* {loading ? (
                         <h4 className="text-danger">Loading...</h4>
                     ) : (
                         <div className="text-danger">Products</div>
                     )} */}
 
-                    {/* {products.length < 1 && <p>No products found</p>} */}
+                            {/* {products.length < 1 && <p>No products found</p>} */}
 
-                    <div className="row pb-3 ">
-                        <div className="col-12 px-0 pl-md-3 white-bg mb-4 pt-4">
-                            <div className="views-filters d-flex d-md-none">
-                                <span className="products-found">
-                                    {products.length >= 1
-                                        ? `${products.length} products found`
-                                        : 'no products found'}
-                                </span>
+                            <div className="row pb-3 ">
                                 <div
-                                    className={`align-items-center ${
+                                    className={`col-12 px-0 pl-md-3 white-bg mb-4 ${
                                         products.length >= 1
-                                            ? 'd-flex'
-                                            : 'd-none'
+                                            ? 'pt-4'
+                                            : 'py-4 border-0'
                                     }`}
                                 >
-                                    <button
-                                        className="filters"
-                                        onClick={() => setShowFilters(true)}
-                                    >
-                                        FILTER
-                                        <FilterIcon />
-                                    </button>
-                                    <button
-                                        className="views"
-                                        onClick={() =>
-                                            setView(
-                                                view === 'grid'
-                                                    ? 'list'
-                                                    : 'grid'
-                                            )
-                                        }
+                                    <div className="views-filters d-flex d-md-none">
+                                        <span className="products-found">
+                                            {products.length >= 1
+                                                ? `${products.length} products found`
+                                                : 'no products found'}
+                                        </span>
+                                        <div
+                                            className={`align-items-center ${
+                                                products.length >= 1
+                                                    ? 'd-flex'
+                                                    : 'd-none'
+                                            }`}
+                                        >
+                                            <button
+                                                className="filters"
+                                                onClick={() =>
+                                                    setShowFilters(true)
+                                                }
+                                            >
+                                                FILTER
+                                                <FilterIcon />
+                                            </button>
+                                            <button
+                                                className="views"
+                                                onClick={() =>
+                                                    setView(
+                                                        view === 'grid'
+                                                            ? 'list'
+                                                            : 'grid'
+                                                    )
+                                                }
+                                            >
+                                                {view === 'grid' ? (
+                                                    <ListIcon />
+                                                ) : (
+                                                    <GridIcon />
+                                                )}
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div className="views d-none d-md-block">
+                                        {view === 'grid' ? (
+                                            <div className="row align-items-center justify-content-between">
+                                                <div className="col-4 pl-0">
+                                                    <span className="items-found">
+                                                        {products.length >= 1
+                                                            ? `${products.length} products found`
+                                                            : 'no products found'}
+                                                    </span>
+                                                </div>
+                                                <div
+                                                    className={`col-4 ${
+                                                        products.length < 1
+                                                            ? 'd-none'
+                                                            : ''
+                                                    }`}
+                                                >
+                                                    <div
+                                                        className="d-flex align-items-center justify-content-end"
+                                                        style={{
+                                                            cursor: 'pointer',
+                                                        }}
+                                                        onClick={() =>
+                                                            setView('list')
+                                                        }
+                                                    >
+                                                        <span className="views__text">
+                                                            list
+                                                        </span>
+                                                        <div className="views__icon-container">
+                                                            <ListIcon className="views__icon" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div className="row align-items-center justify-content-between">
+                                                <div className="col-4 pl-0">
+                                                    <span className="items-found">
+                                                        {products.length >= 1
+                                                            ? `${products.length} found in`
+                                                            : 'no products found'}
+                                                    </span>
+                                                </div>
+                                                <div
+                                                    className={`col-4 ${
+                                                        products.length < 1
+                                                            ? 'd-none'
+                                                            : ''
+                                                    }`}
+                                                >
+                                                    <div
+                                                        className="d-flex align-items-center justify-content-end"
+                                                        style={{
+                                                            cursor: 'pointer',
+                                                        }}
+                                                        onClick={() =>
+                                                            setView('grid')
+                                                        }
+                                                    >
+                                                        <span className="views__text">
+                                                            Grid
+                                                        </span>
+                                                        <div className="views__icon-container">
+                                                            <GridIcon className="views__icon" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                                {products.map((p, idx) => (
+                                    <div
+                                        key={p._id}
+                                        className={`${
+                                            view === 'grid' && idx % 2 === 0
+                                                ? 'col-6 col-sm-4 col-md-6 col-lg-4 col-xl-3 pl-0 pr-2 px-sm-3'
+                                                : view === 'grid' &&
+                                                  idx % 2 === 1
+                                                ? 'col-6 col-sm-4 col-md-6 col-lg-4 col-xl-3 pr-0 pl-2 px-sm-3'
+                                                : 'col-12 px-0 px-md-3'
+                                        } mb-3`}
                                     >
                                         {view === 'grid' ? (
-                                            <ListIcon />
+                                            <ProductCard product={p} />
                                         ) : (
-                                            <GridIcon />
+                                            <ProductCardRow
+                                                p={p}
+                                                wishListCard={false}
+                                            />
                                         )}
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="views d-none d-md-block">
-                                {view === 'grid' ? (
-                                    <div className="row align-items-center justify-content-between">
-                                        <div className="col-4 pl-0">
-                                            <span className="items-found">
-                                                {products.length >= 1
-                                                    ? `${products.length} products found`
-                                                    : 'no products found'}
-                                            </span>
-                                        </div>
-                                        <div
-                                            className={`col-4 ${
-                                                products.length < 1
-                                                    ? 'd-none'
-                                                    : ''
-                                            }`}
-                                        >
-                                            <div
-                                                className="d-flex align-items-center justify-content-end"
-                                                style={{ cursor: 'pointer' }}
-                                                onClick={() => setView('list')}
-                                            >
-                                                <span className="views__text">
-                                                    list
-                                                </span>
-                                                <div className="views__icon-container">
-                                                    <ListIcon className="views__icon" />
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
-                                ) : (
-                                    <div className="row align-items-center justify-content-between">
-                                        <div className="col-4 pl-0">
-                                            <span className="items-found">
-                                                {products.length >= 1
-                                                    ? `${products.length} found in`
-                                                    : 'no products found'}
-                                            </span>
-                                        </div>
-                                        <div
-                                            className={`col-4 ${
-                                                products.length < 1
-                                                    ? 'd-none'
-                                                    : ''
-                                            }`}
-                                        >
-                                            <div
-                                                className="d-flex align-items-center justify-content-end"
-                                                style={{ cursor: 'pointer' }}
-                                                onClick={() => setView('grid')}
-                                            >
-                                                <span className="views__text">
-                                                    Grid
-                                                </span>
-                                                <div className="views__icon-container">
-                                                    <GridIcon className="views__icon" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
+                                ))}
                             </div>
                         </div>
-                        {products &&
-                            products.length &&
-                            products.map((p, idx) => (
-                                <div
-                                    key={p._id}
-                                    className={`${
-                                        view === 'grid' && idx % 2 === 0
-                                            ? 'col-6 col-sm-4 col-md-6 col-lg-4 col-xl-3 pl-0 pr-2 px-sm-3'
-                                            : view === 'grid' && idx % 2 === 1
-                                            ? 'col-6 col-sm-4 col-md-6 col-lg-4 col-xl-3 pr-0 pl-2 px-sm-3'
-                                            : 'col-12 px-0 px-md-3'
-                                    } mb-3`}
-                                >
-                                    {view === 'grid' ? (
-                                        <ProductCard product={p} />
-                                    ) : (
-                                        <ProductCardRow
-                                            p={p}
-                                            wishListCard={false}
-                                        />
-                                    )}
-                                </div>
-                            ))}
                     </div>
-                </div>
-            </div>
+                </>
+            ) : (
+                <>
+                    <div className="text-center">
+                        <NotFoundIcon className="not-found-icon" />
+                        <h4 className="no-thing__title mt-4">
+                            We couldn’t find what you were looking for
+                        </h4>
+                        <p className="no-thing__subtitle">
+                            We have many other products that you may like!
+                        </p>
+                        <button
+                            className="form-save-button no-thing-button"
+                            // style={{ width: 'unset' }}
+                        >
+                            <Link to="/shop">CONTINUE SHOPPING</Link>
+                        </button>
+                    </div>
+                </>
+            )}
         </div>
     );
 };

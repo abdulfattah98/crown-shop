@@ -334,33 +334,30 @@ const Checkout = ({ history }) => {
         </>
     );
 
-    const showProductSummary = () => {
-        if (products && products.length) {
-            return products.map((p, i) => (
-                <div key={i}>
-                    <p className="product-in-summary">
-                        {p.product.title}{' '}
-                        <span
-                            style={{
-                                marginRight: '4px',
-                                color: '#ff4a4a',
-                            }}
-                        >
-                            X {p.count}
-                        </span>{' '}
-                        ={' '}
-                        <span
-                            style={{
-                                color: '#38ae04',
-                            }}
-                        >
-                            JD{p.price * p.count}
-                        </span>
-                    </p>
-                </div>
-            ));
-        }
-    };
+    const showProductSummary = () =>
+        products.map((p, i) => (
+            <div key={i}>
+                <p className="product-in-summary">
+                    {p.product.title}{' '}
+                    <span
+                        style={{
+                            marginRight: '4px',
+                            color: '#ff4a4a',
+                        }}
+                    >
+                        X {p.count}
+                    </span>{' '}
+                    ={' '}
+                    <span
+                        style={{
+                            color: '#38ae04',
+                        }}
+                    >
+                        JD{p.price * p.count}
+                    </span>
+                </p>
+            </div>
+        ));
 
     const showApplyCoupon = () => (
         <>

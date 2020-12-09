@@ -61,6 +61,10 @@ const ProductUpdateForm = ({
     }, [values]);
 
     useEffect(() => {
+        setLoading(false);
+    }, []);
+
+    useEffect(() => {
         if (currentColors) {
             handleColorImagesRemove(currentColors);
             setValues({ ...values, color: currentColors });
@@ -77,9 +81,12 @@ const ProductUpdateForm = ({
         const deletedColor = [...color].find(
             (c) => !colorObj.hasOwnProperty(c)
         );
+        console.log(deletedColor);
         const imgs = images.filter((image) => image.color === deletedColor);
+        console.log(imgs);
 
-        if (!deletedColor || !imgs) {
+        if (deletedColor == undefined || imgs.length === 0) {
+            console.log('hhh');
             setLoading(false);
         }
 
@@ -154,13 +161,11 @@ const ProductUpdateForm = ({
                             value={brand}
                             onChange={(e) => handleChange(e, 'brand')}
                         >
-                            {brands &&
-                                brands.length &&
-                                brands.map((b) => (
-                                    <Option key={b} value={b}>
-                                        {b}
-                                    </Option>
-                                ))}
+                            {brands.map((b) => (
+                                <Option key={b} value={b}>
+                                    {b}
+                                </Option>
+                            ))}
                         </Select>
                     </div>
                 </div>
@@ -179,8 +184,7 @@ const ProductUpdateForm = ({
                             }
                             onChange={(e) => handleCategoryChange(e)}
                         >
-                            {categories &&
-                                categories.length &&
+                            {categories.length > 0 &&
                                 categories.map((c) => (
                                     <Option key={c._id} value={c._id}>
                                         {c.name}
@@ -199,8 +203,7 @@ const ProductUpdateForm = ({
                             value={arrayOfSubs}
                             onChange={(value) => setArrayOfSubs(value)}
                         >
-                            {subOptions &&
-                                subOptions.length &&
+                            {subOptions.length &&
                                 subOptions.map((s) => (
                                     <Option key={s._id} value={s._id}>
                                         {s.name}
@@ -295,8 +298,7 @@ const ProductUpdateForm = ({
                                 setCurrentColors(value);
                             }}
                         >
-                            {colors &&
-                                colors.length &&
+                            {colors.length &&
                                 colors.map((s) => (
                                     <Option key={s} value={s}>
                                         {s}
@@ -342,10 +344,7 @@ const ProductUpdateForm = ({
                                 }`}
                                 style={{ minHeight: '0', minHeight: '15rem' }}
                             >
-                                {!loading &&
-                                values &&
-                                values.images &&
-                                values.images.length ? (
+                                {!loading ? (
                                     values.images.map((image) => {
                                         return (
                                             <div

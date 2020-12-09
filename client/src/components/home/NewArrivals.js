@@ -30,16 +30,14 @@ const NewArrivals = () => {
             setLoading(false);
         });
     };
-    let NewArrivals;
-    if (products && products.length) {
-        NewArrivals = products.map((product) => (
-            <ProductCard
-                product={product}
-                caption="New Arrival"
-                key={product._id}
-            />
-        ));
-    }
+
+    const NewArrivals = products.map((product) => (
+        <ProductCard
+            product={product}
+            caption="New Arrival"
+            key={product._id}
+        />
+    ));
 
     return (
         <div>

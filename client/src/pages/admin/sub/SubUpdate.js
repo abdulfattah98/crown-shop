@@ -82,8 +82,7 @@ const SubUpdate = ({ match, history }) => {
                                         placeholder="Select Category"
                                         onChange={(e) => setParent(e)}
                                     >
-                                        {categories &&
-                                            categories.length &&
+                                        {categories.length > 0 &&
                                             categories.map((c) => (
                                                 <Option
                                                     key={c._id}

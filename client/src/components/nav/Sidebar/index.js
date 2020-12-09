@@ -16,7 +16,7 @@ import { Badge } from 'antd';
 // SVGs
 import { ReactComponent as CloseIcon } from './close.svg';
 import { ReactComponent as HomeIcon } from './home.svg';
-import { ReactComponent as SigninIcon } from './signin.svg';
+import { ReactComponent as SigninIcon } from './user.svg';
 import { ReactComponent as SignupIcon } from './signup.svg';
 import { ReactComponent as CartIcon } from '../shopping-cart.svg';
 import { ReactComponent as AngleRightIcon } from './angle-right.svg';
@@ -98,7 +98,7 @@ const Sidebar = (props) => {
                             className="sidebar__main-links__item-link"
                         >
                             <div className="icon-container">
-                                <SigninIcon className="sidebar__main-links__item-link-icon" />
+                                <SigninIcon className="sidebar__main-links__item-link-icon new-icon" />
                             </div>
                             <span className="sidebar__main-links__item-link-text">
                                 {!user ? 'sign in' : 'Account'}

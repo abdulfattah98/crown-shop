@@ -61,9 +61,9 @@ const Cart = ({ history }) => {
         //     ))}
         // </table>
         <div className="cart__products">
-            {cart &&
-                cart.length &&
-                cart.map((p) => <ProductCardInCheckout key={p._id} p={p} />)}
+            {cart.map((p) => (
+                <ProductCardInCheckout key={p._id} p={p} />
+            ))}
         </div>
     );
 
@@ -108,31 +108,29 @@ const Cart = ({ history }) => {
                             <div className="col-lg-4 col-12 pr-0 cart__right">
                                 <h4 className="right-title">Order Summary</h4>
                                 <p className="right-subtitle">Products</p>
-                                {cart &&
-                                    cart.length &&
-                                    cart.map((c, i) => (
-                                        <div key={i}>
-                                            <p className="product-in-summary">
-                                                {c.title}{' '}
-                                                <span
-                                                    style={{
-                                                        marginRight: '4px',
-                                                        color: '#ff4a4a',
-                                                    }}
-                                                >
-                                                    X {c.count}
-                                                </span>{' '}
-                                                ={' '}
-                                                <span
-                                                    style={{
-                                                        color: '#38ae04',
-                                                    }}
-                                                >
-                                                    JD{c.price * c.count}
-                                                </span>
-                                            </p>
-                                        </div>
-                                    ))}
+                                {cart.map((c, i) => (
+                                    <div key={i}>
+                                        <p className="product-in-summary">
+                                            {c.title}{' '}
+                                            <span
+                                                style={{
+                                                    marginRight: '4px',
+                                                    color: '#ff4a4a',
+                                                }}
+                                            >
+                                                X {c.count}
+                                            </span>{' '}
+                                            ={' '}
+                                            <span
+                                                style={{
+                                                    color: '#38ae04',
+                                                }}
+                                            >
+                                                JD{c.price * c.count}
+                                            </span>
+                                        </p>
+                                    </div>
+                                ))}
                                 <hr />
                                 <h4 className="total my-4">
                                     Total:{' '}

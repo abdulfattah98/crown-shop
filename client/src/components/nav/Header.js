@@ -21,7 +21,7 @@ import Sidebar from './Sidebar/index';
 import { ReactComponent as SearchIcon } from './searchIcon.svg';
 import { ReactComponent as CartIcon } from './shopping-cart.svg';
 import { ReactComponent as MenuIcon } from './menu.svg';
-import { ReactComponent as UserIcon } from './Sidebar/signin.svg';
+import { ReactComponent as UserIcon } from './Sidebar/user.svg';
 import { ReactComponent as AngleUpIcon } from './angle-up.svg';
 import { ReactComponent as AngleDownIcon } from './angle-down.svg';
 import { ReactComponent as AddressIcon } from './address.svg';
@@ -320,10 +320,10 @@ const Header = () => {
                                 <>
                                     <Link to="/login">
                                         <div className="dash-cont" id="signin">
+                                            <UserIcon className="user-icon d-none d-md-block" />
                                             <span className="d-none d-md-block">
                                                 Sign In
                                             </span>
-                                            <UserIcon className="user-icon d-none d-md-block" />
                                         </div>
                                     </Link>
                                 </>
@@ -339,9 +339,9 @@ const Header = () => {
                         {user && user.role === 'admin' ? null : (
                             <Link to="/cart" className="Navbar__cart">
                                 <div className="dash-cont cart">
-                                    <span className="d-none d-lg-block">
+                                    {/* <span className="d-none d-lg-block">
                                         Cart
-                                    </span>
+                                    </span> */}
                                     <CartIcon className="Navbar__cart-icon" />
                                     <span className={`dash-cont__badge`}>
                                         {cart.length}

@@ -106,8 +106,7 @@ const FileUpload = ({ values, setValues, setLoading }) => {
                                 setColor_item(value);
                             }}
                         >
-                            {color &&
-                                color.length &&
+                            {color.length &&
                                 color.map((item) => {
                                     return (
                                         <Option key={item} value={item}>

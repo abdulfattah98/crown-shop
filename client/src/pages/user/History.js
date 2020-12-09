@@ -35,45 +35,37 @@ const History = () => {
             </thead>
 
             <tbody>
-                {order &&
-                    order.products &&
-                    order.products.length &&
-                    order.products.map((p, i) => (
-                        <tr className="table-b" key={i}>
-                            <td className="name">
-                                <b>{p.product.title}</b>
-                            </td>
-                            <td className="brand">{p.product.brand}</td>
-                            <td className="brand">{p.product.price}</td>
-                            <td className="brand">{p.color}</td>
-                            <td className="brand">{p.count}</td>
-                            <td className="brand">
-                                {p.product.shipping === 'Yes' ? (
-                                    <CheckCircleOutlined
-                                        style={{ color: 'green' }}
-                                    />
-                                ) : (
-                                    <CloseCircleOutlined
-                                        style={{ color: 'red' }}
-                                    />
-                                )}
-                            </td>
-                        </tr>
-                    ))}
+                {order.products.map((p, i) => (
+                    <tr className="table-b" key={i}>
+                        <td className="name">
+                            <b>{p.product.title}</b>
+                        </td>
+                        <td className="brand">{p.product.brand}</td>
+                        <td className="brand">{p.product.price}</td>
+                        <td className="brand">{p.color}</td>
+                        <td className="brand">{p.count}</td>
+                        <td className="brand">
+                            {p.product.shipping === 'Yes' ? (
+                                <CheckCircleOutlined
+                                    style={{ color: 'green' }}
+                                />
+                            ) : (
+                                <CloseCircleOutlined style={{ color: 'red' }} />
+                            )}
+                        </td>
+                    </tr>
+                ))}
             </tbody>
         </table>
     );
 
-    const showEachOrders = () => {
-        if (orders && orders.length) {
-            return orders.reverse().map((order, i) => (
-                <div key={i} className="order">
-                    {showOrderInTable(order)}
-                    <ShowPaymentInfo order={order} />
-                </div>
-            ));
-        }
-    };
+    const showEachOrders = () =>
+        orders.reverse().map((order, i) => (
+            <div key={i} className="order">
+                {showOrderInTable(order)}
+                <ShowPaymentInfo order={order} />
+            </div>
+        ));
 
     return (
         <div className="container-fluid dashboard">
