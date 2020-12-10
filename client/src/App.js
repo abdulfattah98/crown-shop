@@ -1,5 +1,5 @@
 import React, { useEffect, lazy, Suspense } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useLocation } from 'react-router-dom';
 import { ToastContainer, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -84,6 +84,13 @@ const Payment = lazy(() => import('./pages/Payment'));
 
 const App = () => {
     const dispatch = useDispatch();
+    const location = useLocation();
+
+    useEffect(() => {
+        if (window) {
+            window.scrollTo(0, 0);
+        }
+    }, [location]);
 
     // to check firebase auth state
     useEffect(() => {

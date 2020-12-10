@@ -44,8 +44,8 @@ const Product = ({ match }) => {
         });
     };
     return (
-        <div className="container-fluid bg-white">
-            <div>
+        <div className="">
+            <div className="bg-white" style={{ padding: '0 15px' }}>
                 {product ? (
                     <SingleProduct
                         product={product}
@@ -58,17 +58,28 @@ const Product = ({ match }) => {
             {related.length ? (
                 <>
                     <div className="row">
-                        <div className="col text-center pt-5 pb-5">
-                            <hr />
-                            <h3>Related Products</h3>
-                            <hr />
+                        <div className="col-12 text-center pt-5 pb-5">
+                            <h3
+                                style={{
+                                    fontSize: '20px',
+                                    color: '#404553',
+                                    fontWeight: 'bold',
+                                }}
+                            >
+                                Related Products
+                            </h3>
                         </div>
                     </div>
 
-                    <div className="row pb-5">
-                        {related.map((r) => (
-                            <div key={r._id} className="col-md-4">
-                                <ProductCard product={r} />
+                    <div className="row pb-5" style={{ padding: '0 15px' }}>
+                        {related.map((r, idx) => (
+                            <div
+                                key={r._id}
+                                className={`col-6 col-md-4 col-lg-3 col-xl-2 my-3 px-md-3 ${
+                                    idx % 2 === 0 ? 'pl-0 pr-2' : 'pr-0 pl-2'
+                                }`}
+                            >
+                                <ProductCard product={r} related={true} />
                             </div>
                         ))}
                     </div>

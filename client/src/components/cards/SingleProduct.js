@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Tabs, Tooltip } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 // import { Carousel } from 'react-responsive-carousel';
 // import 'react-responsive-carousel/lib/styles/carousel.min.css';
@@ -9,6 +9,7 @@ import ProductListItems from './ProductListItems';
 import StarRating from 'react-star-ratings';
 import Star from '../forms/Star';
 import RatingModal from '../modal/RatingModal';
+
 import {
     CheckCircleOutlined,
     CloseCircleOutlined,
@@ -158,6 +159,7 @@ const SingleProduct = ({ product, onStarClick, star }) => {
 
     const loadcolorimages = (value) => {
         if (!currentImages) {
+            console.log(11111111);
             const currentImgs = images.filter((image) => image.color === value);
             setCurrentImages(currentImgs);
         } else {
@@ -166,11 +168,14 @@ const SingleProduct = ({ product, onStarClick, star }) => {
     };
 
     useEffect(() => {
+        console.log('*********************');
+
         if (product && product.color && currentColor === null) {
             setCurrentColor(product.color[0]);
             loadcolorimages(product.color[0]);
         }
     });
+
     const handlePlus = () => {
         setCounter(counter + 1);
     };

@@ -675,6 +675,7 @@ form {
 
 .product {
     width: 100%;
+    box-shadow: 0 0px 10px rgba(0, 0, 0, 0.2);
     @include respond-to('md') {
         width: 100%;
         // margin: auto;
@@ -701,11 +702,12 @@ form {
         //     height: 160px;
         // }
         & img {
-            width: 100%;
+            max-width: 100%;
             max-height: 100%;
             position: absolute;
             top: 50%;
-            transform: translateY(-50%);
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
     }
 
@@ -751,7 +753,7 @@ form {
             font-weight: 600;
         }
         @include respond-to('md') {
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 600;
         }
         @media (hover: hover) {
@@ -817,7 +819,7 @@ form {
     &__arrival {
         position: absolute;
         top: 10px;
-        left: 0;
+        left: 2px;
         z-index: 2;
         padding: 0.2rem 0.5rem;
         background-color: #ff4a4a;
@@ -1276,11 +1278,14 @@ form {
         margin-bottom: 5px;
         display: inline-block;
         font-size: 1.5rem;
+        @include respond-to('sm') {
+            font-size: 11px;
+        }
     }
     & .product-name {
         font-size: 2.3rem;
         @include respond-to('sm') {
-            font-size: 11px;
+            font-size: 13px;
         }
     }
 
@@ -1431,6 +1436,7 @@ form {
 
     &__products {
         &-product {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             padding: 10px;
             min-height: 186px;
             display: flex;
@@ -1496,6 +1502,7 @@ form {
             & .product-image-info {
                 display: flex;
                 align-items: flex-start;
+                align-self: stretch !important;
 
                 @include respond-to('sm') {
                     width: 100%;
@@ -1509,6 +1516,7 @@ form {
                     width: 184px;
                     // height: 184px;
                     align-self: stretch;
+                    margin-right: 15px;
 
                     @include respond-to('md') {
                         width: 160px;
@@ -1536,7 +1544,8 @@ form {
                         }
                     }
                     img {
-                        width: 100%;
+                        max-height: 100%;
+                        max-width: 100%;
                         position: absolute;
                         top: 50%;
                         left: 50%;
@@ -1966,13 +1975,12 @@ form {
     justify-content: space-between;
     align-items: center;
     border: 1px solid #f3f3f3;
-    border-top: 0;
     & .products-found {
         font-size: 14px;
         font-weight: bold;
         text-transform: capitalize;
         color: #404553;
-        margin-left: 10px;
+        margin-left: 4px;
     }
     & .filters {
         background-color: #fff;
@@ -2473,6 +2481,61 @@ form {
     &.Pink {
         border-color: rgba(255, 192, 203, 0.8);
     }
+
+    &.MidnightGreen {
+        border-color: rgba(0, 73, 83, 0.8);
+    }
+
+    &.Gold {
+        border-color: rgba(207, 181, 59, 0.8);
+    }
+    &.LightGreen {
+        border-color: rgba(144, 238, 144, 0.8);
+    }
+    &.Purple {
+        border-color: rgba(128, 0, 128, 0.8);
+    }
+    &.Graphite {
+        border-color: rgba(56, 52, 40, 0.8);
+    }
+
+    &.PacificBlue {
+        border-color: rgba(28, 169, 201, 0.8);
+    }
+    &.SpaceGrey {
+        border-color: rgba(52, 61, 70, 0.8);
+    }
+    &.CloudBlue {
+        border-color: rgba(216, 237, 242, 0.8);
+    }
+    &.CloudNavy {
+        border-color: rgba(162, 159, 149, 0.8);
+    }
+    &.CloudLavender {
+        border-color: rgba(182, 184, 224, 0.8);
+    }
+    &.Bronze {
+        border-color: rgba(205, 127, 50, 0.8);
+    }
+    &.AuraGlow {
+        border-color: rgba(192, 168, 158, 0.8);
+    }
+    &.PrismWhite {
+        border-color: rgb(222, 213, 198);
+    }
+    &.PrismBlue {
+        border-color: #b4dcf0;
+    }
+    &.MirrorPurple {
+        border-color: #d4e1ec;
+    }
+    &.SilkyWhite {
+        border-color: rgb(183, 169, 155);
+    }
+    &.StarryNight {
+        border-color: #7fc5dc;
+    }
+
     display: flex;
     flex-direction: column;
     padding: 10px 0;
@@ -2990,18 +3053,19 @@ form {
 .image-gallery-slides {
     position: relative;
     & .hover-to-zoom {
+        display: inline-block;
+        background: rgba(49, 51, 61, 0.7);
+        border-radius: 2em;
         font-size: 13px;
         display: block;
-        color: rgba(223, 135, 21, 0.863);
+        color: white;
         padding: 15px;
         text-transform: capitalize;
-
         z-index: 10;
-        border-radius: 3px;
-        border: 1px solid #916b1a81;
         position: absolute;
-        top: 0;
-        left: 0;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
         @media only screen and (max-width: 1100px) {
             display: none;
         }
@@ -3309,3 +3373,15 @@ hr {
     width: 250px;
     height: 250px;
 }
+
+.owl-theme .owl-dots .owl-dot.active span,
+.owl-theme .owl-dots .owl-dot:hover span {
+    margin-top: 1rem;
+
+    border-radius: 0 !important;
+    width: 3rem !important;
+    height: 4px !important;
+
+    background-color: #feee00 !important;
+}
+// background-color: #d6d6d6 !important;

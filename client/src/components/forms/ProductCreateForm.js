@@ -351,7 +351,6 @@ const ProductCreateForm = ({
                             >
                                 {!loading ? (
                                     values.images.map((image) => {
-                                        console.log(image.color);
                                         return (
                                             <div
                                                 className="col-4 px-2 col-md-3 col-lg-2 my-3"
@@ -373,12 +372,7 @@ const ProductCreateForm = ({
                                                     <span
                                                         className="image-color"
                                                         style={{
-                                                            color: `${
-                                                                image.color ===
-                                                                'White'
-                                                                    ? 'rgb( 224, 224, 224)'
-                                                                    : image.color
-                                                            }`,
+                                                            color: '#404553',
                                                         }}
                                                     >
                                                         {image.color}

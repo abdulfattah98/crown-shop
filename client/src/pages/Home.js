@@ -21,13 +21,13 @@ const Home = () => {
             {/* <h4 className="text-center p-3 mt-5 mb-5 display-4 jumbotron">
                 New Arrivals
             </h4> */}
-            <div className="pb-5 px-3 px-md-5">
+            <div className="pb-5 px-3 px-md-5 new-arrival">
                 <NewArrivals />
             </div>
             <div className="pb-5">
                 <Banner />
             </div>
-            <div className="pb-5 px-3 px-md-5">
+            <div className="pb-5 px-3 px-md-5 best-seller">
                 <BestSellers />
             </div>
             {/* <div className="category-list jumbotron">

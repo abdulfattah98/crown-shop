@@ -115,6 +115,13 @@
     }
 }
 
+.new-arrival .owl-stage-outer {
+    padding: 10px 0;
+}
+.best-seller .owl-stage-outer {
+    padding: 10px 0;
+}
+
 .owl-stage {
     position: relative !important;
 }
@@ -146,7 +153,7 @@
             top: 30%;
         }
 
-        &:hover {
+        & :hover {
             transition: all 0.2s ease-out !important;
             opacity: 1 !important;
         }
@@ -172,8 +179,8 @@
             height: 4px !important;
         }
 
-        &.active span,
-        &.active:hover span {
+        & .active span,
+        & .active:hover span {
             background-color: #feee00 !important;
         }
     }
@@ -328,6 +335,11 @@ span.MuiButtonBase-root-16.MuiIconButton-root-10.MuiSwitchBase-root-6.MuiCheckbo
         background-color: #000;
     }
 }
+.color-select.Silver {
+    & label {
+        background-color: silver;
+    }
+}
 .color-select.White {
     & label {
         background-color: #fff;
@@ -352,6 +364,135 @@ span.MuiButtonBase-root-16.MuiIconButton-root-10.MuiSwitchBase-root-6.MuiCheckbo
 .color-select.Gray {
     & label {
         background-color: GRAY;
+    }
+}
+
+.color-select.Black {
+    & label {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+}
+.color-select.Brown {
+    & label {
+        background-color: rgba(166, 43, 43, 0.8);
+    }
+}
+.color-select.Silver {
+    & label {
+        background-color: rgba(192, 192, 192, 0.8);
+    }
+}
+.color-select.White {
+    & label {
+        background-color: rgba(224, 224, 224, 0.8);
+    }
+}
+.Blue {
+    & label {
+        background-color: rgba(0, 0, 255, 0.8);
+    }
+}
+.color-select.Red {
+    & label {
+        background-color: rgba(255, 0, 0, 0.8);
+    }
+}
+.color-select.Gray {
+    & label {
+        background-color: rgba(128, 128, 128, 0.8);
+    }
+}
+.color-select.Pink {
+    & label {
+        background-color: rgba(255, 192, 203, 0.8);
+    }
+}
+
+.color-select.MidnightGreen {
+    & label {
+        background-color: rgba(0, 73, 83, 0.8);
+    }
+}
+
+.color-select.Gold {
+    & label {
+        background-color: rgba(207, 181, 59, 0.8);
+    }
+}
+.color-select.LightGreen {
+    & label {
+        background-color: rgba(144, 238, 144, 0.8);
+    }
+}
+.color-select.Purple {
+    & label {
+        background-color: rgba(128, 0, 128, 0.8);
+    }
+}
+.color-select.Graphite {
+    & label {
+        background-color: rgba(56, 52, 40, 0.8);
+    }
+}
+
+.color-select.PacificBlue {
+    & label {
+        background-color: rgba(28, 169, 201, 0.8);
+    }
+}
+.color-select.SpaceGrey {
+    & label {
+        background-color: rgba(52, 61, 70, 0.8);
+    }
+}
+.color-select.CloudBlue {
+    & label {
+        background-color: rgba(216, 237, 242, 0.8);
+    }
+}
+.color-select.CloudNavy {
+    & label {
+        background-color: rgba(162, 159, 149, 0.8);
+    }
+}
+.color-select.CloudLavender {
+    & label {
+        background-color: rgba(182, 184, 224, 0.8);
+    }
+}
+.color-select.Bronze {
+    & label {
+        background-color: rgba(205, 127, 50, 0.8);
+    }
+}
+.color-select.AuraGlow {
+    & label {
+        background-color: rgba(192, 168, 158, 0.8);
+    }
+}
+.color-select.PrismWhite {
+    & label {
+        background-color: rgb(222, 213, 198);
+    }
+}
+.color-select.PrismBlue {
+    & label {
+        background-color: #b4dcf0;
+    }
+}
+.color-select.MirrorPurple {
+    & label {
+        background-color: #d4e1ec;
+    }
+}
+.color-select.SilkyWhite {
+    & label {
+        background-color: rgb(183, 169, 155);
+    }
+}
+.color-select.StarryNight {
+    & label {
+        background-color: #7fc5dc;
     }
 }
 
@@ -387,6 +528,11 @@ span.MuiButtonBase-root-16.MuiIconButton-root-10.MuiSwitchBase-root-6.MuiCheckbo
             background-color: #000;
         }
     }
+    & .color-select.Silver {
+        & label {
+            background-color: silver;
+        }
+    }
     & .color-select.White {
         & label {
             background-color: #fff;
@@ -411,6 +557,135 @@ span.MuiButtonBase-root-16.MuiIconButton-root-10.MuiSwitchBase-root-6.MuiCheckbo
     & .color-select.Gray {
         & label {
             background-color: GRAY;
+        }
+    }
+
+    & .color-select.Black {
+        & label {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+    }
+    & .color-select.Brown {
+        & label {
+            background-color: rgba(166, 43, 43, 0.8);
+        }
+    }
+    & .color-select.Silver {
+        & label {
+            background-color: rgba(192, 192, 192, 0.8);
+        }
+    }
+    & .color-select.White {
+        & label {
+            background-color: rgba(224, 224, 224, 0.8);
+        }
+    }
+    & .Blue {
+        & label {
+            background-color: rgba(0, 0, 255, 0.8);
+        }
+    }
+    & .color-select.Red {
+        & label {
+            background-color: rgba(255, 0, 0, 0.8);
+        }
+    }
+    & .color-select.Gray {
+        & label {
+            background-color: rgba(128, 128, 128, 0.8);
+        }
+    }
+    & .color-select.Pink {
+        & label {
+            background-color: rgba(255, 192, 203, 0.8);
+        }
+    }
+
+    & .color-select.MidnightGreen {
+        & label {
+            background-color: rgba(0, 73, 83, 0.8);
+        }
+    }
+
+    & .color-select.Gold {
+        & label {
+            background-color: rgba(207, 181, 59, 0.8);
+        }
+    }
+    & .color-select.LightGreen {
+        & label {
+            background-color: rgba(144, 238, 144, 0.8);
+        }
+    }
+    & .color-select.Purple {
+        & label {
+            background-color: rgba(128, 0, 128, 0.8);
+        }
+    }
+    & .color-select.Graphite {
+        & label {
+            background-color: rgba(56, 52, 40, 0.8);
+        }
+    }
+
+    & .color-select.PacificBlue {
+        & label {
+            background-color: rgba(28, 169, 201, 0.8);
+        }
+    }
+    & .color-select.SpaceGrey {
+        & label {
+            background-color: rgba(52, 61, 70, 0.8);
+        }
+    }
+    & .color-select.CloudBlue {
+        & label {
+            background-color: rgba(216, 237, 242, 0.8);
+        }
+    }
+    & .color-select.CloudNavy {
+        & label {
+            background-color: rgba(162, 159, 149, 0.8);
+        }
+    }
+    & .color-select.CloudLavender {
+        & label {
+            background-color: rgba(182, 184, 224, 0.8);
+        }
+    }
+    & .color-select.Bronze {
+        & label {
+            background-color: rgba(205, 127, 50, 0.8);
+        }
+    }
+    & .color-select.AuraGlow {
+        & label {
+            background-color: rgba(192, 168, 158, 0.8);
+        }
+    }
+    & .color-select.PrismWhite {
+        & label {
+            background-color: rgb(222, 213, 198);
+        }
+    }
+    & .color-select.PrismBlue {
+        & label {
+            background-color: #b4dcf0;
+        }
+    }
+    & .color-select.MirrorPurple {
+        & label {
+            background-color: #d4e1ec;
+        }
+    }
+    & .color-select.SilkyWhite {
+        & label {
+            background-color: rgb(183, 169, 155);
+        }
+    }
+    & .color-select.StarryNight {
+        & label {
+            background-color: #7fc5dc;
         }
     }
 
@@ -442,7 +717,7 @@ span.MuiButtonBase-root-16.MuiIconButton-root-10.MuiSwitchBase-root-6.MuiCheckbo
     display: flex;
     align-items: center;
     justify-content: space-between;
-    // & .js-qty-selector-minus .btnqty {
+    // &  .js-qty-selector-minus .btnqty {
     // }
     & .js-qty-selector-input {
         outline: none;
@@ -489,7 +764,7 @@ span.MuiButtonBase-root-16.MuiIconButton-root-10.MuiSwitchBase-root-6.MuiCheckbo
         display: flex;
         align-items: center;
         justify-content: space-between;
-        // & .js-qty-selector-minus .btnqty {
+        // &  .js-qty-selector-minus .btnqty {
         // }
         & .js-qty-selector-input {
             outline: none;
@@ -516,7 +791,22 @@ span.MuiButtonBase-root-16.MuiIconButton-root-10.MuiSwitchBase-root-6.MuiCheckbo
 }
 
 .ant-drawer-right.ant-drawer-open .ant-drawer-content-wrapper {
-    width: 320px !important;
+    width: 350px !important;
+    @media only screen and (max-width: 400px) {
+        width: 100% !important;
+        & .drawer-buttons {
+            padding-left: 0;
+            padding-right: 0;
+            flex-direction: column;
+            & .button-checkout {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            & * {
+                width: 100%;
+            }
+        }
+    }
 }
 
 .ant-drawer-body {
@@ -534,10 +824,10 @@ span.MuiButtonBase-root-16.MuiIconButton-root-10.MuiSwitchBase-root-6.MuiCheckbo
 }
 
 .ant-select.ant-select-single.ant-select-show-arrow {
-    &:focus .ant-select-selector,
+    & :focus .ant-select-selector,
     & .ant-select-selector {
         border: 1px solid #d8d8d8 !important;
-        &:hover {
+        & :hover {
             border-color: #d8d8d8 !important;
         }
     }
@@ -552,14 +842,14 @@ span.MuiButtonBase-root-16.MuiIconButton-root-10.MuiSwitchBase-root-6.MuiCheckbo
         background-color: unset;
     }
 
-    &:focus *,
-    &:active * {
+    & :focus *,
+    & :active * {
         // box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2) !important;
         border-color: #d8d8d8 !important;
         border: 0 !important;
         outline: none !important;
     }
-    &:hover * {
+    & :hover * {
         border-color: #d8d8d8 !important;
     }
     & * {
@@ -616,7 +906,7 @@ input.form-control {
     min-height: 38px;
     box-shadow: none;
     border: 1px solid #d8d8d8;
-    &:hover {
+    & :hover {
         border: 1px solid #d8d8d8;
     }
     & .ant-input-number-input-wrap {
@@ -627,7 +917,7 @@ input.form-control {
 
 .ant-input-number-focused {
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
-    &:not(:hover) * {
+    & :not(:hover) * {
         border: none !important;
         box-shadow: none !important;
     }
@@ -755,7 +1045,7 @@ input[name='description']::placeholder {
 .ant-btn-primary {
     font-size: 15px;
     background-color: rgb(43, 76, 215);
-    &:hover {
+    & :hover {
         background-color: rgb(56, 102, 223);
     }
 }
@@ -775,6 +1065,7 @@ input[name='description']::placeholder {
 }
 
 div.ant-modal[role='document'] {
+    width: unset !important;
     min-width: 300px !important;
     max-width: 400px !important;
 }
@@ -784,11 +1075,11 @@ div.ant-modal[role='document'] {
 }
 
 .ant-modal.delete-modal .ant-modal-header {
-    background-color: #db0f0f;
+    background-color: #b93939;
 }
 
 .ant-modal.delete-modal .ant-btn-primary {
-    background-color: #db0f0f;
+    background-color: #b93939;
     border: none;
 }
 
@@ -812,4 +1103,42 @@ div.ant-modal[role='document'] {
 .ant-slider-handle.ant-slider-handle-1:focus,
 .ant-slider-handle.ant-slider-handle-2:focus {
     box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.12);
+}
+
+.ant-menu-submenu-title h3 {
+    @include respond-to('sm') {
+        font-size: 16px;
+    }
+}
+
+.skeleton-card {
+    & .ant-card.ant-card-bordered {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        height: 300px;
+        & .ant-card-body {
+            width: 100%;
+        }
+    }
+}
+
+.plp-filters-loading {
+    & .col-12 {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+        & :last-of-type {
+            padding-top: 0 !important;
+        }
+    }
+    & .ant-card.ant-card-bordered {
+        border: 0;
+        // display: flex;
+        // align-items: flex-end;
+        // justify-content: center;
+        // height: 300px;
+        display: block !important;
+        padding-bottom: 0;
+        padding-top: 0;
+    }
 }

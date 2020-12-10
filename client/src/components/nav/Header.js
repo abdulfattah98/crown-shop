@@ -159,7 +159,14 @@ const Header = () => {
         // </Menu>
 
         <div className="Navbar-outer">
-            <header className="Navbar">
+            <header
+                className="Navbar"
+                style={{
+                    boxShadow: `${
+                        location.pathname.includes('/shop') ? 'none' : ''
+                    }`,
+                }}
+            >
                 <div className="Navbar__container">
                     <div className="Navbar__logo">
                         <MenuIcon

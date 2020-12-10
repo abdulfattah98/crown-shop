@@ -24,7 +24,7 @@ const BannerCarousel = (props) => {
         items: 1,
         nav: true,
         rewind: true,
-        autoplay: true,
+        // autoplay: true,
         navText: [
             "<i class='fa fa-chevron-left'></i>",
             "<i class='fa fa-chevron-right'></i>",

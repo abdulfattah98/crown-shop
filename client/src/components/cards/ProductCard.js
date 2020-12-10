@@ -22,7 +22,7 @@ import Star from '../forms/Star';
 
 const { Meta } = Card;
 
-const ProductCard = ({ product, caption }) => {
+const ProductCard = ({ product, caption, related }) => {
     const [tooltip, setTooltip] = useState('Click to add');
 
     const [currentColor, setCurrentColor] = useState(product.color[0]);
@@ -201,7 +201,7 @@ const ProductCard = ({ product, caption }) => {
         // </>
 
         <div className="product">
-            <Link to={`product/${slug}`}>
+            <Link to={related ? `${slug}` : `product/${slug}`}>
                 <div className="product__image-container">
                     {product.images.length ? (
                         // <ModalImage
@@ -223,7 +223,7 @@ const ProductCard = ({ product, caption }) => {
                 </div>
             </Link>
             <div className="product__details">
-                <Link to={`product/${slug}`}>
+                <Link to={related ? `${slug}` : `product/${slug}`}>
                     <span className="product__name">{productName}</span>
                 </Link>
 

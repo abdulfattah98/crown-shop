@@ -3,7 +3,9 @@ import {
     getProductsByCount,
     fetchProductsByFilter,
 } from '../functions/product';
-import { Link } from 'react-router-dom';
+
+import { Link, useLocation } from 'react-router-dom';
+import LoadingCard from '../components/cards/LoadingCard';
 import { getCategories } from '../functions/category';
 import { getSubs } from '../functions/sub';
 import { useSelector, useDispatch } from 'react-redux';
@@ -26,11 +28,11 @@ import { ReactComponent as NotFoundIcon } from './notfound.svg';
 
 const { SubMenu, ItemGroup } = Menu;
 
-const Shop = () => {
+const Shop = ({ history }) => {
     const [products, setProducts] = useState([]);
     const [view, setView] = useState('grid');
-    const [loading, setLoading] = useState(false);
-    const [price, setPrice] = useState([0, 0]);
+    const [loading, setLoading] = useState(true);
+    const [price, setPrice] = useState([1, 15000]);
     const [ok, setOk] = useState(false);
     const [categories, setCategories] = useState([]);
     const [categoryIds, setCategoryIds] = useState([]);
@@ -45,6 +47,7 @@ const Shop = () => {
         'Lenovo',
         'ASUS',
     ]);
+    const [waitForFilter, setwaitForFilter] = useState(false);
     const [brand, setBrand] = useState('');
     const [colors, setColors] = useState([
         'Black',
@@ -71,12 +74,21 @@ const Shop = () => {
     const fetchProducts = (arg) => {
         fetchProductsByFilter(arg).then((res) => {
             setProducts(res.data);
+            setwaitForFilter(false);
         });
     };
 
+    const location = useLocation();
+
+    useEffect(() => {
+        if (showFilters) {
+            setShowFilters(false);
+        }
+    }, [location]);
+
     // 1. load products by default on page load
     const loadAllProducts = () => {
-        getProductsByCount(12).then((p) => {
+        getProductsByCount().then((p) => {
             setProducts(p.data);
             setLoading(false);
         });
@@ -99,6 +111,7 @@ const Shop = () => {
     }, [ok]);
 
     const handleSlider = (value) => {
+        setwaitForFilter(true);
         console.log(value);
         dispatch({
             type: 'SEARCH_QUERY',
@@ -142,6 +155,7 @@ const Shop = () => {
 
     // handle check for categories
     const handleCheck = (e) => {
+        setwaitForFilter(true);
         // reset
         dispatch({
             type: 'SEARCH_QUERY',
@@ -172,6 +186,7 @@ const Shop = () => {
 
     // 5. show products by star rating
     const handleStarClick = (num) => {
+        setwaitForFilter(true);
         console.log(num);
         dispatch({
             type: 'SEARCH_QUERY',
@@ -220,6 +235,7 @@ const Shop = () => {
         ));
 
     const handleSub = (sub) => {
+        setwaitForFilter(true);
         // console.log("SUB", sub);
         setSub(sub);
         dispatch({
@@ -258,6 +274,7 @@ const Shop = () => {
     };
 
     const handleBrand = (e) => {
+        setwaitForFilter(true);
         setSub('');
         dispatch({
             type: 'SEARCH_QUERY',
@@ -288,6 +305,7 @@ const Shop = () => {
         ));
 
     const handleColor = (e) => {
+        setwaitForFilter(true);
         setSub('');
         dispatch({
             type: 'SEARCH_QUERY',
@@ -326,6 +344,7 @@ const Shop = () => {
     );
 
     const handleShippingchange = (e) => {
+        setwaitForFilter(true);
         setSub('');
         dispatch({
             type: 'SEARCH_QUERY',
@@ -351,7 +370,16 @@ const Shop = () => {
                 minHeight: `${products.length < 1 && '80vh'}`,
             }}
         >
-            {products.length >= 1 ? (
+            {loading ? (
+                <div className="row py-5" style={{ height: '150vh' }}>
+                    <div className="col-xl-3 col-md-4 px-0 d-none d-md-block">
+                        <LoadingCard isPlpFilters={true} count={2} />
+                    </div>
+                    <div className="col-12 col-md-8 px-0 col-xl-9">
+                        <LoadingCard isPlpCard={true} count={8} />
+                    </div>
+                </div>
+            ) : (
                 <>
                     <div
                         className={`filters-sm ${showFilters ? 'active' : ''}`}
@@ -383,9 +411,9 @@ const Shop = () => {
                                         className="ml-5 mr-4"
                                         tipFormatter={(v) => `$${v}`}
                                         range
-                                        defaultValue={[1, 1000]}
+                                        defaultValue={[1, 15000]}
                                         onChange={handleSlider}
-                                        max="5000"
+                                        max="15000"
                                     />
                                 </div>
                             </SubMenu>
@@ -510,9 +538,9 @@ const Shop = () => {
                                             className="ml-5 mr-4"
                                             tipFormatter={(v) => `$${v}`}
                                             range
-                                            defaultValue={[1, 1000]}
+                                            defaultValue={[1, 15000]}
                                             onChange={handleSlider}
-                                            max="5000"
+                                            max="15000"
                                         />
                                     </div>
                                 </SubMenu>
@@ -628,7 +656,7 @@ const Shop = () => {
                                 <div
                                     className={`col-12 px-0 pl-md-3 white-bg mb-4 ${
                                         products.length >= 1
-                                            ? 'pt-4'
+                                            ? 'pt-md-4'
                                             : 'py-4 border-0'
                                     }`}
                                 >
@@ -712,7 +740,7 @@ const Shop = () => {
                                                 <div className="col-4 pl-0">
                                                     <span className="items-found">
                                                         {products.length >= 1
-                                                            ? `${products.length} found in`
+                                                            ? `${products.length} products found`
                                                             : 'no products found'}
                                                     </span>
                                                 </div>
@@ -744,48 +772,66 @@ const Shop = () => {
                                         )}
                                     </div>
                                 </div>
-                                {products.map((p, idx) => (
-                                    <div
-                                        key={p._id}
-                                        className={`${
-                                            view === 'grid' && idx % 2 === 0
-                                                ? 'col-6 col-sm-4 col-md-6 col-lg-4 col-xl-3 pl-0 pr-2 px-sm-3'
-                                                : view === 'grid' &&
-                                                  idx % 2 === 1
-                                                ? 'col-6 col-sm-4 col-md-6 col-lg-4 col-xl-3 pr-0 pl-2 px-sm-3'
-                                                : 'col-12 px-0 px-md-3'
-                                        } mb-3`}
-                                    >
-                                        {view === 'grid' ? (
-                                            <ProductCard product={p} />
-                                        ) : (
-                                            <ProductCardRow
-                                                p={p}
-                                                wishListCard={false}
-                                            />
-                                        )}
+                                {waitForFilter ? (
+                                    <div className="col-12 col-md-8 px-0 col-xl-12">
+                                        <LoadingCard
+                                            isPlpCard={true}
+                                            count={8}
+                                        />
                                     </div>
-                                ))}
+                                ) : products && products.length >= 1 ? (
+                                    products.map((p, idx) => (
+                                        <div
+                                            key={p._id}
+                                            className={`${
+                                                view === 'grid' && idx % 2 === 0
+                                                    ? 'col-6 col-sm-4 col-md-6 col-lg-4 col-xl-3 pl-2 pr-2 px-sm-3'
+                                                    : view === 'grid' &&
+                                                      idx % 2 === 1
+                                                    ? 'col-6 col-sm-4 col-md-6 col-lg-4 col-xl-3 pr-2 pl-2 px-sm-3'
+                                                    : 'col-12 px-0 px-md-3'
+                                            } mb-3`}
+                                        >
+                                            {view === 'grid' ? (
+                                                <ProductCard product={p} />
+                                            ) : (
+                                                <ProductCardRow
+                                                    p={p}
+                                                    wishListCard={false}
+                                                />
+                                            )}
+                                        </div>
+                                    ))
+                                ) : !products || products.length < 1 ? (
+                                    <>
+                                        <div className="text-center mx-auto">
+                                            <NotFoundIcon className="not-found-icon" />
+                                            <h4 className="no-thing__title mt-4">
+                                                We couldn’t find what you were
+                                                looking for
+                                            </h4>
+                                            <p className="no-thing__subtitle">
+                                                We have many other products that
+                                                you may like!
+                                            </p>
+                                            <button
+                                                className="form-save-button no-thing-button"
+                                                style={{ height: 'unset' }}
+                                            >
+                                                <Link
+                                                    to="/shop"
+                                                    onClick={() =>
+                                                        loadAllProducts()
+                                                    }
+                                                >
+                                                    CONTINUE SHOPPING
+                                                </Link>
+                                            </button>
+                                        </div>
+                                    </>
+                                ) : null}
                             </div>
                         </div>
-                    </div>
-                </>
-            ) : (
-                <>
-                    <div className="text-center">
-                        <NotFoundIcon className="not-found-icon" />
-                        <h4 className="no-thing__title mt-4">
-                            We couldn’t find what you were looking for
-                        </h4>
-                        <p className="no-thing__subtitle">
-                            We have many other products that you may like!
-                        </p>
-                        <button
-                            className="form-save-button no-thing-button"
-                            // style={{ width: 'unset' }}
-                        >
-                            <Link to="/shop">CONTINUE SHOPPING</Link>
-                        </button>
                     </div>
                 </>
             )}

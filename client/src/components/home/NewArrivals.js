@@ -42,7 +42,20 @@ const NewArrivals = () => {
     return (
         <div>
             {loading ? (
-                <LoadingCard count={3} />
+                <>
+                    <div className="d-none d-xl-block">
+                        <LoadingCard count={6} />
+                    </div>
+                    <div className="d-none d-lg-block d-xl-none">
+                        <LoadingCard count={4} />
+                    </div>
+                    <div className="d-none d-md-block d-lg-none">
+                        <LoadingCard count={3} />
+                    </div>
+                    <div className="d-block d-md-none">
+                        <LoadingCard count={1} />
+                    </div>
+                </>
             ) : (
                 <ProductCardCarousel>{NewArrivals}</ProductCardCarousel>
             )}
