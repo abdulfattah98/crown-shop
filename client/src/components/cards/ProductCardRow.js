@@ -9,6 +9,8 @@ import {
     CloseOutlined,
     Tooltip,
 } from '@ant-design/icons';
+import SoldOut from '../../images/sold-out.png';
+
 import { RadioButton, RadioGroup } from '@trendmicro/react-radio';
 import { showAverage } from '../../functions/rating';
 import { Link } from 'react-router-dom';
@@ -223,17 +225,41 @@ const ProductCardRow = ({ p, wishListCard, loadWishlist }) => {
                         // />
                         <Link to={`/product/${p.slug}`}>
                             <img
+                                src={SoldOut}
+                                className={`sold-out ${
+                                    p.quantity > 0 ? 'd-none' : ''
+                                }`}
+                                alt={p.title}
+                            />
+                            <img
                                 src={
                                     currentImages && currentImages.length
                                         ? currentImages[0].url
                                         : laptop
                                 }
-                                alt=""
+                                alt={p.title}
+                                className={`${
+                                    p.quantity > 0 ? '' : 'image-blur'
+                                }`}
                             />
                         </Link>
                     ) : (
                         <Link to={`/product/${p.slug}`}>
-                            <img src={laptop} alt="no image provided" />
+                            <img
+                                src={SoldOut}
+                                className={`sold-out ${
+                                    p.quantity > 0 ? 'd-none' : ''
+                                }`}
+                                alt={p.title}
+                            />
+
+                            <img
+                                src={laptop}
+                                alt={p.title}
+                                className={`${
+                                    p.quantity > 0 ? '' : 'image-blur'
+                                }`}
+                            />
                         </Link>
                         // <ModalImage small={laptop} large={laptop} />
                     )}

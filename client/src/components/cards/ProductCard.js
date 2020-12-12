@@ -15,6 +15,8 @@ import { ReactComponent as WishlistIcon } from './wishlist.svg';
 import { ReactComponent as MinusIcon } from './minus.svg';
 import { ReactComponent as PlusIcon } from './plus.svg';
 
+import SoldOut from '../../images/sold-out.png';
+
 import Wishlist from '../../pages/user/Wishlist';
 import { RadioButton, RadioGroup } from '@trendmicro/react-radio';
 
@@ -22,7 +24,7 @@ import Star from '../forms/Star';
 
 const { Meta } = Card;
 
-const ProductCard = ({ product, caption, related }) => {
+const ProductCard = ({ product, caption }) => {
     const [tooltip, setTooltip] = useState('Click to add');
 
     const [currentColor, setCurrentColor] = useState(product.color[0]);
@@ -201,29 +203,54 @@ const ProductCard = ({ product, caption, related }) => {
         // </>
 
         <div className="product">
-            <Link to={related ? `${slug}` : `product/${slug}`}>
+            <Link to={`/product/${slug}`}>
                 <div className="product__image-container">
                     {product.images.length ? (
-                        // <ModalImage
-                        //     small={p.images[0].url}
-                        //     large={p.images[0].url}
-                        // />
-                        <img
-                            src={
-                                currentImages && currentImages.length
-                                    ? currentImages[0].url
-                                    : laptop
-                            }
-                            alt=""
-                        />
+                        <div className="position-relative h-100 w-100">
+                            <img
+                                src={SoldOut}
+                                className={`sold-out ${
+                                    product.quantity > 0 ? 'd-none' : ''
+                                }`}
+                                alt={product.title}
+                            />
+
+                            <img
+                                src={
+                                    currentImages && currentImages.length
+                                        ? currentImages[0].url
+                                        : laptop
+                                }
+                                className={`${
+                                    product.quantity > 0 ? '' : 'image-blur'
+                                }`}
+                                alt={product.title}
+                            />
+                        </div>
                     ) : (
-                        <img src={laptop} alt="no image provided" />
+                        <div className="position-relative">
+                            <img
+                                src={SoldOut}
+                                className={`sold-out ${
+                                    product.quantity > 0 ? 'd-none' : ''
+                                }`}
+                                alt={product.title}
+                            />
+
+                            <img
+                                className={`${
+                                    product.quantity > 0 ? '' : 'image-blur'
+                                }`}
+                                src={laptop}
+                                alt={product.title}
+                            />
+                        </div>
                         // <ModalImage small={laptop} large={laptop} />
                     )}
                 </div>
             </Link>
             <div className="product__details">
-                <Link to={related ? `${slug}` : `product/${slug}`}>
+                <Link to={`/product/${slug}`}>
                     <span className="product__name">{productName}</span>
                 </Link>
 

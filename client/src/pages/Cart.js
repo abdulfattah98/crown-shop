@@ -131,7 +131,7 @@ const Cart = ({ history }) => {
                                         </p>
                                     </div>
                                 ))}
-                                <hr />
+                                <hr className="my-4" />
                                 <h4 className="total my-4">
                                     Total:{' '}
                                     <b style={{ color: '#38ae04' }}>

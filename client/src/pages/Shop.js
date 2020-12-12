@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import {
     getProductsByCount,
     fetchProductsByFilter,
@@ -32,7 +32,7 @@ const Shop = ({ history }) => {
     const [products, setProducts] = useState([]);
     const [view, setView] = useState('grid');
     const [loading, setLoading] = useState(true);
-    const [price, setPrice] = useState([1, 15000]);
+    const [price, setPrice] = useState([1, 9000]);
     const [ok, setOk] = useState(false);
     const [categories, setCategories] = useState([]);
     const [categoryIds, setCategoryIds] = useState([]);
@@ -47,6 +47,8 @@ const Shop = ({ history }) => {
         'Lenovo',
         'ASUS',
     ]);
+    const [allowPrice, setallowPrice] = useState(false);
+    const [viewLoading, setViewLoading] = useState(false);
     const [waitForFilter, setwaitForFilter] = useState(false);
     const [brand, setBrand] = useState('');
     const [colors, setColors] = useState([
@@ -61,10 +63,9 @@ const Shop = ({ history }) => {
 
     let dispatch = useDispatch();
     let { search } = useSelector((state) => ({ ...state }));
-    const { text } = search;
+    let { text } = search;
 
     useEffect(() => {
-        loadAllProducts();
         // fetch categories
         getCategories().then((res) => setCategories(res.data));
         // fetch subcategories
@@ -73,10 +74,37 @@ const Shop = ({ history }) => {
 
     const fetchProducts = (arg) => {
         fetchProductsByFilter(arg).then((res) => {
-            setProducts(res.data);
+            console.log(arg, '------->', res.data);
+            setProducts([...res.data]);
+            //console.log(products);
+            if (text) {
+                setLoading(false);
+            }
             setwaitForFilter(false);
         });
     };
+
+    // useEffect(() => {
+    //     console.log(products);
+    // }, [products]);
+
+    useEffect(() => {
+        if (allowPrice) {
+            fetchProducts({ price });
+            setallowPrice(false);
+        }
+    }, [ok]);
+
+    // const firstUpdate = useRef(true);
+    // useLayoutEffect(() => {
+    //     if (firstUpdate.current) {
+    //         firstUpdate.current = false;
+    //         console.log('first time');
+    //         return;
+    //     }
+
+    //     console.log('componentDidUpdateFunction');
+    // }, []);
 
     const location = useLocation();
 
@@ -97,22 +125,30 @@ const Shop = ({ history }) => {
     // 2. load products on user search input
     useEffect(() => {
         const delayed = setTimeout(() => {
+            console.log(text);
+
+            setPrice([0, 0]);
+            setStar('');
+            setSub('');
+            setBrand('');
+            setColor('');
+            setShipping('');
+
             fetchProducts({ query: text });
-            if (!text) {
+            if (!text && allowPrice !== true) {
                 loadAllProducts();
+                console.log('load all ');
+                // setPrice([0, 9000]);
             }
         }, 300);
         return () => clearTimeout(delayed);
     }, [text]);
 
     // 3. load products based on price range
-    useEffect(() => {
-        fetchProducts({ price });
-    }, [ok]);
-
+    // let priceTime;
     const handleSlider = (value) => {
         setwaitForFilter(true);
-        console.log(value);
+        setallowPrice(true);
         dispatch({
             type: 'SEARCH_QUERY',
             payload: { text: '' },
@@ -122,7 +158,6 @@ const Shop = ({ history }) => {
         setCategoryIds([]);
         setPrice(value);
         setStar('');
-        setSub('');
         setBrand('');
         setColor('');
         setShipping('');
@@ -130,6 +165,23 @@ const Shop = ({ history }) => {
             setOk(!ok);
         }, 300);
     };
+
+    // useEffect(() => {
+    //     fetchProducts({ price });
+    //     return () => {
+    //         clearTimeout(priceTime);
+    //     };
+    // }, [price]);
+
+    // const [categoryMatch,setCategoryMatch] = useState([])
+
+    // useEffect(() => {
+    //     const x = categories.filter(
+    //         (category) =>
+    //             category.name.toLowerCase() === selectedCategory.toLowerCase()
+    //     );
+    //     console.log(x.name);
+    // }, [categoryMatch]);
 
     // 4. load products based on category
     // show categories in a list of checkbox
@@ -153,41 +205,80 @@ const Shop = ({ history }) => {
             );
         });
 
-    // handle check for categories
-    const handleCheck = (e) => {
-        setwaitForFilter(true);
-        // reset
-        dispatch({
-            type: 'SEARCH_QUERY',
-            payload: { text: '' },
-        });
-        setPrice([0, 0]);
-        setStar('');
-        setSub('');
-        setBrand('');
-        setColor('');
-        setShipping('');
-        // console.log(e.target.value);
-        let inTheState = [...categoryIds];
-        let justChecked = e.target.value;
-        let foundInTheState = inTheState.indexOf(justChecked); // index or -1
+    useEffect(() => {
+        setViewLoading(false);
+    }, [viewLoading]);
 
-        // indexOf method ?? if not found returns -1 else return index [1,2,3,4,5]
-        if (foundInTheState === -1) {
-            inTheState.push(justChecked);
+    // handle check for categories
+    const handleCheck = (e, value) => {
+        if (e) {
+            setwaitForFilter(true);
+            // reset
+            dispatch({
+                type: 'SEARCH_QUERY',
+                payload: { text: '' },
+            });
+            setPrice([0, 0]);
+            setStar('');
+            setSub('');
+            setBrand('');
+            setColor('');
+            setShipping('');
+            let inTheState = [...categoryIds];
+            let justChecked = e.target.value;
+            let foundInTheState = inTheState.indexOf(justChecked); // index or -1
+
+            // indexOf method ?? if not found returns -1 else return index [1,2,3,4,5]
+            if (foundInTheState === -1) {
+                inTheState.push(justChecked);
+            } else {
+                // if found pull out one item from index
+                inTheState.splice(foundInTheState, 1);
+            }
+            setCategoryIds(inTheState);
+            const IDs = categories.map((category) => category._id);
+            if (inTheState.length === 0) {
+                fetchProducts({ category: IDs });
+            } else {
+                fetchProducts({ category: inTheState });
+            }
         } else {
-            // if found pull out one item from index
-            inTheState.splice(foundInTheState, 1);
+            setwaitForFilter(true);
+            // reset
+            dispatch({
+                type: 'SEARCH_QUERY',
+                payload: { text: '' },
+            });
+            setPrice([0, 0]);
+            setStar('');
+            setSub('');
+            setBrand('');
+            setColor('');
+            setShipping('');
+            let inTheState = [...categoryIds];
+            let justChecked = value;
+            let foundInTheState = inTheState.indexOf(justChecked); // index or -1
+
+            // indexOf method ?? if not found returns -1 else return index [1,2,3,4,5]
+            if (foundInTheState === -1) {
+                inTheState.push(justChecked);
+            } else {
+                // if found pull out one item from index
+                inTheState.splice(foundInTheState, 1);
+            }
+            setCategoryIds(inTheState);
+            const IDs = categories.map((category) => category._id);
+            if (inTheState.length === 0) {
+                fetchProducts({ category: IDs });
+            } else {
+                fetchProducts({ category: inTheState });
+            }
         }
-        setCategoryIds(inTheState);
-        // console.log(inTheState);
-        fetchProducts({ category: inTheState });
     };
 
     // 5. show products by star rating
     const handleStarClick = (num) => {
         setwaitForFilter(true);
-        console.log(num);
         dispatch({
             type: 'SEARCH_QUERY',
             payload: { text: '' },
@@ -236,7 +327,6 @@ const Shop = ({ history }) => {
 
     const handleSub = (sub) => {
         setwaitForFilter(true);
-        // console.log("SUB", sub);
         setSub(sub);
         dispatch({
             type: 'SEARCH_QUERY',
@@ -361,11 +451,7 @@ const Shop = ({ history }) => {
 
     return (
         <div
-            className={`${
-                products.length >= 1
-                    ? 'position-relative'
-                    : 'd-flex justify-content-center align-items-center pb-5 px-4'
-            }`}
+            className={`${products.length >= 1 ? 'position-relative' : ''}`}
             style={{
                 minHeight: `${products.length < 1 && '80vh'}`,
             }}
@@ -381,6 +467,109 @@ const Shop = ({ history }) => {
                 </div>
             ) : (
                 <>
+                    <div className="row">
+                        <div className="d-none d-md-block col-md-4 col-lg-3"></div>
+                        <div
+                            className={`col-12 col-md-8 col-lg-9 px-0 pl-md-3 white-bg mb-4 border-0 ${
+                                products.length >= 1 ? 'pt-md-4' : ''
+                            }`}
+                        >
+                            <div className="views-filters d-flex d-md-none py-3">
+                                <span className="products-found">
+                                    {products.length >= 1
+                                        ? `${products.length} products found`
+                                        : 'no products found'}
+                                </span>
+                                <div className="align-items-center d-flex">
+                                    <button
+                                        className="filters"
+                                        onClick={() => setShowFilters(true)}
+                                    >
+                                        FILTER
+                                        <FilterIcon />
+                                    </button>
+                                    <button
+                                        className="views"
+                                        onClick={() => {
+                                            setViewLoading(true);
+                                            setView(
+                                                view === 'grid'
+                                                    ? 'list'
+                                                    : 'grid'
+                                            );
+                                        }}
+                                    >
+                                        {view === 'grid' ? (
+                                            <ListIcon />
+                                        ) : (
+                                            <GridIcon />
+                                        )}
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="views d-none d-md-block">
+                                {view === 'grid' ? (
+                                    <div className="row align-items-center justify-content-between">
+                                        <div className="col-5 pl-3">
+                                            <span className="items-found">
+                                                {products.length >= 1
+                                                    ? `${products.length} products found`
+                                                    : 'no products found'}
+                                            </span>
+                                        </div>
+                                        <div className="col-4">
+                                            <div
+                                                className="d-flex align-items-center justify-content-end"
+                                                style={{
+                                                    cursor: 'pointer',
+                                                }}
+                                                onClick={() => {
+                                                    setViewLoading(true);
+                                                    setView('list');
+                                                }}
+                                            >
+                                                <span className="views__text">
+                                                    list
+                                                </span>
+                                                <div className="views__icon-container">
+                                                    <ListIcon className="views__icon" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="row align-items-center justify-content-between">
+                                        <div className="col-5 pl-3">
+                                            <span className="items-found">
+                                                {products.length >= 1
+                                                    ? `${products.length} products found`
+                                                    : 'no products found'}
+                                            </span>
+                                        </div>
+                                        <div className="col-4">
+                                            <div
+                                                className="d-flex align-items-center justify-content-end"
+                                                style={{
+                                                    cursor: 'pointer',
+                                                }}
+                                                onClick={() => {
+                                                    setViewLoading(true);
+                                                    setView('grid');
+                                                }}
+                                            >
+                                                <span className="views__text">
+                                                    Grid
+                                                </span>
+                                                <div className="views__icon-container">
+                                                    <GridIcon className="views__icon" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
                     <div
                         className={`filters-sm ${showFilters ? 'active' : ''}`}
                     >
@@ -409,11 +598,11 @@ const Shop = ({ history }) => {
                                 <div>
                                     <Slider
                                         className="ml-5 mr-4"
-                                        tipFormatter={(v) => `$${v}`}
+                                        tipFormatter={(v) => `JD${v}`}
                                         range
-                                        defaultValue={[1, 15000]}
+                                        defaultValue={[1, 9000]}
                                         onChange={handleSlider}
-                                        max="15000"
+                                        max="9000"
                                     />
                                 </div>
                             </SubMenu>
@@ -516,7 +705,10 @@ const Shop = ({ history }) => {
                         </Menu>
                     </div>
                     <div className="row">
-                        <div className="col-md-4 col-lg-3 d-none d-md-block px-0">
+                        <div
+                            style={{ marginTop: '-60px' }}
+                            className="col-md-4 col-lg-3 d-none d-md-block px-0"
+                        >
                             <Menu
                                 className="products-fliters"
                                 defaultOpenKeys={['1']}
@@ -538,9 +730,9 @@ const Shop = ({ history }) => {
                                             className="ml-5 mr-4"
                                             tipFormatter={(v) => `$${v}`}
                                             range
-                                            defaultValue={[1, 15000]}
+                                            defaultValue={[1, 9000]}
                                             onChange={handleSlider}
-                                            max="15000"
+                                            max="9000"
                                         />
                                     </div>
                                 </SubMenu>
@@ -643,7 +835,7 @@ const Shop = ({ history }) => {
                             </Menu>
                         </div>
 
-                        <div className="col-12 col-md-8 col-lg-9 pt-0 pt-md-2 px-0 px-md-3">
+                        <div className="col-12 col-md-8 col-lg-9 pt-0 px-0 px-md-3">
                             {/* {loading ? (
                         <h4 className="text-danger">Loading...</h4>
                     ) : (
@@ -653,155 +845,53 @@ const Shop = ({ history }) => {
                             {/* {products.length < 1 && <p>No products found</p>} */}
 
                             <div className="row pb-3 ">
-                                <div
-                                    className={`col-12 px-0 pl-md-3 white-bg mb-4 ${
-                                        products.length >= 1
-                                            ? 'pt-md-4'
-                                            : 'py-4 border-0'
-                                    }`}
-                                >
-                                    <div className="views-filters d-flex d-md-none">
-                                        <span className="products-found">
-                                            {products.length >= 1
-                                                ? `${products.length} products found`
-                                                : 'no products found'}
-                                        </span>
-                                        <div
-                                            className={`align-items-center ${
-                                                products.length >= 1
-                                                    ? 'd-flex'
-                                                    : 'd-none'
-                                            }`}
-                                        >
-                                            <button
-                                                className="filters"
-                                                onClick={() =>
-                                                    setShowFilters(true)
-                                                }
-                                            >
-                                                FILTER
-                                                <FilterIcon />
-                                            </button>
-                                            <button
-                                                className="views"
-                                                onClick={() =>
-                                                    setView(
-                                                        view === 'grid'
-                                                            ? 'list'
-                                                            : 'grid'
-                                                    )
-                                                }
-                                            >
-                                                {view === 'grid' ? (
-                                                    <ListIcon />
-                                                ) : (
-                                                    <GridIcon />
-                                                )}
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div className="views d-none d-md-block">
-                                        {view === 'grid' ? (
-                                            <div className="row align-items-center justify-content-between">
-                                                <div className="col-4 pl-0">
-                                                    <span className="items-found">
-                                                        {products.length >= 1
-                                                            ? `${products.length} products found`
-                                                            : 'no products found'}
-                                                    </span>
-                                                </div>
-                                                <div
-                                                    className={`col-4 ${
-                                                        products.length < 1
-                                                            ? 'd-none'
-                                                            : ''
-                                                    }`}
-                                                >
-                                                    <div
-                                                        className="d-flex align-items-center justify-content-end"
-                                                        style={{
-                                                            cursor: 'pointer',
-                                                        }}
-                                                        onClick={() =>
-                                                            setView('list')
-                                                        }
-                                                    >
-                                                        <span className="views__text">
-                                                            list
-                                                        </span>
-                                                        <div className="views__icon-container">
-                                                            <ListIcon className="views__icon" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <div className="row align-items-center justify-content-between">
-                                                <div className="col-4 pl-0">
-                                                    <span className="items-found">
-                                                        {products.length >= 1
-                                                            ? `${products.length} products found`
-                                                            : 'no products found'}
-                                                    </span>
-                                                </div>
-                                                <div
-                                                    className={`col-4 ${
-                                                        products.length < 1
-                                                            ? 'd-none'
-                                                            : ''
-                                                    }`}
-                                                >
-                                                    <div
-                                                        className="d-flex align-items-center justify-content-end"
-                                                        style={{
-                                                            cursor: 'pointer',
-                                                        }}
-                                                        onClick={() =>
-                                                            setView('grid')
-                                                        }
-                                                    >
-                                                        <span className="views__text">
-                                                            Grid
-                                                        </span>
-                                                        <div className="views__icon-container">
-                                                            <GridIcon className="views__icon" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
                                 {waitForFilter ? (
-                                    <div className="col-12 col-md-8 px-0 col-xl-12">
+                                    <div className="col-12 col-lg-12 px-0 col-xl-12">
                                         <LoadingCard
                                             isPlpCard={true}
                                             count={8}
                                         />
                                     </div>
+                                ) : viewLoading && view === 'grid' ? (
+                                    <div className="col-12 col-lg-12 px-0 col-xl-12">
+                                        <LoadingCard
+                                            isPlpCard={true}
+                                            count={8}
+                                        />
+                                    </div>
+                                ) : viewLoading && view === 'list' ? (
+                                    <div className="col-12 col-lg-12 px-0 col-xl-12">
+                                        <LoadingCard
+                                            isPlPCardList={true}
+                                            count={8}
+                                        />
+                                    </div>
                                 ) : products && products.length >= 1 ? (
-                                    products.map((p, idx) => (
-                                        <div
-                                            key={p._id}
-                                            className={`${
-                                                view === 'grid' && idx % 2 === 0
-                                                    ? 'col-6 col-sm-4 col-md-6 col-lg-4 col-xl-3 pl-2 pr-2 px-sm-3'
-                                                    : view === 'grid' &&
-                                                      idx % 2 === 1
-                                                    ? 'col-6 col-sm-4 col-md-6 col-lg-4 col-xl-3 pr-2 pl-2 px-sm-3'
-                                                    : 'col-12 px-0 px-md-3'
-                                            } mb-3`}
-                                        >
-                                            {view === 'grid' ? (
-                                                <ProductCard product={p} />
-                                            ) : (
-                                                <ProductCardRow
-                                                    p={p}
-                                                    wishListCard={false}
-                                                />
-                                            )}
-                                        </div>
-                                    ))
+                                    products.map((p, idx) => {
+                                        return (
+                                            <div
+                                                key={p._id}
+                                                className={`${
+                                                    view === 'grid' &&
+                                                    idx % 2 === 0
+                                                        ? 'col-6 col-sm-4 col-md-6 col-lg-4 col-xl-3 pl-2 pr-2 px-sm-3'
+                                                        : view === 'grid' &&
+                                                          idx % 2 === 1
+                                                        ? 'col-6 col-sm-4 col-md-6 col-lg-4 col-xl-3 pr-2 pl-2 px-sm-3'
+                                                        : 'col-12 px-0 px-md-3'
+                                                } mb-3`}
+                                            >
+                                                {view === 'grid' ? (
+                                                    <ProductCard product={p} />
+                                                ) : (
+                                                    <ProductCardRow
+                                                        p={p}
+                                                        wishListCard={false}
+                                                    />
+                                                )}
+                                            </div>
+                                        );
+                                    })
                                 ) : !products || products.length < 1 ? (
                                     <>
                                         <div className="text-center mx-auto">

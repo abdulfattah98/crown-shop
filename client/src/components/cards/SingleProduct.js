@@ -35,7 +35,7 @@ const { TabPane } = Tabs;
 // this is childrend component of Product page
 const SingleProduct = ({ product, onStarClick, star }) => {
     // let theColor =
-    const [currentColor, setCurrentColor] = useState(null);
+    const [currentColor, setCurrentColor] = useState('');
     const [currentImages, setCurrentImages] = useState();
     const [counter, setCounter] = useState(1);
     const [modalVisible, setModalVisible] = useState(false);
@@ -158,8 +158,7 @@ const SingleProduct = ({ product, onStarClick, star }) => {
     // };
 
     const loadcolorimages = (value) => {
-        if (!currentImages) {
-            console.log(11111111);
+        if (!images) {
             const currentImgs = images.filter((image) => image.color === value);
             setCurrentImages(currentImgs);
         } else {
@@ -168,13 +167,21 @@ const SingleProduct = ({ product, onStarClick, star }) => {
     };
 
     useEffect(() => {
-        console.log('*********************');
-
-        if (product && product.color && currentColor === null) {
+        if (product && product.color && !currentColor.length) {
             setCurrentColor(product.color[0]);
             loadcolorimages(product.color[0]);
         }
-    });
+    }, [product]);
+
+    useEffect(() => {
+        if (product && images) {
+            const currentImgs = images.filter(
+                (image) => image.color === product.color[0]
+            );
+            setCurrentColor(product.color[0]);
+            setCurrentImages(currentImgs);
+        }
+    }, [product]);
 
     const handlePlus = () => {
         setCounter(counter + 1);
@@ -323,7 +330,22 @@ const SingleProduct = ({ product, onStarClick, star }) => {
                             <CloseCircleOutlined className="text-danger" />
                         )}
                     </div>
+                    {product.quantity > 1 ? (
+                        <div className="product-available d-none d-sm-flex d-md-none d-lg-flex">
+                            <span>Only {product.quantity} available</span>
+                            <CheckCircleOutlined className="icon" />
+                        </div>
+                    ) : null}
                 </div>
+
+                {product.quantity > 1 ? (
+                    <div className="d-flex d-sm-none d-md-flex d-lg-none align-items-center mt-5 justify-content-start">
+                        <div className="product-available ml-0">
+                            <span>Only {product.quantity} available</span>
+                            <CheckCircleOutlined className="icon" />
+                        </div>
+                    </div>
+                ) : null}
 
                 {user && user.role === 'subscriber' ? (
                     <div className="product__bottom-details">

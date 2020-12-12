@@ -375,23 +375,35 @@ const Header = () => {
                         </Link>
                     </li>
                     <li className="Navbar__links-item">
-                        <Link className="Navbar__links-item-link" to="/">
+                        <Link
+                            className="Navbar__links-item-link"
+                            to={`/category/smart-phone`}
+                        >
+                            smartphones
+                        </Link>
+                    </li>
+                    <li className="Navbar__links-item">
+                        <Link
+                            className="Navbar__links-item-link"
+                            to={`/category/laptop`}
+                        >
                             laptops
                         </Link>
                     </li>
                     <li className="Navbar__links-item">
-                        <Link className="Navbar__links-item-link" to="/">
+                        <Link
+                            className="Navbar__links-item-link"
+                            to={`/category/tablet`}
+                        >
                             tablets
                         </Link>
                     </li>
                     <li className="Navbar__links-item">
-                        <Link className="Navbar__links-item-link" to="/">
-                            watches
-                        </Link>
-                    </li>
-                    <li className="Navbar__links-item">
-                        <Link className="Navbar__links-item-link" to="/">
-                            accessories
+                        <Link
+                            className="Navbar__links-item-link"
+                            to={`/category/wearable`}
+                        >
+                            smartwatches
                         </Link>
                     </li>
                 </ol>

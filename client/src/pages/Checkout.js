@@ -362,7 +362,7 @@ const Checkout = ({ history }) => {
     const showApplyCoupon = () => (
         <>
             <div className="row">
-                <div className="col-12 pl-0 pr-0 px-md-3">
+                <div className="col-12 pl-0 pr-0 pr-md-3">
                     <input
                         onChange={(e) => {
                             setCoupon(e.target.value);
@@ -434,7 +434,7 @@ const Checkout = ({ history }) => {
                         Products ({products.length})
                     </p>
                     {showProductSummary()}
-                    <hr className="mb-4" />
+                    <hr className="my-4" />
                     <h4 className="mb-3">Got Coupon?</h4>
                     {showApplyCoupon()}
                     <br />

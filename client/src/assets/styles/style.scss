@@ -22,7 +22,7 @@ $color-light: #e2e5f1;
 
 // Mixins
 @mixin font-family() {
-    font-family: 'Lato', sans-serif;
+    font-family: 'proxima nova', 'Lato', sans-serif !important;
 }
 
 @mixin respond-to($breakPoint) {
@@ -48,15 +48,16 @@ $color-light: #e2e5f1;
     }
 }
 
-* {
+*:not(i) {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    @include font-family;
 }
 
 body {
     color: $color-dark;
-    font-family: 'proxima nova', 'Lato', sans-serif;
+    @include font-family;
     position: relative;
     background: #f7f7fa;
 }
@@ -1331,6 +1332,25 @@ form {
         }
     }
 
+    & .product-available {
+        display: flex;
+        align-items: center;
+        margin-left: 30px;
+
+        span {
+            font-size: 16px;
+        }
+        & .icon {
+            margin-left: 5px;
+            margin-top: -1px;
+            svg {
+                width: 1.5rem;
+                height: 1.5rem;
+                fill: rgb(43, 76, 215);
+            }
+        }
+    }
+
     & .product-wishlist {
         display: flex;
         align-items: center;
@@ -1974,7 +1994,7 @@ form {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid #f3f3f3;
+    // border: 1px solid #f3f3f3;
     & .products-found {
         font-size: 14px;
         font-weight: bold;
@@ -2150,12 +2170,13 @@ form {
         height: 100px;
         img {
             // height: 100% !important;
-            // max-heigt
+            max-height: 100%;
+            max-width: 100%;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 100% !important;
+            // width: 100% !important;
         }
 
         & .pcs {
@@ -3385,3 +3406,34 @@ hr {
     background-color: #feee00 !important;
 }
 // background-color: #d6d6d6 !important;
+
+.sold-out {
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 5;
+    width: 70% !important;
+}
+
+.plp-list-loading {
+    & .ant-card {
+        display: flex;
+        align-items: center !important;
+        padding-left: 220px;
+        max-height: 200px;
+        min-height: 186px;
+        height: unset !important;
+        @include respond-to('sm') {
+            padding-left: 100px;
+        }
+
+        // @
+    }
+}
+
+hr {
+    border-top: 1px solid #999 !important;
+}

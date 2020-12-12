@@ -72,16 +72,20 @@ const Product = ({ match }) => {
                     </div>
 
                     <div className="row pb-5" style={{ padding: '0 15px' }}>
-                        {related.map((r, idx) => (
-                            <div
-                                key={r._id}
-                                className={`col-6 col-md-4 col-lg-3 col-xl-2 my-3 px-md-3 ${
-                                    idx % 2 === 0 ? 'pl-0 pr-2' : 'pr-0 pl-2'
-                                }`}
-                            >
-                                <ProductCard product={r} related={true} />
-                            </div>
-                        ))}
+                        {related && related.length > 0
+                            ? related.map((r, idx) => (
+                                  <div
+                                      key={r._id}
+                                      className={`col-6 col-md-4 col-lg-3 col-xl-2 my-3 px-md-3 ${
+                                          idx % 2 === 0
+                                              ? 'pl-0 pr-2'
+                                              : 'pr-0 pl-2'
+                                      }`}
+                                  >
+                                      <ProductCard product={r} />
+                                  </div>
+                              ))
+                            : null}
                     </div>
                 </>
             ) : null}

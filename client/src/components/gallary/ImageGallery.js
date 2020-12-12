@@ -1592,6 +1592,7 @@ export default class ImageGallery extends React.Component {
             thumbnailPosition,
             { 'thumbnails-wrapper-rtl': !this.isThumbnailVertical() && isRTL }
         );
+
         return (
             <div ref={this.imageGallery} className={igClass} aria-live="polite">
                 <div className={igContentClass}>

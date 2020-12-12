@@ -30,15 +30,15 @@ const Home = () => {
             <div className="pb-5 px-3 px-md-5 best-seller">
                 <BestSellers />
             </div>
-            {/* <div className="category-list jumbotron">
+            <div className="category-list jumbotron">
                 <h2 className="text-center pt-3 mb-5 category-list__title">
                     Shop By Category
                 </h2>
-                {/* <ul className="category-list__list">
+                <ul className="category-list__list">
                     <li className="category-list__list-item"></li>
-                </ul> */}
-            {/* <CategoryList /> */}
-            {/* </div> */}
+                </ul>
+                <CategoryList />
+            </div>
             {/* <h4 className="text-center p-3 mt-5 mb-5 display-4 jumbotron">
                 Sub Categories
             </h4> */}

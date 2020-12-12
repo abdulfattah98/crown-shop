@@ -149,26 +149,47 @@ const Sidebar = (props) => {
                         all categories
                     </p>
                     <li className="sidebar__categories-item">
-                        <Link to="/" className="sidebar__categories-item-link">
+                        <Link
+                            to="/shop"
+                            className="sidebar__categories-item-link"
+                        >
+                            <span className="link-text">Shop</span>
+                            {/* <AngleRightIcon className="link-icon" /> */}
+                        </Link>
+                    </li>
+                    <li className="sidebar__categories-item">
+                        <Link
+                            to="/category/smart-phone"
+                            className="sidebar__categories-item-link"
+                        >
                             <span className="link-text">Smartphones</span>
                             <AngleRightIcon className="link-icon" />
                         </Link>
                     </li>
                     <li className="sidebar__categories-item">
-                        <Link to="/" className="sidebar__categories-item-link">
-                            <span className="link-text">Smartphones</span>
+                        <Link
+                            to={`/category/laptop`}
+                            className="sidebar__categories-item-link"
+                        >
+                            <span className="link-text">Laptops</span>
                             <AngleRightIcon className="link-icon" />
                         </Link>
                     </li>
                     <li className="sidebar__categories-item">
-                        <Link to="/" className="sidebar__categories-item-link">
-                            <span className="link-text">Smartphones</span>
+                        <Link
+                            to="/category/tablet"
+                            className="sidebar__categories-item-link"
+                        >
+                            <span className="link-text">Tablets</span>
                             <AngleRightIcon className="link-icon" />
                         </Link>
                     </li>
                     <li className="sidebar__categories-item">
-                        <Link to="/" className="sidebar__categories-item-link">
-                            <span className="link-text">Smartphones</span>
+                        <Link
+                            to="/category/wearable"
+                            className="sidebar__categories-item-link"
+                        >
+                            <span className="link-text">Smartwatches</span>
                             <AngleRightIcon className="link-icon" />
                         </Link>
                     </li>

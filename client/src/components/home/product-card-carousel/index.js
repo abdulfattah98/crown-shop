@@ -12,8 +12,10 @@ const ProductCarousel = (props) => {
         nav: true,
         dots: false,
         slideBy: 3,
+        rewind: false,
+        mergeFit: true,
+
         margin: 10,
-        rewind: true,
         autoplay: false,
         navText: [
             "<i class='fa fa-chevron-left'></i>",
@@ -21,7 +23,7 @@ const ProductCarousel = (props) => {
         ],
         responsive: {
             1200: {
-                items: 5.5,
+                items: 5,
                 slideBy: 3,
             },
             1100: {
@@ -29,34 +31,23 @@ const ProductCarousel = (props) => {
                 slideBy: 3,
             },
             1024: {
-                items: 4.5,
+                items: 4,
                 slideBy: 3,
             },
             768: {
-                items: 3.2,
+                items: 3,
                 nav: false,
                 slideBy: 3,
             },
             500: {
-                items: 2.5,
+                items: 2,
                 slideBy: 1,
             },
-            400: {
-                items: 1.7,
+            0: {
+                items: 1,
                 slideBy: 1,
-            },
-            350: {
-                items: 1.5,
-                slideBy: 1,
-            },
-            300: {
-                items: 1.2,
-                slideBy: 1,
-            },
-            280: {
-                nav: false,
-                items: 1.1,
-                slideBy: 1,
+                stagePadding: 50,
+                margin: 25,
             },
         },
     };

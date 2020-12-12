@@ -25,7 +25,6 @@ exports.listAll = async (req, res) => {
         .sort([['createdAt', 'desc']])
         .exec();
     res.json(products);
-    console.log(products);
 };
 
 exports.remove = async (req, res) => {
@@ -93,7 +92,7 @@ exports.list = async (req, res) => {
         // createdAt/updatedAt, desc/asc, 3
         const { sort, order, page } = req.body;
         const currentPage = page || 1;
-        const perPage = 3; // 3
+        const perPage = 14; // 3
 
         const products = await Product.find({})
             .skip((currentPage - 1) * perPage)
@@ -157,7 +156,7 @@ exports.listRelated = async (req, res) => {
         _id: { $ne: product._id },
         category: product.category,
     })
-        .limit(3)
+        .limit(6)
         .populate('category')
         .populate('subs')
         .populate('postedBy')
@@ -330,4 +329,176 @@ exports.searchFilters = async (req, res) => {
         console.log('brand ---> ', brand);
         await handleBrand(req, res, brand);
     }
+};
+
+exports.searchFiltersCateg = async (req, res) => {
+    // console.log(req.body[0], req.body[1]);
+    //const catego = req.body[0]._id;
+    const ProductCategory = req.body[0]._id;
+    // console.log(ProductCategory);
+    const {
+        query,
+        price,
+        category,
+        stars,
+        sub,
+        shipping,
+        color,
+        brand,
+    } = req.body[1];
+
+    if (query) {
+        console.log('query --->', query);
+        await handleQueryCat(req, res, ProductCategory, query);
+    }
+
+    // price [20, 200]
+    if (price !== undefined) {
+        console.log('price ---> ', price);
+        await handlePriceCat(req, res, ProductCategory, price);
+    }
+
+    // if (category) {
+    //     console.log('category ---> ', category);
+    //     await handleCategoryCat(req, res, ProductCategory, category);
+    // }
+
+    if (stars) {
+        console.log('stars ---> ', stars);
+        await handleStarCat(req, res, ProductCategory, stars);
+    }
+
+    // if (sub) {
+    //     console.log('sub ---> ', sub);
+    //     await handleSubCat(req, res, ProductCategory, sub);
+    // }
+
+    if (shipping) {
+        console.log('shipping ---> ', shipping);
+        await handleShippingCat(req, res, ProductCategory, shipping);
+    }
+
+    if (color) {
+        console.log('color ---> ', color);
+        await handleColorCat(req, res, ProductCategory, color);
+    }
+
+    if (brand) {
+        console.log('brand ---> ', brand);
+        await handleBrandCat(req, res, ProductCategory, brand);
+    }
+};
+
+const handleQueryCat = async (req, res, ProductCategory, query) => {
+    const products = await Product.find({
+        $text: { $search: query },
+        category: ProductCategory,
+    })
+        .populate('category', '_id name')
+        .populate('subs', '_id name')
+        .populate('postedBy', '_id name')
+        .exec();
+
+    res.json(products);
+};
+
+const handlePriceCat = async (req, res, ProductCategory, price) => {
+    try {
+        let products = await Product.find({
+            price: {
+                $gte: price[0],
+                $lte: price[1],
+            },
+            category: ProductCategory,
+        })
+            .populate('category', '_id name')
+            .populate('subs', '_id name')
+            .populate('postedBy', '_id name')
+            .exec();
+        console.log(products.length);
+        res.json(products);
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+// const handleCategoryCat = async (req, res, ProductCategory, category) => {
+//     try {
+//         let products = await Product.find({ category })
+//             .populate('category', '_id name')
+//             .populate('subs', '_id name')
+//             .populate('postedBy', '_id name')
+//             .exec();
+
+//         res.json(products);
+//     } catch (err) {
+//         console.log(err);
+//     }
+// };
+
+const handleStarCat = (req, res, ProductCategory, stars) => {
+    Product.aggregate([
+        {
+            $project: {
+                document: '$$ROOT',
+                // title: "$title",
+                floorAverage: {
+                    $floor: { $avg: '$ratings.star' }, // floor value of 3.33 will be 3
+                },
+            },
+        },
+        { $match: { floorAverage: stars } },
+    ])
+        .limit(12)
+        .exec((err, aggregates) => {
+            if (err) console.log('AGGREGATE ERROR', err);
+            Product.find({ _id: aggregates, category: ProductCategory })
+                .populate('category', '_id name')
+                .populate('subs', '_id name')
+                .populate('postedBy', '_id name')
+                .exec((err, products) => {
+                    if (err) console.log('PRODUCT AGGREGATE ERROR', err);
+                    res.json(products);
+                });
+        });
+};
+
+// const handleSubCat = async (req, res, ProductCategory, sub) => {
+//     const products = await Product.find({ subs: sub })
+//         .populate('category', '_id name')
+//         .populate('subs', '_id name')
+//         .populate('postedBy', '_id name')
+//         .exec();
+
+//     res.json(products);
+// };
+
+const handleShippingCat = async (req, res, ProductCategory, shipping) => {
+    const products = await Product.find({ shipping, category: ProductCategory })
+        .populate('category', '_id name')
+        .populate('subs', '_id name')
+        .populate('postedBy', '_id name')
+        .exec();
+
+    res.json(products);
+};
+
+const handleColorCat = async (req, res, ProductCategory, color) => {
+    const products = await Product.find({ color, category: ProductCategory })
+        .populate('category', '_id name')
+        .populate('subs', '_id name')
+        .populate('postedBy', '_id name')
+        .exec();
+
+    res.json(products);
+};
+
+const handleBrandCat = async (req, res, ProductCategory, brand) => {
+    const products = await Product.find({ brand, category: ProductCategory })
+        .populate('category', '_id name')
+        .populate('subs', '_id name')
+        .populate('postedBy', '_id name')
+        .exec();
+
+    res.json(products);
 };

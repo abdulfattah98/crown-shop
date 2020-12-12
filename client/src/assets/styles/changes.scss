@@ -124,16 +124,14 @@
 
 .owl-stage {
     position: relative !important;
+    @include respond-to('sm') {
+        padding-left: 0 !important;
+    }
 }
 
 .owl-nav {
     margin-top: 0 !important;
-    @media only screen and (max-width: 768px) {
-        display: none;
-    }
-    @media only screen and (max-width: 768px) and (height: 1024px) {
-        display: block;
-    }
+
     & .owl-prev,
     & .owl-next {
         margin: 0 !important;
@@ -151,6 +149,9 @@
         opacity: 0.5 !important;
         @media only screen and (max-width: 992px) {
             top: 30%;
+        }
+        @include respond-to('sm') {
+            top: 40%;
         }
 
         & :hover {
@@ -915,8 +916,28 @@ input.form-control {
     }
 }
 
+.ant-input-number {
+    border: none !important;
+    outline: 1px solid #d8d8d8 !important;
+}
+
+.ant-input-number:hover {
+    // padding: 0;
+    // border: 0 !important;
+    border: none !important;
+    outline: 1px solid #b1b1b1 !important;
+}
+
+.ant-input-number-input-wrap:hover {
+    border: none !important;
+}
+
+.ant-input-number .ant-input-number-input:hover {
+    border: none !important;
+}
+
 .ant-input-number-focused {
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2) !important;
     & :not(:hover) * {
         border: none !important;
         box-shadow: none !important;
@@ -1125,11 +1146,13 @@ div.ant-modal[role='document'] {
 
 .plp-filters-loading {
     & .col-12 {
-        padding-bottom: 0 !important;
-        margin-bottom: 0 !important;
-        & :last-of-type {
-            padding-top: 0 !important;
-        }
+        padding-top: 0;
+        margin-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        // & :last-of-type {
+        //     padding-top: 0 !important;
+        // }
     }
     & .ant-card.ant-card-bordered {
         border: 0;
@@ -1140,5 +1163,37 @@ div.ant-modal[role='document'] {
         display: block !important;
         padding-bottom: 0;
         padding-top: 0;
+    }
+}
+
+.image-blur {
+    filter: blur(4px) !important;
+}
+
+.ant-menu.ant-menu-sub.ant-menu-inline > div div {
+    margin-bottom: 10px;
+}
+
+// .owl-carousel .owl-item {
+//     // min-width: 200px;
+//     width: 20px !important;
+// }
+
+// .owl-carousel .product {
+//     width: 220px;
+//     margin: auto;
+// }
+
+// .new-arrival .owl-carousel .owl-stage-outer {
+//     padding-right: 60px !important;
+//     box-shadow: border-box !important;
+//     width: auto !important;
+// }
+
+.main-banner .owl-carousel .owl-nav,
+.main-banner .owl-carousel .owl-nav .owl-prev,
+.main-banner .owl-carousel .owl-nav .owl-prev {
+    @include respond-to('sm') {
+        display: none !important;
     }
 }
