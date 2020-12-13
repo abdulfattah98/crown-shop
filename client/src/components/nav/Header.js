@@ -37,7 +37,7 @@ const Header = () => {
         const body = document.querySelector('body');
         if (showSidebar) {
             body.style.overflow = 'visible';
-            body.style.height = 'auto';
+            body.style.height = 'unset';
             body.style.position = 'relative';
             body.style.msTouchAction = 'auto';
             body.style.touchAction = 'auto';
