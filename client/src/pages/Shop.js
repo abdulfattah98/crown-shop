@@ -83,9 +83,11 @@ const Shop = () => {
         if (showFilters) {
             body.style.overflow = 'visible';
             body.style.height = 'auto';
+            body.style.position = 'relative';
         } else {
             body.style.overflow = 'hidden';
-            body.style.height = '100%';
+            body.style.height = '100vh';
+            body.style.position = 'fixed';
         }
         setShowFilters(!showFilters);
     };
