@@ -27,7 +27,7 @@ const CategoryHome = ({ match }) => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const [price, setPrice] = useState([1, 9000]);
+    const [price, setPrice] = useState([1, 3000]);
     const [ok, setOk] = useState(false);
     const [star, setStar] = useState(null);
     const [showFilters, setShowFilters] = useState(false);
@@ -89,6 +89,18 @@ const CategoryHome = ({ match }) => {
         fetchProducts({ price });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ok]);
+
+    const toggleFilter = () => {
+        const body = document.querySelector('body');
+        if (showFilters) {
+            body.style.overflow = 'visible';
+            body.style.height = 'auto';
+        } else {
+            body.style.overflow = 'hidden';
+            body.style.height = '100%';
+        }
+        setShowFilters(!showFilters);
+    };
 
     const handleSlider = (value) => {
         setwaitForFilter(true);
@@ -309,7 +321,7 @@ const CategoryHome = ({ match }) => {
                                 <div className="align-items-center d-flex">
                                     <button
                                         className="filters"
-                                        onClick={() => setShowFilters(true)}
+                                        onClick={toggleFilter}
                                     >
                                         FILTER
                                         <FilterIcon />
@@ -406,9 +418,7 @@ const CategoryHome = ({ match }) => {
                         >
                             <div className="filters-sm__top">
                                 <h2 className="title">Filter</h2>
-                                <CloseIcon
-                                    onClick={() => setShowFilters(false)}
-                                />
+                                <CloseIcon onClick={toggleFilter} />
                             </div>
                             <SubMenu
                                 className="products-filters__filter-outer"
@@ -426,9 +436,9 @@ const CategoryHome = ({ match }) => {
                                         className="ml-5 mr-4"
                                         tipFormatter={(v) => `JD${v}`}
                                         range
-                                        defaultValue={[1, 9000]}
+                                        defaultValue={[1, 3000]}
                                         onChange={handleSlider}
-                                        max="9000"
+                                        max="3000"
                                     />
                                 </div>
                             </SubMenu>
@@ -541,9 +551,9 @@ const CategoryHome = ({ match }) => {
                                             className="ml-5 mr-4"
                                             tipFormatter={(v) => `$${v}`}
                                             range
-                                            defaultValue={[1, 9000]}
+                                            defaultValue={[1, 3000]}
                                             onChange={handleSlider}
-                                            max="9000"
+                                            max="3000"
                                         />
                                     </div>
                                 </SubMenu>
@@ -688,7 +698,7 @@ const CategoryHome = ({ match }) => {
                                             </div>
                                         );
                                     })
-                                ) : !products || products.length < 1 ? (
+                                ) : products.length < 1 ? (
                                     <>
                                         <div className="text-center mx-auto">
                                             <NotFoundIcon className="not-found-icon" />

@@ -26,7 +26,7 @@ const Shop = () => {
     const [products, setProducts] = useState([]);
     const [view, setView] = useState('grid');
     const [loading, setLoading] = useState(true);
-    const [price, setPrice] = useState([1, 9000]);
+    const [price, setPrice] = useState([1, 3000]);
     const [ok, setOk] = useState(false);
     const [categories, setCategories] = useState([]);
     const [categoryIds, setCategoryIds] = useState([]);
@@ -80,10 +80,12 @@ const Shop = () => {
 
     const toggleFilter = () => {
         const body = document.querySelector('body');
-        if ([...body.classList].includes('stop-scrolling')) {
-            body.classList.remove('stop-scrolling');
+        if (showFilters) {
+            body.style.overflow = 'visible';
+            body.style.height = 'auto';
         } else {
-            body.classList.add('stop-scrolling');
+            body.style.overflow = 'hidden';
+            body.style.height = '100%';
         }
         setShowFilters(!showFilters);
     };
@@ -125,6 +127,7 @@ const Shop = () => {
         getProductsByCount().then((p) => {
             setProducts(p.data);
             setLoading(false);
+            setwaitForFilter(false);
         });
     };
 
@@ -569,9 +572,9 @@ const Shop = () => {
                                         className="ml-5 mr-4"
                                         tipFormatter={(v) => `JD${v}`}
                                         range
-                                        defaultValue={[1, 9000]}
+                                        defaultValue={[1, 3000]}
                                         onChange={handleSlider}
-                                        max="9000"
+                                        max="3000"
                                     />
                                 </div>
                             </SubMenu>
@@ -699,9 +702,9 @@ const Shop = () => {
                                             className="ml-5 mr-4"
                                             tipFormatter={(v) => `$${v}`}
                                             range
-                                            defaultValue={[1, 9000]}
+                                            defaultValue={[1, 3000]}
                                             onChange={handleSlider}
-                                            max="9000"
+                                            max="3000"
                                         />
                                     </div>
                                 </SubMenu>
@@ -879,9 +882,10 @@ const Shop = () => {
                                             >
                                                 <Link
                                                     to="/shop"
-                                                    onClick={() =>
-                                                        loadAllProducts()
-                                                    }
+                                                    onClick={() => {
+                                                        setwaitForFilter(true);
+                                                        loadAllProducts();
+                                                    }}
                                                 >
                                                     CONTINUE SHOPPING
                                                 </Link>

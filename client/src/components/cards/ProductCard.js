@@ -87,8 +87,8 @@ const ProductCard = ({ product, caption }) => {
     //setCurrentImages(images);
 
     let productName = title;
-    if (title.length > 35) {
-        productName = `${title.slice(0, 35)}...`;
+    if (title.length > 45) {
+        productName = `${title.slice(0, 45)}...`;
     }
     return (
         // <>

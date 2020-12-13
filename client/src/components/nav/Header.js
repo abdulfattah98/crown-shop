@@ -35,10 +35,12 @@ const Header = () => {
 
     const toggleSidebar = () => {
         const body = document.querySelector('body');
-        if ([...body.classList].includes('stop-scrolling')) {
-            body.classList.remove('stop-scrolling');
+        if (showSidebar) {
+            body.style.overflow = 'visible';
+            body.style.height = 'auto';
         } else {
-            body.classList.add('stop-scrolling');
+            body.style.overflow = 'hidden';
+            body.style.height = '100%';
         }
         setShowSidebar(!showSidebar);
     };

@@ -101,21 +101,15 @@ const Sidebar = (props) => {
                     </li>
                     <li className="sidebar__main-links__item">
                         <Link
-                            to={`${user ? '/' : '/signup'}`}
+                            to={`${user ? '/' : '/login'}`}
                             className="sidebar__main-links__item-link"
                             onClick={logout}
                         >
                             <div className="icon-container position-relative">
                                 {!user ? (
-                                    <SignupIcon
-                                        style={{ marginLeft: '1px' }}
-                                        className="sidebar__main-links__item-link-icon"
-                                    />
+                                    <SignupIcon className="sidebar__main-links__item-link-icon" />
                                 ) : (
-                                    <LogoutIcon
-                                        style={{ marginLeft: '1px' }}
-                                        className="sidebar__main-links__item-link-icon"
-                                    />
+                                    <LogoutIcon className="sidebar__main-links__item-link-icon" />
                                 )}
                             </div>
                             <span className="sidebar__main-links__item-link-text">

@@ -45,7 +45,7 @@ const SideDrawer = () => {
             visible={drawer}
         >
             {cart.map((p) => (
-                <div key={p._id} className="drawer">
+                <div key={`${p._id} color ${p.color}`} className="drawer">
                     {p.images[0] ? (
                         <div className="d-flex align-items-center product-container">
                             <div className="image-container">

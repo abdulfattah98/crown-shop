@@ -20,7 +20,7 @@ const ProductCardInCheckout = ({ p }) => {
     const { user } = useSelector((state) => ({ ...state }));
 
     let dispatch = useDispatch();
-    const [counter, setCounter] = useState(p.count);
+    const [counter, setCounter] = useState(p ? p.count : 1);
 
     const addtowish = async (id) => {
         await addToWishlist(id, user.token);
@@ -48,37 +48,38 @@ const ProductCardInCheckout = ({ p }) => {
     };
 
     useEffect(() => {
-        const handleQuantityChange = (value) => {
-            let count = value < 1 ? 1 : value;
-
-            if (count > p.quantity) {
-                toast.error(`Max available quantity: ${p.quantity}`);
-                return;
-            }
-
-            let cart = [];
-
-            if (typeof window !== 'undefined') {
-                if (localStorage.getItem('cart')) {
-                    cart = JSON.parse(localStorage.getItem('cart'));
-                }
-
-                cart.map((product, i) => {
-                    if (product._id === p._id && p.color === product.color) {
-                        cart[i].count = count;
-                    }
-                    return 0;
-                });
-                localStorage.setItem('cart', JSON.stringify(cart));
-                dispatch({
-                    type: 'ADD_TO_CART',
-                    payload: cart,
-                });
-            }
-        };
         handleQuantityChange(counter);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [counter]);
+
+    const handleQuantityChange = (value) => {
+        let count = value < 1 ? 1 : value;
+
+        if (count > p.quantity) {
+            toast.error(`Max available quantity: ${p.quantity}`);
+            return;
+        }
+
+        let cart = [];
+
+        if (typeof window !== 'undefined') {
+            if (localStorage.getItem('cart')) {
+                cart = JSON.parse(localStorage.getItem('cart'));
+            }
+
+            cart.map((product, i) => {
+                if (product._id === p._id && p.color === product.color) {
+                    cart[i].count = count;
+                }
+                return 0;
+            });
+            localStorage.setItem('cart', JSON.stringify(cart));
+            dispatch({
+                type: 'ADD_TO_CART',
+                payload: cart,
+            });
+        }
+    };
 
     const handleMinus = () => {
         setCounter(counter - 1);
@@ -93,7 +94,7 @@ const ProductCardInCheckout = ({ p }) => {
             }
             // [1,2,3,4,5]
             cart.map((product, i) => {
-                if (product._id === p._id) {
+                if (product._id === p._id && p.color === product.color) {
                     cart.splice(i, 1);
                 }
                 return 0;
@@ -213,13 +214,15 @@ const ProductCardInCheckout = ({ p }) => {
                         </div>
                     </div>
                     <div className="product-control d-none d-sm-flex">
-                        <div
-                            className="move-product"
-                            onClick={() => addtowish(p._id)}
-                        >
-                            <WishlistIcon className="icon" />
-                            <span>Move To Wishlist</span>
-                        </div>
+                        {user ? (
+                            <div
+                                className="move-product"
+                                onClick={() => addtowish(p._id)}
+                            >
+                                <WishlistIcon className="icon" />
+                                <span>Move To Wishlist</span>
+                            </div>
+                        ) : null}
                         <div className="remove-product" onClick={handleRemove}>
                             <DeleteIcon className="icon" />
                             <span>Remove</span>
@@ -228,10 +231,15 @@ const ProductCardInCheckout = ({ p }) => {
                 </div>
             </div>
             <div className="product-control--sm d-flex d-sm-none">
-                <div className="move-product" onClick={() => addtowish(p._id)}>
-                    <WishlistIcon className="icon" />
-                    <span>Move To Wishlist</span>
-                </div>
+                {user ? (
+                    <div
+                        className="move-product"
+                        onClick={() => addtowish(p._id)}
+                    >
+                        <WishlistIcon className="icon" />
+                        <span>Move To Wishlist</span>
+                    </div>
+                ) : null}
                 <div className="remove-product" onClick={handleRemove}>
                     <DeleteIcon className="icon" />
                     <span>Remove</span>

@@ -10,7 +10,7 @@ const Gallery = ({ images }) => {
     });
     return (
         <>
-            <div className="d-none d-lg-block">
+            <div className="d-none d-xl-block">
                 <ImageGallery
                     thumbnailPosition={'left'}
                     showNav={false}
@@ -18,9 +18,28 @@ const Gallery = ({ images }) => {
                     items={newImages}
                 />
             </div>
-            <div className="d-none d-sm-block d-lg-none">
+            <div className="d-none d-lg-block d-xl-none">
                 <ImageGallery
                     thumbnailPosition={'left'}
+                    notComputer={true}
+                    showNav={false}
+                    showPlayButton={false}
+                    items={newImages}
+                />
+            </div>
+            <div className="d-none d-md-block d-lg-none">
+                <ImageGallery
+                    thumbnailPosition={'bottom'}
+                    notComputer={true}
+                    showNav={false}
+                    showPlayButton={false}
+                    items={newImages}
+                />
+            </div>
+            <div className="d-none d-sm-block d-md-none">
+                <ImageGallery
+                    thumbnailPosition={'left'}
+                    notComputer={true}
                     showNav={false}
                     showPlayButton={false}
                     items={newImages}
@@ -29,6 +48,7 @@ const Gallery = ({ images }) => {
             <div className="d-block d-sm-none">
                 <ImageGallery
                     thumbnailPosition={'bottom'}
+                    notComputer={true}
                     showNav={false}
                     showPlayButton={false}
                     items={newImages}

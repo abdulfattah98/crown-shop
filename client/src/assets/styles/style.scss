@@ -544,7 +544,7 @@ form {
     }
 
     &__top {
-        padding: 10px;
+        padding: 20px 10px;
         width: 100%;
         border-bottom: 1px solid #f7f7f7;
         justify-content: space-between;
@@ -593,8 +593,8 @@ form {
                     justify-content: center;
                 }
                 &-icon {
-                    width: 50%;
-                    height: 50%;
+                    width: 55%;
+                    height: 55%;
                     fill: #333;
                 }
                 &-icon.new-icon {
@@ -723,6 +723,9 @@ form {
                 color: $color-blue-light;
                 font-size: 14px;
                 color: #38ae04;
+                @include respond-to('sm') {
+                    font-size: 12px;
+                }
             }
             &-value {
                 // @include font-family;
@@ -730,6 +733,9 @@ form {
                 font-size: 20px;
                 color: #38ae04;
                 font-weight: 900;
+                @include respond-to('sm') {
+                    font-size: 16px;
+                }
             }
         }
     }
@@ -740,7 +746,7 @@ form {
 
     &__name {
         font-size: 14px;
-        height: 37px;
+        height: 40px;
         display: inline-block;
         color: #404553;
         line-height: 1.4;
@@ -1075,7 +1081,7 @@ form {
         padding: 0;
         padding: 2rem 0;
         & .copyright {
-            color: #b2bbd2;
+            color: #404553;
             font-size: 12px;
             @include respond-to('md') {
                 text-align: center;
@@ -3093,7 +3099,7 @@ form {
         left: 50%;
         bottom: 0;
         transform: translateX(-50%);
-        @media only screen and (max-width: 1100px) {
+        @media only screen and (max-width: 1200px) {
             display: none;
         }
     }
@@ -3468,9 +3474,4 @@ hr {
     margin: 10px;
     fill: white;
     // margin-top: -1px;
-}
-
-.stop-scrolling {
-    overflow: hidden !important;
-    touch-action: none !important;
 }

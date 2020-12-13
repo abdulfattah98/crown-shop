@@ -1421,24 +1421,27 @@ export default class ImageGallery extends React.Component {
                     </picture>
                 ) : (
                     <>
-                        {/* <img
-                            className="image-gallery-image xxxxxxxxxxxxxx"
-                            src={itemSrc}
-                            alt={item.originalAlt}
-                            srcSet={item.srcSet}
-                            sizes={item.sizes}
-                            title={item.originalTitle}
-                            onLoad={(event) =>
-                                this.handleImageLoaded(event, item)
-                            }
-                            onError={handleImageError}
-                        /> */}
-                        <GlassMagnifier
-                            imageSrc={itemSrc}
-                            magnifierSize="40%"
-                            magnifierBorderSize={0}
-                            imageAlt={item.originalAlt}
-                        />
+                        {this.props.notComputer ? (
+                            <img
+                                className="image-gallery-image xxxxxxxxxxxxxx"
+                                src={itemSrc}
+                                alt={item.originalAlt}
+                                srcSet={item.srcSet}
+                                sizes={item.sizes}
+                                title={item.originalTitle}
+                                onLoad={(event) =>
+                                    this.handleImageLoaded(event, item)
+                                }
+                                onError={handleImageError}
+                            />
+                        ) : (
+                            <GlassMagnifier
+                                imageSrc={itemSrc}
+                                magnifierSize="40%"
+                                magnifierBorderSize={0}
+                                imageAlt={item.originalAlt}
+                            />
+                        )}
                     </>
                 )}
 
