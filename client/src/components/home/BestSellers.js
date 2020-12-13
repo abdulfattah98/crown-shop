@@ -1,30 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { getProducts, getProductsCount } from '../../functions/product';
+import { getProducts } from '../../functions/product';
 import ProductCardCarousel from '../home/product-card-carousel/index';
 
 import ProductCard from '../cards/ProductCard';
 import LoadingCard from '../cards/LoadingCard';
 // import { Pagination } from 'antd';
 
+import { Card, Skeleton } from 'antd';
+
 const BestSellers = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
     // eslint-disable-next-line
-    const [productsCount, setProductsCount] = useState(0);
-    const [page, setPage] = useState(1);
 
     useEffect(() => {
         loadAllProducts();
-    }, [page]);
-
-    useEffect(() => {
-        getProductsCount().then((res) => setProductsCount(res.data));
+        // getProductsCount();
     }, []);
 
     const loadAllProducts = () => {
         setLoading(true);
         // sort, order, limit
-        getProducts('sold', 'desc', page).then((res) => {
+        getProducts('sold', 'desc', 1).then((res) => {
             setProducts(res.data);
             setLoading(false);
         });
@@ -44,7 +41,47 @@ const BestSellers = () => {
                         <LoadingCard count={3} />
                     </div>
                     <div className="d-block d-md-none">
-                        <LoadingCard count={1} />
+                        <ProductCardCarousel>
+                            <Card
+                                style={{
+                                    height: '300px',
+                                    width: '220px',
+                                    paddingTop: '130px',
+                                }}
+                            >
+                                <Skeleton
+                                    width={100}
+                                    height={100}
+                                    active
+                                ></Skeleton>
+                            </Card>
+                            <Card
+                                style={{
+                                    height: '300px',
+                                    width: '220px',
+                                    paddingTop: '130px',
+                                }}
+                            >
+                                <Skeleton
+                                    width={100}
+                                    height={100}
+                                    active
+                                ></Skeleton>
+                            </Card>
+                            <Card
+                                style={{
+                                    height: '300px',
+                                    width: '220px',
+                                    paddingTop: '130px',
+                                }}
+                            >
+                                <Skeleton
+                                    width={100}
+                                    height={100}
+                                    active
+                                ></Skeleton>
+                            </Card>
+                        </ProductCardCarousel>
                     </div>
                 </>
             ) : (

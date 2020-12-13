@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     getProductsByCount,
     fetchProductsByFilter,
@@ -7,28 +7,22 @@ import {
 import { Link, useLocation } from 'react-router-dom';
 import LoadingCard from '../components/cards/LoadingCard';
 import { getCategories } from '../functions/category';
-import { getSubs } from '../functions/sub';
 import { useSelector, useDispatch } from 'react-redux';
 import ProductCard from '../components/cards/ProductCard';
 import { Menu, Slider, Checkbox, Radio } from 'antd';
 import ProductCardRow from '../components/cards/ProductCardRow';
-import {
-    DollarOutlined,
-    DownSquareOutlined,
-    StarOutlined,
-} from '@ant-design/icons';
+
 import Star from '../components/forms/Star';
 
-import { ReactComponent as AngleDownIcon } from './angle-down.svg';
 import { ReactComponent as FilterIcon } from './filter.svg';
 import { ReactComponent as ListIcon } from './list.svg';
 import { ReactComponent as GridIcon } from './grid.svg';
 import { ReactComponent as CloseIcon } from './close.svg';
 import { ReactComponent as NotFoundIcon } from './notfound.svg';
 
-const { SubMenu, ItemGroup } = Menu;
+const { SubMenu } = Menu;
 
-const Shop = ({ history }) => {
+const Shop = () => {
     const [products, setProducts] = useState([]);
     const [view, setView] = useState('grid');
     const [loading, setLoading] = useState(true);
@@ -37,9 +31,9 @@ const Shop = ({ history }) => {
     const [categories, setCategories] = useState([]);
     const [categoryIds, setCategoryIds] = useState([]);
     const [star, setStar] = useState(null);
-    const [subs, setSubs] = useState([]);
+    // const [subs, setSubs] = useState([]);
     const [showFilters, setShowFilters] = useState(false);
-    const [sub, setSub] = useState('');
+    // eslint-disable-next-line no-unused-vars
     const [brands, setBrands] = useState([
         'Apple',
         'Samsung',
@@ -47,10 +41,7 @@ const Shop = ({ history }) => {
         'Lenovo',
         'ASUS',
     ]);
-    const [allowPrice, setallowPrice] = useState(false);
-    const [viewLoading, setViewLoading] = useState(false);
-    const [waitForFilter, setwaitForFilter] = useState(false);
-    const [brand, setBrand] = useState('');
+    // eslint-disable-next-line no-unused-vars
     const [colors, setColors] = useState([
         'Black',
         'Brown',
@@ -58,6 +49,10 @@ const Shop = ({ history }) => {
         'White',
         'Blue',
     ]);
+    const [allowPrice, setallowPrice] = useState(false);
+    const [viewLoading, setViewLoading] = useState(false);
+    const [waitForFilter, setwaitForFilter] = useState(false);
+    const [brand, setBrand] = useState('');
     const [color, setColor] = useState('');
     const [shipping, setShipping] = useState('');
 
@@ -69,12 +64,11 @@ const Shop = ({ history }) => {
         // fetch categories
         getCategories().then((res) => setCategories(res.data));
         // fetch subcategories
-        getSubs().then((res) => setSubs(res.data));
+        // getSubs().then((res) => setSubs(res.data));
     }, []);
 
     const fetchProducts = (arg) => {
         fetchProductsByFilter(arg).then((res) => {
-            console.log(arg, '------->', res.data);
             setProducts([...res.data]);
             //console.log(products);
             if (text) {
@@ -93,6 +87,7 @@ const Shop = ({ history }) => {
             fetchProducts({ price });
             setallowPrice(false);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ok]);
 
     // const firstUpdate = useRef(true);
@@ -112,6 +107,7 @@ const Shop = ({ history }) => {
         if (showFilters) {
             setShowFilters(false);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location]);
 
     // 1. load products by default on page load
@@ -125,11 +121,8 @@ const Shop = ({ history }) => {
     // 2. load products on user search input
     useEffect(() => {
         const delayed = setTimeout(() => {
-            console.log(text);
-
             setPrice([0, 0]);
             setStar('');
-            setSub('');
             setBrand('');
             setColor('');
             setShipping('');
@@ -137,11 +130,11 @@ const Shop = ({ history }) => {
             fetchProducts({ query: text });
             if (!text && allowPrice !== true) {
                 loadAllProducts();
-                console.log('load all ');
                 // setPrice([0, 9000]);
             }
         }, 300);
         return () => clearTimeout(delayed);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [text]);
 
     // 3. load products based on price range
@@ -220,7 +213,6 @@ const Shop = ({ history }) => {
             });
             setPrice([0, 0]);
             setStar('');
-            setSub('');
             setBrand('');
             setColor('');
             setShipping('');
@@ -251,7 +243,6 @@ const Shop = ({ history }) => {
             });
             setPrice([0, 0]);
             setStar('');
-            setSub('');
             setBrand('');
             setColor('');
             setShipping('');
@@ -286,7 +277,6 @@ const Shop = ({ history }) => {
         setPrice([0, 0]);
         setCategoryIds([]);
         setStar(num);
-        setSub('');
         setBrand('');
         setColor('');
         setShipping('');
@@ -312,41 +302,12 @@ const Shop = ({ history }) => {
         return stars;
     };
 
-    // 6. show products by sub category
-    const showSubs = () =>
-        subs.map((s) => (
-            <div
-                key={s._id}
-                onClick={() => handleSub(s)}
-                className="p-1 m-1 badge badge-secondary"
-                style={{ cursor: 'pointer' }}
-            >
-                {s.name}
-            </div>
-        ));
-
-    const handleSub = (sub) => {
-        setwaitForFilter(true);
-        setSub(sub);
-        dispatch({
-            type: 'SEARCH_QUERY',
-            payload: { text: '' },
-        });
-        setPrice([0, 0]);
-        setCategoryIds([]);
-        setStar('');
-        setBrand('');
-        setColor('');
-        setShipping('');
-        fetchProducts({ sub });
-    };
-
     // 7. show products based on brand name
     const showBrands = () => {
         return (
             <div className="row">
                 {brands.map((b) => (
-                    <div className="col-6 mb-1">
+                    <div key={b} className="col-6 mb-1">
                         <Radio
                             key={b}
                             value={b}
@@ -365,7 +326,6 @@ const Shop = ({ history }) => {
 
     const handleBrand = (e) => {
         setwaitForFilter(true);
-        setSub('');
         dispatch({
             type: 'SEARCH_QUERY',
             payload: { text: '' },
@@ -396,7 +356,6 @@ const Shop = ({ history }) => {
 
     const handleColor = (e) => {
         setwaitForFilter(true);
-        setSub('');
         dispatch({
             type: 'SEARCH_QUERY',
             payload: { text: '' },
@@ -435,7 +394,6 @@ const Shop = ({ history }) => {
 
     const handleShippingchange = (e) => {
         setwaitForFilter(true);
-        setSub('');
         dispatch({
             type: 'SEARCH_QUERY',
             payload: { text: '' },
@@ -458,7 +416,10 @@ const Shop = ({ history }) => {
         >
             {loading ? (
                 <div className="row py-5" style={{ height: '150vh' }}>
-                    <div className="col-xl-3 col-md-4 px-0 d-none d-md-block">
+                    <div
+                        className="col-xl-3 col-md-4 px-0 d-none d-md-block"
+                        style={{ marginTop: `${loading ? '-33px' : ''}` }}
+                    >
                         <LoadingCard isPlpFilters={true} count={2} />
                     </div>
                     <div className="col-12 col-md-8 px-0 col-xl-9">
@@ -468,13 +429,13 @@ const Shop = ({ history }) => {
             ) : (
                 <>
                     <div className="row">
-                        <div className="d-none d-md-block col-md-4 col-lg-3"></div>
+                        <div className="d-none d-md-block col-md-4 col-lg-3 py-1"></div>
                         <div
-                            className={`col-12 col-md-8 col-lg-9 px-0 pl-md-3 white-bg mb-4 border-0 ${
+                            className={`col-12 col-md-8 col-lg-9 py-2 px-0 pl-md-3 white-bg mb-4 border-0 ${
                                 products.length >= 1 ? 'pt-md-4' : ''
                             }`}
                         >
-                            <div className="views-filters d-flex d-md-none py-3">
+                            <div className="views-filters d-flex d-md-none py-2">
                                 <span className="products-found">
                                     {products.length >= 1
                                         ? `${products.length} products found`
@@ -507,7 +468,7 @@ const Shop = ({ history }) => {
                                     </button>
                                 </div>
                             </div>
-                            <div className="views d-none d-md-block">
+                            <div className="views d-none d-md-block py-1">
                                 {view === 'grid' ? (
                                     <div className="row align-items-center justify-content-between">
                                         <div className="col-5 pl-3">

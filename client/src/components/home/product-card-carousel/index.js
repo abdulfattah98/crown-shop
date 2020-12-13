@@ -24,11 +24,11 @@ const ProductCarousel = (props) => {
         responsive: {
             1200: {
                 items: 5,
-                slideBy: 3,
+                slideBy: 4,
             },
             1100: {
                 items: 5,
-                slideBy: 3,
+                slideBy: 4,
             },
             1024: {
                 items: 4,
@@ -36,8 +36,7 @@ const ProductCarousel = (props) => {
             },
             768: {
                 items: 3,
-                nav: false,
-                slideBy: 3,
+                slideBy: 2,
             },
             500: {
                 items: 2,
@@ -47,7 +46,8 @@ const ProductCarousel = (props) => {
                 items: 1,
                 slideBy: 1,
                 stagePadding: 50,
-                margin: 25,
+                margin: 0,
+                // margin: 25,
             },
         },
     };

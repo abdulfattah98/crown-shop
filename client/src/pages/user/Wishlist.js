@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import UserNav from '../../components/nav/UserNav';
-import { getWishlist, removeWishlist } from '../../functions/user';
+import { getWishlist } from '../../functions/user';
 import { useSelector, useDispatch } from 'react-redux';
 import { currentUser } from '../../functions/auth';
+import LoadingCard from '../../components/cards/LoadingCard';
 
 import { Link } from 'react-router-dom';
 // import { DeleteOutlined } from '@ant-design/icons';
@@ -12,11 +13,14 @@ import ProductCardRow from '../../components/cards/ProductCardRow';
 
 const Wishlist = () => {
     const [wishlist, setWishlist] = useState([]);
+    const [loading, setLoading] = useState(true);
+
     const { user } = useSelector((state) => ({ ...state }));
     let dispatch = useDispatch();
 
     useEffect(() => {
         loadWishlist();
+        setLoading(true);
 
         currentUser(user.token)
             .then((res) => {
@@ -33,17 +37,14 @@ const Wishlist = () => {
                 });
             })
             .catch((err) => console.log(err));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const loadWishlist = () =>
         getWishlist(user.token).then((res) => {
             // console.log(res);
             setWishlist(res.data.wishlist);
-        });
-
-    const handleRemove = (productId) =>
-        removeWishlist(productId, user.token).then((res) => {
-            loadWishlist();
+            setLoading(false);
         });
 
     return (
@@ -61,42 +62,46 @@ const Wishlist = () => {
                             >
                                 <DeleteOutlined className="text-danger" />
                             </span> */}
-                    <div className="wishlist h-100">
-                        {wishlist.length ? (
-                            <div className="wishlist__products">
-                                {wishlist.map((p) => {
-                                    return (
-                                        <ProductCardRow
-                                            loadWishlist={loadWishlist}
-                                            key={p._id}
-                                            p={p}
-                                            wishListCard={true}
-                                        />
-                                    );
-                                })}
-                            </div>
-                        ) : (
-                            <div className="d-flex align-items-center justify-content-center h-100 mb-5">
-                                <div className="text-center">
-                                    <h4 className="no-thing__title">
-                                        You don't have wishlist yet
-                                    </h4>
-                                    <p className="no-thing__subtitle">
-                                        What are you waiting for? Start
-                                        shopping!
-                                    </p>
-                                    <button
-                                        className="form-save-button no-thing-button"
-                                        // style={{ width: 'unset' }}
-                                    >
-                                        <Link to="/shop">
-                                            CONTINUE SHOPPING
-                                        </Link>
-                                    </button>
+                    {loading ? (
+                        <LoadingCard isPlPCardList={true} count={8} />
+                    ) : (
+                        <div className="wishlist h-100">
+                            {wishlist.length ? (
+                                <div className="wishlist__products">
+                                    {wishlist.map((p) => {
+                                        return (
+                                            <ProductCardRow
+                                                loadWishlist={loadWishlist}
+                                                key={p._id}
+                                                p={p}
+                                                wishListCard={true}
+                                            />
+                                        );
+                                    })}
                                 </div>
-                            </div>
-                        )}
-                    </div>
+                            ) : (
+                                <div className="d-flex align-items-center justify-content-center h-100 mb-5">
+                                    <div className="text-center">
+                                        <h4 className="no-thing__title">
+                                            You don't have wishlist yet
+                                        </h4>
+                                        <p className="no-thing__subtitle">
+                                            What are you waiting for? Start
+                                            shopping!
+                                        </p>
+                                        <button
+                                            className="form-save-button no-thing-button"
+                                            // style={{ width: 'unset' }}
+                                        >
+                                            <Link to="/shop">
+                                                CONTINUE SHOPPING
+                                            </Link>
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

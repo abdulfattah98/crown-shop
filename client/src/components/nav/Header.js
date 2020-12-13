@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, Badge } from 'antd';
-import {
-    AppstoreOutlined,
-    SettingOutlined,
-    UserOutlined,
-    UserAddOutlined,
-    LogoutOutlined,
-    ShoppingOutlined,
-    ShoppingCartOutlined,
-} from '@ant-design/icons';
+
 import { Link, useLocation } from 'react-router-dom';
 import firebase from 'firebase';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,6 +8,8 @@ import Search from '../forms/Search';
 import SearchSm from '../forms/SearchSm';
 import Sidebar from './Sidebar/index';
 
+import Logo from '../../images/logo.png';
+
 // SVGs
 import { ReactComponent as SearchIcon } from './searchIcon.svg';
 import { ReactComponent as CartIcon } from './shopping-cart.svg';
@@ -24,17 +17,13 @@ import { ReactComponent as MenuIcon } from './menu.svg';
 import { ReactComponent as UserIcon } from './Sidebar/user.svg';
 import { ReactComponent as AngleUpIcon } from './angle-up.svg';
 import { ReactComponent as AngleDownIcon } from './angle-down.svg';
-import { ReactComponent as AddressIcon } from './address.svg';
 import { ReactComponent as OrdersIcon } from './orders.svg';
 import { ReactComponent as NotWishlistIcon } from './notwishlist.svg';
 import { ReactComponent as AddProductIcon } from './add-product.svg';
 import { ReactComponent as ProductsIcon } from './grid.svg';
 import { ReactComponent as AddCouponIcon } from './coupon.svg';
 
-const { SubMenu, Item } = Menu;
-
 const Header = () => {
-    const [current, setCurrent] = useState('home');
     const [showSidebar, setShowSidebar] = useState(false);
     const [showSearch, setShowSearch] = useState(false);
     const [showMyAccount, setShowMyAccount] = useState(false);
@@ -63,12 +52,8 @@ const Header = () => {
                 setShowMyAccount(false);
             }, 1);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location]);
-
-    const handleClick = (e) => {
-        // console.log(e.key);
-        setCurrent(e.key);
-    };
 
     const logout = () => {
         firebase.auth().signOut();
@@ -175,9 +160,9 @@ const Header = () => {
                         />
                         <Link to="/">
                             <img
-                                src="https://k.nooncdn.com/s/app/2019/noon-bigalog/834d8570fc98b1d548b377b56874b12f3c589710/static/images/noon_logo_black_english.svg"
+                                src={Logo}
                                 className="Navbar__logo-logo"
-                                alt=""
+                                alt="crown"
                             />
                         </Link>
                     </div>

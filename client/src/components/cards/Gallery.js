@@ -1,26 +1,5 @@
 import ImageGallery from '../gallary/ImageGallery';
-import Resizer from 'react-image-file-resizer';
 import React from 'react';
-// const images = [
-//     {
-//         original:
-//             'https://y-store-media-trendsquare67.s3.amazonaws.com/sys-trendsquare/images/hfa/hcc/8800715046942',
-//         thumbnail:
-//             'https://y-store-media-trendsquare67.s3.amazonaws.com/sys-trendsquare/images/hfa/hcc/8800715046942',
-//     },
-//     {
-//         original:
-//             'https://y-store-media-trendsquare67.s3.amazonaws.com/sys-trendsquare/images/hfa/hcc/8800715046942',
-//         thumbnail:
-//             'https://y-store-media-trendsquare67.s3.amazonaws.com/sys-trendsquare/images/hfa/hcc/8800715046942',
-//     },
-//     {
-//         original:
-//             'https://y-store-media-trendsquare67.s3.amazonaws.com/sys-trendsquare/images/hfa/hcc/8800715046942',
-//         thumbnail:
-//             'https://y-store-media-trendsquare67.s3.amazonaws.com/sys-trendsquare/images/hfa/hcc/8800715046942',
-//     },
-// ];
 
 const Gallery = ({ images }) => {
     const newImages = images.map((image) => {

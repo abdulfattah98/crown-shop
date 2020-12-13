@@ -13,6 +13,7 @@ const CategoryUpdate = ({ history, match }) => {
 
     useEffect(() => {
         loadCategory();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const loadCategory = () =>

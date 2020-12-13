@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import ModalImage from 'react-modal-image';
 import laptop from '../../images/laptop.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import {
-    CheckCircleOutlined,
-    CloseCircleOutlined,
-    CloseOutlined,
-    Tooltip,
-} from '@ant-design/icons';
+
 import SoldOut from '../../images/sold-out.png';
 
 import { RadioButton, RadioGroup } from '@trendmicro/react-radio';
@@ -23,8 +16,7 @@ import { currentUser } from '../../functions/auth';
 import { ReactComponent as NotWishlistIcon } from './notwishlist.svg';
 import { ReactComponent as DeleteIcon } from './delete.svg';
 import { ReactComponent as WishlistIcon } from './wishlist.svg';
-import { ReactComponent as MinusIcon } from './minus.svg';
-import { ReactComponent as PlusIcon } from './plus.svg';
+
 import { ReactComponent as CartIcon } from './shopping-cart.svg';
 
 const ProductCardRow = ({ p, wishListCard, loadWishlist }) => {
@@ -32,16 +24,8 @@ const ProductCardRow = ({ p, wishListCard, loadWishlist }) => {
     const [counter, setCounter] = useState(1);
     const [currentColor, setCurrentColor] = useState(p.color[0]);
     const [currentImages, setCurrentImages] = useState();
-    const [tooltip, setTooltip] = useState('Click to add');
 
     const { user } = useSelector((state) => ({ ...state }));
-
-    const handlePlus = () => {
-        setCounter(counter + 1);
-    };
-    const handleMinus = () => {
-        setCounter(counter - 1);
-    };
 
     const loadcolorimages = (value) => {
         if (!currentImages) {
@@ -96,7 +80,6 @@ const ProductCardRow = ({ p, wishListCard, loadWishlist }) => {
         loadcolorimages(currentColor);
     });
     const changeColor = (e) => {
-        console.log(e.target.value);
         setCurrentColor(e.target.value);
         const currentImgs = p.images.filter(
             (image) => image.color === e.target.value
@@ -152,6 +135,7 @@ const ProductCardRow = ({ p, wishListCard, loadWishlist }) => {
 
                     sameProduct = true;
                 }
+                return 0;
             });
             if (!sameProduct) {
                 cart.push({
@@ -171,7 +155,6 @@ const ProductCardRow = ({ p, wishListCard, loadWishlist }) => {
             // console.log('unique', unique)
             localStorage.setItem('cart', JSON.stringify(cart));
             // show tooltip
-            setTooltip('Added');
 
             // add to reeux state
             dispatch({
@@ -302,7 +285,7 @@ const ProductCardRow = ({ p, wishListCard, loadWishlist }) => {
                                 {p.color &&
                                     p.color.map((c, index) => {
                                         let v = false;
-                                        if (currentColor == c) {
+                                        if (currentColor === c) {
                                             v = true;
                                         }
                                         return (

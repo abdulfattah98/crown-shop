@@ -5,6 +5,9 @@ import ProductCardInCheckout from '../components/cards/ProductCardInCheckout';
 import { userCart } from '../functions/user';
 // import Wishlist from './user/Wishlist';
 
+import { ReactComponent as CreditIcon } from './credit-card.svg';
+import COD from './cash.png';
+
 import { ReactComponent as EmptyCartIcon } from './orders-empty.svg';
 
 const Cart = ({ history }) => {
@@ -21,7 +24,6 @@ const Cart = ({ history }) => {
         // console.log("cart", JSON.stringify(cart, null, 4));
         userCart(cart, user.token)
             .then((res) => {
-                console.log('CART POST RES', res);
                 if (res.data.ok) history.push('/checkout');
             })
             .catch((err) => console.log('cart save err', err));
@@ -61,8 +63,8 @@ const Cart = ({ history }) => {
         //     ))}
         // </table>
         <div className="cart__products">
-            {cart.map((p) => (
-                <ProductCardInCheckout key={p._id} p={p} />
+            {cart.map((p, idx) => (
+                <ProductCardInCheckout key={idx} p={p} />
             ))}
         </div>
     );
@@ -156,7 +158,8 @@ const Cart = ({ history }) => {
                                                     className="online"
                                                     disabled={!cart.length}
                                                 >
-                                                    Proceed to Checkout
+                                                    <CreditIcon className="payment-method-icon" />
+                                                    Payment
                                                 </button>
                                             </div>
 
@@ -166,7 +169,12 @@ const Cart = ({ history }) => {
                                                     className="cash"
                                                     disabled={!cart.length}
                                                 >
-                                                    Pay Cash on Delivery
+                                                    <img
+                                                        className="payment-method-icon"
+                                                        src={COD}
+                                                        alt="cash on delivery"
+                                                    />
+                                                    Cash on Delivery
                                                 </button>
                                             </div>
                                         </>

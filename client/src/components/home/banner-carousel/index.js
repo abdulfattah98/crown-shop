@@ -35,68 +35,68 @@ const BannerCarousel = (props) => {
             <div>
                 <img
                     src={Banner4}
-                    // alt=""
+                    alt="banner4"
                     className="banner-image d-none d-lg-block"
                 />
                 <img
                     src={Banner4Md}
-                    // alt=""
+                    alt="banner4-md"
                     className="banner-image d-none d-md-block d-lg-none"
                 />
                 <img
                     src={Banner4Sm}
-                    // alt=""
+                    alt="banner4-sm"
                     className="banner-image d-block d-md-none"
                 />
             </div>
             <div>
                 <img
                     src={Banner1}
-                    // alt=""
+                    alt="banner1"
                     className="banner-image d-none d-lg-block"
                 />
                 <img
                     src={Banner1Md}
-                    // alt=""
+                    alt="banner1-md"
                     className="banner-image d-none d-md-block d-lg-none"
                 />
                 <img
                     src={Banner1Sm}
-                    // alt=""
+                    alt="banner1-sm"
                     className="banner-image d-block d-md-none"
                 />
             </div>
             <div>
                 <img
                     src={Banner2}
-                    // alt=""
+                    alt="banner2"
                     className="banner-image d-none d-lg-block"
                 />
                 <img
                     src={Banner2Md}
-                    // alt=""
+                    alt="banner2-md"
                     className="banner-image d-none d-md-block d-lg-none"
                 />
                 <img
                     src={Banner2Sm}
-                    // alt=""
+                    alt="banner2-sm"
                     className="banner-image d-block d-md-none"
                 />
             </div>
             <div>
                 <img
                     src={Banner3}
-                    // alt=""
+                    alt="banner3"
                     className="banner-image d-none d-lg-block"
                 />
                 <img
                     src={Banner3Md}
-                    // alt=""
+                    alt="banner3-md"
                     className="banner-image d-none d-md-block d-lg-none"
                 />
                 <img
                     src={Banner3Sm}
-                    // alt=""
+                    alt="banner3-sm"
                     className="banner-image d-block d-md-none"
                 />
             </div>

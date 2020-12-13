@@ -1,98 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Tooltip } from 'antd';
-import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import laptop from '../../images/laptop.png';
 import { Link } from 'react-router-dom';
 import { showAverage } from '../../functions/rating';
-import _ from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeWishlist, addToWishlist } from '../../functions/user';
 import { currentUser } from '../../functions/auth';
 //SVGs
-import { ReactComponent as CartIcon } from './shopping-cart.svg';
 import { ReactComponent as NotWishlistIcon } from './notwishlist.svg';
 import { ReactComponent as WishlistIcon } from './wishlist.svg';
-import { ReactComponent as MinusIcon } from './minus.svg';
-import { ReactComponent as PlusIcon } from './plus.svg';
 
 import SoldOut from '../../images/sold-out.png';
 
-import Wishlist from '../../pages/user/Wishlist';
 import { RadioButton, RadioGroup } from '@trendmicro/react-radio';
 
 import Star from '../forms/Star';
 
-const { Meta } = Card;
-
 const ProductCard = ({ product, caption }) => {
-    const [tooltip, setTooltip] = useState('Click to add');
-
     const [currentColor, setCurrentColor] = useState(product.color[0]);
     const [currentImages, setCurrentImages] = useState();
-    const [counter, setCounter] = useState(1);
 
     // redux
-    const { user, cart } = useSelector((state) => ({ ...state }));
+    const { user } = useSelector((state) => ({ ...state }));
     const dispatch = useDispatch();
 
-    const handleAddToCart = () => {
-        // create cart array
-
-        let cart = [];
-        if (typeof window !== 'undefined') {
-            // if cart is in local storage GET it
-            if (!localStorage.getItem('cart')) {
-                localStorage.setItem('cart', JSON.stringify(cart));
-            }
-            cart = JSON.parse(localStorage.getItem('cart'));
-
-            const productAddToCart = {
-                ...product,
-                images: currentImages,
-                color: currentColor,
-                count: counter,
-            };
-            let sameProduct = false;
-            cart.filter((p) => {
-                if (
-                    p._id === productAddToCart._id &&
-                    p.color === productAddToCart.color
-                ) {
-                    p.count += productAddToCart.count;
-
-                    sameProduct = true;
-                }
-            });
-            if (!sameProduct) {
-                cart.push({
-                    ...product,
-                    images: currentImages,
-                    color: currentColor,
-                    count: counter,
-                });
-            }
-            setCounter(1);
-            // push new product to cart
-            // remove duplicates
-
-            // save to local storage
-            // console.log('unique', unique)
-            localStorage.setItem('cart', JSON.stringify(cart));
-            // show tooltip
-            setTooltip('Added');
-
-            // add to reeux state
-            dispatch({
-                type: 'ADD_TO_CART',
-                payload: cart,
-            });
-            // show cart items in side drawer
-            dispatch({
-                type: 'SET_VISIBLE',
-                payload: true,
-            });
-        }
-    };
     const removetowish = (id) => {
         removeWishlist(id, user.token);
         currentUser(user.token)
@@ -144,13 +74,6 @@ const ProductCard = ({ product, caption }) => {
         loadcolorimages(currentColor);
     });
 
-    const handlePlus = () => {
-        setCounter(counter + 1);
-    };
-    const handleMinus = () => {
-        setCounter(counter - 1);
-    };
-
     const changeColor = (e) => {
         setCurrentColor(e.target.value);
         const currentImgs = images.filter(
@@ -160,7 +83,7 @@ const ProductCard = ({ product, caption }) => {
     };
 
     // destructure
-    const { images, title, description, slug, price, color } = product;
+    const { images, title, slug, price, color } = product;
     //setCurrentImages(images);
 
     let productName = title;
@@ -273,7 +196,7 @@ const ProductCard = ({ product, caption }) => {
                             {color &&
                                 color.map((c, index) => {
                                     let v = false;
-                                    if (currentColor == c) {
+                                    if (currentColor === c) {
                                         v = true;
                                     }
                                     return (

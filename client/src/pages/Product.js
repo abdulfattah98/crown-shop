@@ -4,6 +4,7 @@ import SingleProduct from '../components/cards/SingleProduct';
 import { useSelector } from 'react-redux';
 import { getRelated } from '../functions/product';
 import ProductCard from '../components/cards/ProductCard';
+import ProductCarousel from '../components/home/product-card-carousel/index';
 
 const Product = ({ match }) => {
     const [product, setProduct] = useState({});
@@ -16,8 +17,10 @@ const Product = ({ match }) => {
 
     useEffect(() => {
         loadSingleProduct();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [slug]);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         if (product.ratings && user) {
             let existingRatingObject = product.ratings.find(
@@ -37,14 +40,12 @@ const Product = ({ match }) => {
 
     const onStarClick = (newRating, name) => {
         setStar(newRating);
-        console.table(newRating, name);
         productStar(name, newRating, user.token).then((res) => {
-            console.log('rating clicked', res.data);
             loadSingleProduct(); // if you want to show updated rating in real time
         });
     };
     return (
-        <div className="">
+        <div className="related-products">
             <div className="bg-white" style={{ padding: '0 15px' }}>
                 {product ? (
                     <SingleProduct
@@ -71,21 +72,14 @@ const Product = ({ match }) => {
                         </div>
                     </div>
 
-                    <div className="row pb-5" style={{ padding: '0 15px' }}>
-                        {related && related.length > 0
-                            ? related.map((r, idx) => (
-                                  <div
-                                      key={r._id}
-                                      className={`col-6 col-md-4 col-lg-3 col-xl-2 my-3 px-md-3 ${
-                                          idx % 2 === 0
-                                              ? 'pl-0 pr-2'
-                                              : 'pr-0 pl-2'
-                                      }`}
-                                  >
-                                      <ProductCard product={r} />
-                                  </div>
-                              ))
-                            : null}
+                    <div className="pb-5" style={{ padding: '0 15px' }}>
+                        <ProductCarousel>
+                            {related && related.length > 0
+                                ? related.map((r) => (
+                                      <ProductCard key={r._id} product={r} />
+                                  ))
+                                : null}
+                        </ProductCarousel>
                     </div>
                 </>
             ) : null}

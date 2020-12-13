@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Select, InputNumber, Avatar, Badge } from 'antd';
+import { Select, InputNumber } from 'antd';
 import { useSelector } from 'react-redux';
 import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
@@ -20,19 +20,12 @@ const ProductCreateForm = ({
 }) => {
     // destructure
     const {
-        title,
-        description,
-        price,
         categories,
-        category,
-        subs,
-        shipping,
-        quantity,
+
         images,
         colors,
         brands,
         color,
-        brand,
     } = values;
 
     const { user } = useSelector((state) => ({ ...state }));
@@ -63,6 +56,7 @@ const ProductCreateForm = ({
         } else {
             setLoading(false);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentColors]);
 
     const handleColorImagesRemove = async (value) => {
@@ -73,11 +67,9 @@ const ProductCreateForm = ({
         const deletedColor = [...color].find(
             (c) => !colorObj.hasOwnProperty(c)
         );
-        console.log(deletedColor);
         const imgs = images.filter((image) => image.color === deletedColor);
-        console.log(imgs);
 
-        if (deletedColor == undefined || imgs.length === 0) {
+        if (deletedColor === undefined || imgs.length === 0) {
             setLoading(false);
         }
 
@@ -316,7 +308,6 @@ const ProductCreateForm = ({
                             onChange={(value) => {
                                 // setValues({ ...values, color: value });
                                 setLoading(true);
-                                console.log(value);
                                 setCurrentColors(value);
                             }}
                         >
@@ -347,7 +338,7 @@ const ProductCreateForm = ({
                                         ? 'd-flex align-items-center justify-content-center bg-light'
                                         : ''
                                 }`}
-                                style={{ minHeight: '0', minHeight: '15rem' }}
+                                style={{ minHeight: '15rem' }}
                             >
                                 {!loading ? (
                                     values.images.map((image) => {
@@ -380,7 +371,9 @@ const ProductCreateForm = ({
                                                     <div className="image-container">
                                                         <img
                                                             src={image.url}
-                                                            alt="product image"
+                                                            alt={
+                                                                image.public_id
+                                                            }
                                                         />
                                                     </div>
                                                 </div>

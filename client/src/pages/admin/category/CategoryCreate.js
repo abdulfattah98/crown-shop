@@ -10,7 +10,6 @@ import {
 import { Link } from 'react-router-dom';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import CategoryForm from '../../../components/forms/CategoryForm';
-import LocalSearch from '../../../components/forms/LocalSearch';
 
 import { Card } from 'antd';
 const { Meta } = Card;
@@ -22,6 +21,7 @@ const CategoryCreate = () => {
     const [loading, setLoading] = useState(false);
     const [categories, setCategories] = useState([]);
     // step 1
+    // eslint-disable-next-line no-unused-vars
     const [keyword, setKeyword] = useState('');
 
     useEffect(() => {
@@ -70,9 +70,6 @@ const CategoryCreate = () => {
         }
     };
 
-    // step 4
-    const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword);
-
     return (
         <div className="container-fluid dashboard">
             <div className="row">
@@ -98,7 +95,7 @@ const CategoryCreate = () => {
 
                     {/* step 5 */}
                     <div className="row">
-                        {categories.filter(searched(keyword)).map((c) => {
+                        {categories.map((c) => {
                             const name = c.name;
                             return (
                                 <div className="col-6 col-lg-3 col-md-4 px-2 mb-3">

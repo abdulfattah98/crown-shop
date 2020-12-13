@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import ModalImage from 'react-modal-image';
 import laptop from '../../images/laptop.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import {
-    CheckCircleOutlined,
-    CloseCircleOutlined,
-    CloseOutlined,
-} from '@ant-design/icons';
+import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 
 import { Link } from 'react-router-dom';
 import { showAverage } from '../../functions/rating';
@@ -22,35 +17,10 @@ import { ReactComponent as MinusIcon } from './minus.svg';
 import { ReactComponent as PlusIcon } from './plus.svg';
 
 const ProductCardInCheckout = ({ p }) => {
-    const colors = ['Black', 'Brown', 'Silver', 'White', 'Blue'];
     const { user } = useSelector((state) => ({ ...state }));
 
     let dispatch = useDispatch();
     const [counter, setCounter] = useState(p.count);
-
-    const handleColorChange = (e) => {
-        console.log('color changed', e.target.value);
-
-        let cart = [];
-        if (typeof window !== 'undefined') {
-            if (localStorage.getItem('cart')) {
-                cart = JSON.parse(localStorage.getItem('cart'));
-            }
-
-            cart.map((product, i) => {
-                if (product._id === p._id) {
-                    cart[i].color = e.target.value;
-                }
-            });
-
-            //  console.log('cart udpate color', cart)
-            localStorage.setItem('cart', JSON.stringify(cart));
-            dispatch({
-                type: 'ADD_TO_CART',
-                payload: cart,
-            });
-        }
-    };
 
     const addtowish = async (id) => {
         await addToWishlist(id, user.token);
@@ -68,46 +38,46 @@ const ProductCardInCheckout = ({ p }) => {
                         wishlist: res.data.wishlist,
                     },
                 });
-                handleRemove(p._id);
+                return handleRemove(p._id);
             })
             .catch((err) => console.log(err));
     };
 
-    const handleQuantityChange = (value) => {
-        // console.log("available quantity", p.quantity);
-        let count = value < 1 ? 1 : value;
-
-        if (count > p.quantity) {
-            toast.error(`Max available quantity: ${p.quantity}`);
-            return;
-        }
-
-        let cart = [];
-
-        if (typeof window !== 'undefined') {
-            if (localStorage.getItem('cart')) {
-                cart = JSON.parse(localStorage.getItem('cart'));
-            }
-
-            cart.map((product, i) => {
-                if (product._id == p._id) {
-                    cart[i].count = count;
-                }
-            });
-            console.log(cart);
-            localStorage.setItem('cart', JSON.stringify(cart));
-            dispatch({
-                type: 'ADD_TO_CART',
-                payload: cart,
-            });
-        }
-    };
     const handlePlus = () => {
         setCounter(counter + 1);
     };
 
     useEffect(() => {
+        const handleQuantityChange = (value) => {
+            let count = value < 1 ? 1 : value;
+
+            if (count > p.quantity) {
+                toast.error(`Max available quantity: ${p.quantity}`);
+                return;
+            }
+
+            let cart = [];
+
+            if (typeof window !== 'undefined') {
+                if (localStorage.getItem('cart')) {
+                    cart = JSON.parse(localStorage.getItem('cart'));
+                }
+
+                cart.map((product, i) => {
+                    if (product._id === p._id && p.color === product.color) {
+                        cart[i].count = count;
+                    }
+                    return 0;
+                });
+                localStorage.setItem('cart', JSON.stringify(cart));
+                dispatch({
+                    type: 'ADD_TO_CART',
+                    payload: cart,
+                });
+            }
+        };
         handleQuantityChange(counter);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [counter]);
 
     const handleMinus = () => {
@@ -115,7 +85,6 @@ const ProductCardInCheckout = ({ p }) => {
     };
 
     const handleRemove = () => {
-        // console.log(p._id, "to remove");
         let cart = [];
 
         if (typeof window !== 'undefined') {
@@ -127,6 +96,7 @@ const ProductCardInCheckout = ({ p }) => {
                 if (product._id === p._id) {
                     cart.splice(i, 1);
                 }
+                return 0;
             });
 
             localStorage.setItem('cart', JSON.stringify(cart));
@@ -151,7 +121,7 @@ const ProductCardInCheckout = ({ p }) => {
                         </Link>
                     ) : (
                         <Link to={`/product/${p.slug}`}>
-                            <img src={laptop} alt="no image provided" />
+                            <img src={laptop} alt={`${p.title}`} />
                         </Link>
                         // <ModalImage small={laptop} large={laptop} />
                     )}

@@ -11,11 +11,11 @@ const AdminDashboard = () => {
 
     useEffect(() => {
         loadOrders();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const loadOrders = () =>
         getOrders(user.token).then((res) => {
-            console.log(JSON.stringify(res.data, null, 4));
             setOrders(res.data);
         });
 

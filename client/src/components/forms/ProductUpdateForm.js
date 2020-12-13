@@ -29,7 +29,6 @@ const ProductUpdateForm = ({
         description,
         price,
         category,
-        subs,
         shipping,
         quantity,
         images,
@@ -71,6 +70,7 @@ const ProductUpdateForm = ({
         } else {
             setLoading(false);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentColors]);
 
     const handleColorImagesRemove = async (value) => {
@@ -81,12 +81,9 @@ const ProductUpdateForm = ({
         const deletedColor = [...color].find(
             (c) => !colorObj.hasOwnProperty(c)
         );
-        console.log(deletedColor);
         const imgs = images.filter((image) => image.color === deletedColor);
-        console.log(imgs);
 
-        if (deletedColor == undefined || imgs.length === 0) {
-            console.log('hhh');
+        if (deletedColor === undefined || imgs.length === 0) {
             setLoading(false);
         }
 
@@ -342,7 +339,7 @@ const ProductUpdateForm = ({
                                         ? 'd-flex align-items-center justify-content-center bg-light'
                                         : ''
                                 }`}
-                                style={{ minHeight: '0', minHeight: '15rem' }}
+                                style={{ minHeight: '15rem' }}
                             >
                                 {!loading ? (
                                     values.images.map((image) => {
@@ -380,7 +377,9 @@ const ProductUpdateForm = ({
                                                     <div className="image-container">
                                                         <img
                                                             src={image.url}
-                                                            alt="product image"
+                                                            alt={
+                                                                image.public_id
+                                                            }
                                                         />
                                                     </div>
                                                 </div>

@@ -85,19 +85,18 @@ const ProductCreate = () => {
 
     // eslint-disable-next-line
     useEffect(() => {
+        const loadCategories = () =>
+            getCategories().then((c) =>
+                setValues({ ...values, categories: c.data })
+            );
         loadCategories();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    const loadCategories = () =>
-        getCategories().then((c) =>
-            setValues({ ...values, categories: c.data })
-        );
 
     const handleSubmit = (e) => {
         e.preventDefault();
         createProduct(values, user.token)
             .then((res) => {
-                console.log(res);
                 window.alert(`"${res.data.title}" is created`);
                 window.location.reload();
             })
@@ -122,7 +121,6 @@ const ProductCreate = () => {
         if (!e.target) {
             setValues({ ...values, subs: [], category: e });
             getCategorySubs(e).then((res) => {
-                console.log('SUB OPTIONS ON CATGORY CLICK', res);
                 setSubOptions(res.data);
             });
             setShowSub(true);

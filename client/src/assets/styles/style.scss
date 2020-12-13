@@ -645,11 +645,10 @@ form {
                 height: 100%;
                 width: 100%;
                 padding: 2rem 0;
-                @media (hover: hover) {
-                    &:active,
-                    &:hover {
-                        color: $color-dark;
-                    }
+
+                &:active,
+                &:hover {
+                    color: $color-dark;
                 }
 
                 color: $color-dark;
@@ -821,8 +820,11 @@ form {
         position: absolute;
         top: 10px;
         left: 2px;
+        display: inline-block;
+        // padding-top: 5px;
         z-index: 2;
         padding: 0.2rem 0.5rem;
+        padding-top: 3px;
         background-color: #ff4a4a;
         & span {
             // @include font-family;
@@ -1905,6 +1907,7 @@ form {
             align-items: center;
             justify-content: center;
             width: 100%;
+            font-weight: bold;
             font-size: 13px;
             text-transform: uppercase;
             background-color: rgb(43, 76, 215);
@@ -2811,6 +2814,7 @@ form {
 .no-thing-button {
     width: unset !important;
     font-size: 15px;
+    margin-top: 10px;
     padding: 0;
     background-color: rgb(56, 102, 223);
     & a {
@@ -3408,11 +3412,12 @@ hr {
 // background-color: #d6d6d6 !important;
 
 .sold-out {
-    margin: auto;
+    // margin: auto;
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
+    margin: 0;
     bottom: 0;
     z-index: 5;
     width: 70% !important;
@@ -3433,7 +3438,32 @@ hr {
         // @
     }
 }
+.orders-loading {
+    & .ant-card {
+        display: flex;
+        align-items: center !important;
+        padding-left: 0 !important;
+        // max-height: 200px;
+        min-height: 186px;
+        height: unset !important;
+        padding-left: 0 !important;
+        padding-top: 200px;
+        // @include respond-to('sm') {
+        //     padding-left: 100px;
+        // }
+
+        // @
+    }
+}
 
 hr {
     border-top: 1px solid #999 !important;
+}
+
+.payment-method-icon {
+    width: 20px;
+    height: 20px;
+    margin: 10px;
+    fill: white;
+    // margin-top: -1px;
 }

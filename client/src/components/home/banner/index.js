@@ -1,7 +1,7 @@
 import React from 'react';
 
-import IPhone from '../../../images/iphone-lg.png';
-import IPhoneSm from '../../../images/iphone-sm.png';
+import IPhone from '../../../images/iphone-lg.gif';
+import IPhoneSm from '../../../images/iphone-sm.gif';
 
 const Banner = () => {
     return (

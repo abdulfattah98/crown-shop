@@ -39,16 +39,13 @@ const FileUpload = ({ values, setValues, setLoading }) => {
                                 }
                             )
                             .then((res) => {
-                                console.log('IMAGE UPLOAD RES DATA', res);
                                 setLoading(false);
-                                console.log(res.data);
                                 // const color_img = {};
                                 const new_data = {
                                     ...res.data,
                                     color: color_item,
                                 };
                                 //new_data.push(color_img)
-                                console.log(new_data);
                                 allUploadedFiles.push(new_data);
 
                                 setValues({
@@ -102,7 +99,6 @@ const FileUpload = ({ values, setValues, setLoading }) => {
                             style={{ width: '100%' }}
                             placeholder="Select Color"
                             onChange={(value) => {
-                                console.log(value);
                                 setColor_item(value);
                             }}
                         >

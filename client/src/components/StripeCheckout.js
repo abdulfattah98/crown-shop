@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import React, { useState, useEffect } from 'react';
+import { useStripe, useElements } from '@stripe/react-stripe-js';
 import { useSelector, useDispatch } from 'react-redux';
 import { createPaymentIntent } from '../functions/stripe';
-import { Link } from 'react-router-dom';
 import { createOrder, emptyUserCart } from '../functions/user';
 // import Cardpayment from '../components/cardpayment';
 import Card from 'react-credit-cards';
@@ -11,13 +10,14 @@ import {
     formatCreditCardNumber,
     formatCVC,
     formatExpirationDate,
-    formatFormData,
 } from './utils';
-const StripeCheckout = ({ history }) => {
+const StripeCheckout = () => {
     const dispatch = useDispatch();
     const { user, coupon } = useSelector((state) => ({ ...state }));
 
+    // eslint-disable-next-line no-unused-vars
     const [succeeded, setSucceeded] = useState(false);
+    // eslint-disable-next-line no-unused-vars
     const [error, setError] = useState(null);
     const [processing, setProcessing] = useState('');
     const [disabled, setDisabled] = useState(true);
@@ -28,10 +28,14 @@ const StripeCheckout = ({ history }) => {
     const [cvc, setCvc] = useState('');
     const [issuer, setIssuer] = useState('');
     const [focused, setFocused] = useState('');
+    // eslint-disable-next-line no-unused-vars
     const [formData, setFormData] = useState('');
 
+    // eslint-disable-next-line no-unused-vars
     const [cartTotal, setCartTotal] = useState(0);
+    // eslint-disable-next-line no-unused-vars
     const [totalAfterDiscount, setTotalAfterDiscount] = useState(0);
+    // eslint-disable-next-line no-unused-vars
     const [payable, setPayable] = useState(0);
 
     const stripe = useStripe();
@@ -39,13 +43,13 @@ const StripeCheckout = ({ history }) => {
 
     useEffect(() => {
         createPaymentIntent(user.token, coupon).then((res) => {
-            console.log('create payment intent', res.data);
             setClientSecret(res.data.clientSecret);
             // additional response received on successful payment
             setCartTotal(res.data.cartTotal);
             setTotalAfterDiscount(res.data.totalAfterDiscount);
             setPayable(res.data.payable);
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleCallback = ({ issuer }, isValid) => {
@@ -133,18 +137,10 @@ const StripeCheckout = ({ history }) => {
                 }
             });
             // empty user cart from redux store and local storage
-            console.log(JSON.stringify(payload, null, 4));
             setError(null);
             setProcessing(false);
             setSucceeded(true);
         }
-    };
-
-    const handleChange = async (e) => {
-        // listen for changes in the card element
-        // and display any errors as the custoemr types their card details
-        setDisabled(e.empty); // disable pay button if errors
-        setError(e.error ? e.error.message : ''); // show error message
     };
 
     return (

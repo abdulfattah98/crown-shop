@@ -51,7 +51,6 @@ const Login = ({ history }) => {
             // console.log(result);
             const { user } = result;
             const idTokenResult = await user.getIdTokenResult();
-            console.log(idTokenResult);
             createOrUpdateUser(idTokenResult.token)
                 .then((res) => {
                     dispatch({

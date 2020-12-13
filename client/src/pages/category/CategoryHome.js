@@ -1,35 +1,26 @@
 import React, { useState, useEffect } from 'react';
 
-import {
-    getProductsByCount,
-    fetchProductsByFilterCat,
-} from '../../functions/product';
+import { fetchProductsByFilterCat } from '../../functions/product';
 
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import LoadingCard from '../../components/cards/LoadingCard';
 
 // import { getSubs } from '../functions/sub';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getCategory } from '../../functions/category';
 import ProductCard from '../../components/cards/ProductCard';
 
 import { Menu, Slider, Checkbox, Radio } from 'antd';
 import ProductCardRow from '../../components/cards/ProductCardRow';
-import {
-    DollarOutlined,
-    DownSquareOutlined,
-    StarOutlined,
-} from '@ant-design/icons';
+
 import Star from '../../components/forms/Star';
 
-import { ReactComponent as AngleDownIcon } from './angle-down.svg';
-// import { ReactComponent as AngleUpIcon } from './angle-up.svg';
 import { ReactComponent as FilterIcon } from './filter.svg';
 import { ReactComponent as ListIcon } from './list.svg';
 import { ReactComponent as GridIcon } from './grid.svg';
 import { ReactComponent as CloseIcon } from './close.svg';
 import { ReactComponent as NotFoundIcon } from './notfound.svg';
-const { SubMenu, ItemGroup } = Menu;
+const { SubMenu } = Menu;
 
 const CategoryHome = ({ match }) => {
     const [category, setCategory] = useState({});
@@ -39,9 +30,9 @@ const CategoryHome = ({ match }) => {
     const [price, setPrice] = useState([1, 9000]);
     const [ok, setOk] = useState(false);
     const [star, setStar] = useState(null);
-    const [subs, setSubs] = useState([]);
     const [showFilters, setShowFilters] = useState(false);
-    const [sub, setSub] = useState('');
+
+    // eslint-disable-next-line no-unused-vars
     const [brands, setBrands] = useState([
         'Apple',
         'Samsung',
@@ -49,9 +40,7 @@ const CategoryHome = ({ match }) => {
         'Lenovo',
         'ASUS',
     ]);
-    const [viewLoading, setViewLoading] = useState(false);
-    const [waitForFilter, setwaitForFilter] = useState(false);
-    const [brand, setBrand] = useState('');
+    // eslint-disable-next-line no-unused-vars
     const [colors, setColors] = useState([
         'Black',
         'Brown',
@@ -59,6 +48,9 @@ const CategoryHome = ({ match }) => {
         'White',
         'Blue',
     ]);
+    const [viewLoading, setViewLoading] = useState(false);
+    const [waitForFilter, setwaitForFilter] = useState(false);
+    const [brand, setBrand] = useState('');
     const [color, setColor] = useState('');
     const [shipping, setShipping] = useState('');
     const [view, setView] = useState('grid');
@@ -70,7 +62,6 @@ const CategoryHome = ({ match }) => {
     useEffect(() => {
         setLoading(true);
         getCategory(slug).then((res) => {
-            console.log(JSON.stringify(res.data, null, 4));
             setCategory(res.data.category);
             setProducts(res.data.products);
             setLoading(false);
@@ -78,7 +69,6 @@ const CategoryHome = ({ match }) => {
     }, [slug]);
 
     const fetchProducts = (arg) => {
-        console.log(category);
         fetchProductsByFilterCat([category, arg]).then((res) => {
             //console.log(res);
             setProducts(res.data);
@@ -92,10 +82,12 @@ const CategoryHome = ({ match }) => {
         if (showFilters) {
             setShowFilters(false);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location]);
 
     useEffect(() => {
         fetchProducts({ price });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ok]);
 
     const handleSlider = (value) => {
@@ -129,7 +121,6 @@ const CategoryHome = ({ match }) => {
         setPrice([0, 0]);
         // setCategoryIds([]);
         setStar(num);
-        setSub('');
         setBrand('');
         setColor('');
         setShipping('');
@@ -159,7 +150,7 @@ const CategoryHome = ({ match }) => {
         return (
             <div className="row">
                 {brands.map((b) => (
-                    <div className="col-6 mb-1">
+                    <div key={b} className="col-6 mb-1">
                         <Radio
                             key={b}
                             value={b}
@@ -178,7 +169,6 @@ const CategoryHome = ({ match }) => {
 
     const handleBrand = (e) => {
         setwaitForFilter(true);
-        setSub('');
         dispatch({
             type: 'SEARCH_QUERY',
             payload: { text: '' },
@@ -209,7 +199,6 @@ const CategoryHome = ({ match }) => {
 
     const handleColor = (e) => {
         setwaitForFilter(true);
-        setSub('');
         dispatch({
             type: 'SEARCH_QUERY',
             payload: { text: '' },
@@ -247,7 +236,6 @@ const CategoryHome = ({ match }) => {
 
     const handleShippingchange = (e) => {
         setwaitForFilter(true);
-        setSub('');
         dispatch({
             type: 'SEARCH_QUERY',
             payload: { text: '' },
@@ -293,7 +281,10 @@ const CategoryHome = ({ match }) => {
         >
             {loading ? (
                 <div className="row py-5" style={{ height: '150vh' }}>
-                    <div className="col-xl-3 col-md-4 px-0 d-none d-md-block">
+                    <div
+                        className="col-xl-3 col-md-4 px-0 d-none d-md-block"
+                        style={{ marginTop: `${loading ? '-33px' : ''}` }}
+                    >
                         <LoadingCard isPlpFilters={true} count={2} />
                     </div>
                     <div className="col-12 col-md-8 px-0 col-xl-9">
@@ -303,13 +294,13 @@ const CategoryHome = ({ match }) => {
             ) : (
                 <>
                     <div className="row">
-                        <div className="d-none d-md-block col-md-4 col-lg-3"></div>
+                        <div className="d-none d-md-block col-md-4 col-lg-3 py-1"></div>
                         <div
-                            className={`col-12 col-md-8 col-lg-9 px-0 pl-md-3 white-bg mb-4 border-0 ${
+                            className={`col-12 col-md-8 col-lg-9 py-2 px-0 pl-md-3 white-bg mb-4 border-0 ${
                                 products.length >= 1 ? 'pt-md-4' : ''
                             }`}
                         >
-                            <div className="views-filters d-flex d-md-none py-3">
+                            <div className="views-filters d-flex d-md-none py-2">
                                 <span className="products-found">
                                     {products.length >= 1
                                         ? `${products.length} Products Found In ${category.name}`
@@ -699,7 +690,7 @@ const CategoryHome = ({ match }) => {
                                     })
                                 ) : !products || products.length < 1 ? (
                                     <>
-                                        {/* <div className="text-center mx-auto">
+                                        <div className="text-center mx-auto">
                                             <NotFoundIcon className="not-found-icon" />
                                             <h4 className="no-thing__title mt-4">
                                                 We couldn’t find what you were
@@ -709,20 +700,7 @@ const CategoryHome = ({ match }) => {
                                                 We have many other products that
                                                 you may like!
                                             </p>
-                                            <button
-                                                className="form-save-button no-thing-button"
-                                                style={{ height: 'unset' }}
-                                            >
-                                                <Link
-                                                    to="/shop"
-                                                    onClick={() =>
-                                                        loadAllProducts()
-                                                    }
-                                                >
-                                                    CONTINUE SHOPPING
-                                                </Link>
-                                            </button>
-                                        </div> */}
+                                        </div>
                                     </>
                                 ) : null}
                             </div>

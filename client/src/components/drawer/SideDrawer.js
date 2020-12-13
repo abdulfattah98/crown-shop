@@ -1,14 +1,10 @@
 import React, { useEffect } from 'react';
-import { Drawer, Button } from 'antd';
+import { Drawer } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import laptop from '../../images/laptop.png';
 
-import {
-    CheckCircleOutlined,
-    CloseCircleOutlined,
-    CloseOutlined,
-} from '@ant-design/icons';
+import { CheckCircleOutlined } from '@ant-design/icons';
 
 const SideDrawer = () => {
     const location = useLocation();
@@ -31,6 +27,7 @@ const SideDrawer = () => {
                 });
             }, 1);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location]);
 
     return (
@@ -52,7 +49,7 @@ const SideDrawer = () => {
                     {p.images[0] ? (
                         <div className="d-flex align-items-center product-container">
                             <div className="image-container">
-                                <img src={p.images[0].url} />
+                                <img src={p.images[0].url} alt={p._id} />
                                 <span className="pcs">{p.count}</span>
                             </div>
                             <div className="details">
@@ -66,7 +63,7 @@ const SideDrawer = () => {
                     ) : (
                         <div className="d-flex align-items-center">
                             <div className="image-container">
-                                <img src={laptop} />
+                                <img src={laptop} alt={p._id} />
                             </div>
                             <div className="details">
                                 <p className="name">{p.title}</p>

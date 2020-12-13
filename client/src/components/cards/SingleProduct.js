@@ -1,25 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Tabs, Tooltip } from 'antd';
-import { Link, useLocation } from 'react-router-dom';
-import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import { Card } from 'antd';
+import { Link } from 'react-router-dom';
 // import { Carousel } from 'react-responsive-carousel';
 // import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Laptop from '../../images/laptop.png';
-import ProductListItems from './ProductListItems';
 import StarRating from 'react-star-ratings';
 import Star from '../forms/Star';
 import RatingModal from '../modal/RatingModal';
 
-import {
-    CheckCircleOutlined,
-    CloseCircleOutlined,
-    CloseOutlined,
-} from '@ant-design/icons';
+import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { showAverage } from '../../functions/rating';
-import _ from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
-import { useHistory } from 'react-router-dom';
 import Gallery from './Gallery';
 import { RadioButton, RadioGroup } from '@trendmicro/react-radio';
 import { currentUser } from '../../functions/auth';
@@ -30,8 +21,6 @@ import { ReactComponent as WishlistIcon } from './wishlist.svg';
 import { ReactComponent as MinusIcon } from './minus.svg';
 import { ReactComponent as PlusIcon } from './plus.svg';
 
-const { TabPane } = Tabs;
-
 // this is childrend component of Product page
 const SingleProduct = ({ product, onStarClick, star }) => {
     // let theColor =
@@ -40,14 +29,12 @@ const SingleProduct = ({ product, onStarClick, star }) => {
     const [counter, setCounter] = useState(1);
     const [modalVisible, setModalVisible] = useState(false);
 
-    const [tooltip, setTooltip] = useState('Click to add');
     // const ref = useRef('');
 
     // redux
-    const { user, cart } = useSelector((state) => ({ ...state }));
+    const { user } = useSelector((state) => ({ ...state }));
     const dispatch = useDispatch();
     // router
-    let history = useHistory();
 
     const { title, images, description, _id, brand } = product;
 
@@ -78,6 +65,7 @@ const SingleProduct = ({ product, onStarClick, star }) => {
 
                     sameProduct = true;
                 }
+                return 0;
             });
             if (!sameProduct) {
                 cart.push({
@@ -95,7 +83,6 @@ const SingleProduct = ({ product, onStarClick, star }) => {
             // console.log('unique', unique)
             localStorage.setItem('cart', JSON.stringify(cart));
             // show tooltip
-            setTooltip('Added');
 
             // add to reeux state
             dispatch({
@@ -171,6 +158,7 @@ const SingleProduct = ({ product, onStarClick, star }) => {
             setCurrentColor(product.color[0]);
             loadcolorimages(product.color[0]);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [product]);
 
     useEffect(() => {
@@ -181,6 +169,7 @@ const SingleProduct = ({ product, onStarClick, star }) => {
             setCurrentColor(product.color[0]);
             setCurrentImages(currentImgs);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [product]);
 
     const handlePlus = () => {
@@ -205,7 +194,13 @@ const SingleProduct = ({ product, onStarClick, star }) => {
                     <Gallery images={currentImages} />
                 ) : (
                     <Card
-                        cover={<img src={Laptop} className="mb-3 card-image" />}
+                        cover={
+                            <img
+                                src={Laptop}
+                                alt={currentImages}
+                                className="mb-3 card-image"
+                            />
+                        }
                     ></Card>
                 )}
             </div>
@@ -301,7 +296,7 @@ const SingleProduct = ({ product, onStarClick, star }) => {
                             {color &&
                                 color.map((c, index) => {
                                     let v = false;
-                                    if (currentColor == c) {
+                                    if (currentColor === c) {
                                         v = true;
                                     }
                                     return (
@@ -313,6 +308,11 @@ const SingleProduct = ({ product, onStarClick, star }) => {
                                             title={c}
                                         >
                                             <RadioButton
+                                                onClick={() => {
+                                                    if (window) {
+                                                        window.scrollTo(0, 0);
+                                                    }
+                                                }}
                                                 value={c}
                                             ></RadioButton>
                                         </span>

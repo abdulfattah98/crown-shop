@@ -8,7 +8,7 @@ import { updateSub, getSub } from '../../../functions/sub';
 // import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 // import CategoryForm from '../../../components/forms/CategoryForm';
 // import LocalSearch from '../../../components/forms/LocalSearch';
-import { Select, Card } from 'antd';
+import { Select } from 'antd';
 const { Option } = Select;
 
 const SubUpdate = ({ match, history }) => {
@@ -22,6 +22,7 @@ const SubUpdate = ({ match, history }) => {
     useEffect(() => {
         loadCategories();
         loadSub();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const loadCategories = () =>
@@ -104,7 +105,6 @@ const SubUpdate = ({ match, history }) => {
                                         onChange={(e) =>
                                             setName(e.target.value)
                                         }
-                                        value={name}
                                         autoFocus
                                         required
                                     />

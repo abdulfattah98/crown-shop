@@ -1,10 +1,6 @@
 import React from 'react';
 
-import { PDFDownloadLink } from '@react-pdf/renderer';
 import { useSelector } from 'react-redux';
-import Invoice from '../../components/order/Invoice';
-
-import { ReactComponent as PDF } from './pdf.svg';
 
 const ShowPaymentInfo = ({ order, showStatus = true }) => {
     let { user } = useSelector((state) => ({ ...state }));

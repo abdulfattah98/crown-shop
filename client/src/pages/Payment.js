@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import StripeCheckout from '../components/StripeCheckout';
-import Card from 'react-credit-cards';
 import '../stripe.css';
 
 // // load stripe outside of components render to avoid recreating stripe object on every render
@@ -53,8 +52,8 @@ export default Payment;
 
 // return (
 //     <div id="PaymentForm">
-{
-    /* <Cards
+
+/* <Cards
                     cvc={cvc}
                     expiry={expiry}
                     focused={focus}
@@ -71,7 +70,7 @@ export default Payment;
                     />
                     ...
                 </form> */
-}
+
 //             <Card
 //                 name="John Smith"
 //                 number="5555 4444 3333 1111"

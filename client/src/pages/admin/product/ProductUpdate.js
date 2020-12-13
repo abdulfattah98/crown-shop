@@ -72,8 +72,13 @@ const ProductUpdate = ({ match, history }) => {
     const { slug } = match.params;
 
     useEffect(() => {
-        loadProduct();
+        const loadCategories = () =>
+            getCategories().then((c) => {
+                setCategories(c.data);
+            });
         loadCategories();
+        loadProduct();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const loadProduct = () => {
@@ -81,7 +86,6 @@ const ProductUpdate = ({ match, history }) => {
             // console.log("single product", p);
             // 1 load single proudct
             setValues({ ...values, ...p.data });
-            console.log(values);
             // 2 load single product category subs
             getCategorySubs(p.data.category._id).then((res) => {
                 setSubOptions(res.data); // on first load, show default subs
@@ -90,16 +94,11 @@ const ProductUpdate = ({ match, history }) => {
             let arr = [];
             p.data.subs.map((s) => {
                 arr.push(s._id);
+                return 0;
             });
-            console.log('ARR', arr);
             setArrayOfSubs((prev) => arr); // required for ant design select to work
         });
     };
-
-    const loadCategories = () =>
-        getCategories().then((c) => {
-            setCategories(c.data);
-        });
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -136,11 +135,8 @@ const ProductUpdate = ({ match, history }) => {
             setSelectedCategory(e);
 
             getCategorySubs(e).then((res) => {
-                console.log('SUB OPTIONS ON CATGORY CLICK', res);
                 setSubOptions(res.data);
             });
-
-            console.log('EXISTING CATEGORY values.category', values.category);
 
             // if user clicks back to the original category
             // show its sub categories in default

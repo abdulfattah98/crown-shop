@@ -20,6 +20,7 @@ const AdminProductCard = ({ product, handleRemove }) => {
                 cover={
                     <div className="admin-image-container">
                         <img
+                            alt={slug}
                             src={
                                 images && images.length ? images[0].url : laptop
                             }

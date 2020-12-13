@@ -10,8 +10,7 @@ import UserNav from '../UserNav';
 // react router
 import { Link, withRouter, useLocation } from 'react-router-dom';
 
-// antd
-import { Badge } from 'antd';
+import Logo from '../../../images/logo.png';
 
 // SVGs
 import { ReactComponent as CloseIcon } from './close.svg';
@@ -20,20 +19,12 @@ import { ReactComponent as SigninIcon } from './user.svg';
 import { ReactComponent as SignupIcon } from './signup.svg';
 import { ReactComponent as CartIcon } from '../shopping-cart.svg';
 import { ReactComponent as AngleRightIcon } from './angle-right.svg';
-import { ReactComponent as WishlistIcon } from './heart.svg';
 import { ReactComponent as LogoutIcon } from './logout.svg';
-
-import { cartReducer } from '../../../reducers/cartReducer';
-import Wishlist from '../../../pages/user/Wishlist';
 
 const Sidebar = (props) => {
     const location = useLocation();
     const dispatch = useDispatch();
     let { user, cart } = useSelector((state) => ({ ...state }));
-    var wishlist;
-    if (user && user.wishlist) {
-        wishlist = user.wishlist;
-    }
 
     const logout = () => {
         firebase.auth().signOut();
@@ -62,7 +53,7 @@ const Sidebar = (props) => {
                     <div className="col-3 col-md-5">
                         <Link to="/" className="d-block">
                             <img
-                                src="https://k.nooncdn.com/s/app/2019/noon-bigalog/834d8570fc98b1d548b377b56874b12f3c589710/static/images/noon_logo_black_english.svg"
+                                src={Logo}
                                 className="sidebar__top-logo"
                                 alt=""
                             />
@@ -204,6 +195,7 @@ const Sidebar = (props) => {
                 props.toggleSidebar();
             }, 1);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location]);
 
     let classes = ' d-block d-lg-none';
@@ -229,11 +221,7 @@ const Sidebar = (props) => {
                         <div className="dash-sidebar__top row">
                             <div className="col-4 mx-auto mb-4">
                                 <Link to="/">
-                                    <img
-                                        src="https://k.nooncdn.com/s/app/2019/noon-bigalog/834d8570fc98b1d548b377b56874b12f3c589710/static/images/noon_logo_black_english.svg"
-                                        className="logo"
-                                        alt=""
-                                    />
+                                    <img src={Logo} className="logo" alt="" />
                                 </Link>
                             </div>
                             <div className="col-12">
