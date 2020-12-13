@@ -78,6 +78,16 @@ const Shop = () => {
         });
     };
 
+    const toggleFilter = () => {
+        const body = document.querySelector('body');
+        if ([...body.classList].includes('stop-scrolling')) {
+            body.classList.remove('stop-scrolling');
+        } else {
+            body.classList.add('stop-scrolling');
+        }
+        setShowFilters(!showFilters);
+    };
+
     // useEffect(() => {
     //     console.log(products);
     // }, [products]);
@@ -105,7 +115,7 @@ const Shop = () => {
 
     useEffect(() => {
         if (showFilters) {
-            setShowFilters(false);
+            toggleFilter();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location]);
@@ -444,7 +454,7 @@ const Shop = () => {
                                 <div className="align-items-center d-flex">
                                     <button
                                         className="filters"
-                                        onClick={() => setShowFilters(true)}
+                                        onClick={toggleFilter}
                                     >
                                         FILTER
                                         <FilterIcon />
@@ -541,9 +551,7 @@ const Shop = () => {
                         >
                             <div className="filters-sm__top">
                                 <h2 className="title">Filter</h2>
-                                <CloseIcon
-                                    onClick={() => setShowFilters(false)}
-                                />
+                                <CloseIcon onClick={toggleFilter} />
                             </div>
                             <SubMenu
                                 className="products-filters__filter-outer"

@@ -89,7 +89,10 @@ const Sidebar = (props) => {
                             className="sidebar__main-links__item-link"
                         >
                             <div className="icon-container">
-                                <SigninIcon className="sidebar__main-links__item-link-icon new-icon" />
+                                <SigninIcon
+                                    style={{ marginLeft: '1px' }}
+                                    className="sidebar__main-links__item-link-icon new-icon"
+                                />
                             </div>
                             <span className="sidebar__main-links__item-link-text">
                                 {!user ? 'sign in' : 'Account'}
@@ -104,9 +107,15 @@ const Sidebar = (props) => {
                         >
                             <div className="icon-container position-relative">
                                 {!user ? (
-                                    <SignupIcon className="sidebar__main-links__item-link-icon" />
+                                    <SignupIcon
+                                        style={{ marginLeft: '1px' }}
+                                        className="sidebar__main-links__item-link-icon"
+                                    />
                                 ) : (
-                                    <LogoutIcon className="sidebar__main-links__item-link-icon" />
+                                    <LogoutIcon
+                                        style={{ marginLeft: '1px' }}
+                                        className="sidebar__main-links__item-link-icon"
+                                    />
                                 )}
                             </div>
                             <span className="sidebar__main-links__item-link-text">

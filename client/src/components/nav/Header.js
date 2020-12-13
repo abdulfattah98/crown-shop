@@ -34,6 +34,12 @@ const Header = () => {
     let history = useHistory();
 
     const toggleSidebar = () => {
+        const body = document.querySelector('body');
+        if ([...body.classList].includes('stop-scrolling')) {
+            body.classList.remove('stop-scrolling');
+        } else {
+            body.classList.add('stop-scrolling');
+        }
         setShowSidebar(!showSidebar);
     };
 

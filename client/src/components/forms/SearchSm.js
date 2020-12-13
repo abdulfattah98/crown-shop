@@ -30,7 +30,6 @@ const Search = () => {
             <div className="d-flex h-100 overflow-hidden">
                 <input
                     type="text"
-                    placeholder="What are you looking for?"
                     onChange={(e) => handleChange(e)}
                     className="Navbar__search-input Navbar__search--sm-input--sm w-100"
                     // style={{ borderRadius: '0' }}

@@ -9,13 +9,6 @@ import React from 'react';
 import { ReactComponent as InfoIcon } from './information.svg';
 import { ReactComponent as EmailIcon } from './mail.svg';
 import { ReactComponent as PhoneIcon } from './phone.svg';
-import { ReactComponent as FacebookIcon } from './facebook.svg';
-import { ReactComponent as InstagramIcon } from './instagram.svg';
-import { ReactComponent as TwitterIcon } from './twitter.svg';
-import { ReactComponent as LinkedinIcon } from './linkedin.svg';
-
-// React Router
-import { Link } from 'react-router-dom';
 
 const Footer = () => {
     return (
