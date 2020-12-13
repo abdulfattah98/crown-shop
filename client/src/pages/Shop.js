@@ -84,10 +84,14 @@ const Shop = () => {
             body.style.overflow = 'visible';
             body.style.height = 'auto';
             body.style.position = 'relative';
+            body.style.msTouchAction = 'auto';
+            body.style.touchAction = 'auto';
         } else {
             body.style.overflow = 'hidden';
             body.style.height = '100vh';
             body.style.position = 'fixed';
+            body.style.msTouchAction = 'none';
+            body.style.touchAction = 'none';
         }
         setShowFilters(!showFilters);
     };
