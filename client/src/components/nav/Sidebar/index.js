@@ -16,9 +16,8 @@ import Logo from '../../../images/logo.png';
 import { ReactComponent as CloseIcon } from './close.svg';
 import { ReactComponent as HomeIcon } from './home.svg';
 import { ReactComponent as SigninIcon } from './user.svg';
-import { ReactComponent as SignupIcon } from './signup.svg';
+import { ReactComponent as ShopIcon } from './shop.svg';
 import { ReactComponent as CartIcon } from '../shopping-cart.svg';
-import { ReactComponent as AngleRightIcon } from './angle-right.svg';
 import { ReactComponent as LogoutIcon } from './logout.svg';
 
 const Sidebar = (props) => {
@@ -27,11 +26,13 @@ const Sidebar = (props) => {
     let { user, cart } = useSelector((state) => ({ ...state }));
 
     const logout = () => {
-        firebase.auth().signOut();
-        dispatch({
-            type: 'LOGOUT',
-            payload: null,
-        });
+        if (user) {
+            firebase.auth().signOut();
+            dispatch({
+                type: 'LOGOUT',
+                payload: null,
+            });
+        }
     };
 
     let name = '';
@@ -79,41 +80,32 @@ const Sidebar = (props) => {
                     </li>
                     <li className="sidebar__main-links__item">
                         <Link
-                            to={`${
-                                user && user.role === 'subscriber'
-                                    ? '/user/orders'
-                                    : user && user.role === 'admin'
-                                    ? '/admin/dashboard'
-                                    : '/login'
-                            }`}
+                            to={`${user ? '/' : '/login'}`}
+                            onClick={logout}
                             className="sidebar__main-links__item-link"
                         >
                             <div className="icon-container">
-                                <SigninIcon
-                                    style={{ marginLeft: '1px' }}
-                                    className="sidebar__main-links__item-link-icon new-icon"
-                                />
-                            </div>
-                            <span className="sidebar__main-links__item-link-text">
-                                {!user ? 'sign in' : 'Account'}
-                            </span>
-                        </Link>
-                    </li>
-                    <li className="sidebar__main-links__item">
-                        <Link
-                            to={`${user ? '/' : '/login'}`}
-                            className="sidebar__main-links__item-link"
-                            onClick={logout}
-                        >
-                            <div className="icon-container position-relative">
                                 {!user ? (
-                                    <SignupIcon className="sidebar__main-links__item-link-icon" />
+                                    <SigninIcon className="sidebar__main-links__item-link-icon new-icon" />
                                 ) : (
                                     <LogoutIcon className="sidebar__main-links__item-link-icon" />
                                 )}
                             </div>
                             <span className="sidebar__main-links__item-link-text">
-                                {user ? 'Log Out' : 'sign up'}
+                                {!user ? 'Sign In' : 'Sign Out'}
+                            </span>
+                        </Link>
+                    </li>
+                    <li className="sidebar__main-links__item">
+                        <Link
+                            to="/shop"
+                            className="sidebar__main-links__item-link"
+                        >
+                            <div className="icon-container position-relative">
+                                <ShopIcon className="sidebar__main-links__item-link-icon" />
+                            </div>
+                            <span className="sidebar__main-links__item-link-text">
+                                Shop
                             </span>
                         </Link>
                     </li>
@@ -144,20 +136,10 @@ const Sidebar = (props) => {
                     </p>
                     <li className="sidebar__categories-item">
                         <Link
-                            to="/shop"
-                            className="sidebar__categories-item-link"
-                        >
-                            <span className="link-text">Shop</span>
-                            {/* <AngleRightIcon className="link-icon" /> */}
-                        </Link>
-                    </li>
-                    <li className="sidebar__categories-item">
-                        <Link
                             to="/category/smart-phone"
                             className="sidebar__categories-item-link"
                         >
                             <span className="link-text">Smartphones</span>
-                            <AngleRightIcon className="link-icon" />
                         </Link>
                     </li>
                     <li className="sidebar__categories-item">
@@ -166,7 +148,6 @@ const Sidebar = (props) => {
                             className="sidebar__categories-item-link"
                         >
                             <span className="link-text">Laptops</span>
-                            <AngleRightIcon className="link-icon" />
                         </Link>
                     </li>
                     <li className="sidebar__categories-item">
@@ -175,7 +156,6 @@ const Sidebar = (props) => {
                             className="sidebar__categories-item-link"
                         >
                             <span className="link-text">Tablets</span>
-                            <AngleRightIcon className="link-icon" />
                         </Link>
                     </li>
                     <li className="sidebar__categories-item">
@@ -184,7 +164,6 @@ const Sidebar = (props) => {
                             className="sidebar__categories-item-link"
                         >
                             <span className="link-text">Smartwatches</span>
-                            <AngleRightIcon className="link-icon" />
                         </Link>
                     </li>
                 </ul>

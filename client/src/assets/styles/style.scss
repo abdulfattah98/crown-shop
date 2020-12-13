@@ -1302,7 +1302,7 @@ form {
     }
 
     & .product-price {
-        margin-bottom: 5px;
+        margin: 5px 0;
         & .currency {
             font-size: 16px;
             font-weight: 300;
@@ -2011,9 +2011,12 @@ form {
     & .products-found {
         font-size: 14px;
         font-weight: bold;
-        text-transform: capitalize;
+        text-transform: capitalize !important;
         color: #404553;
         margin-left: 4px;
+        @include respond-to('sm') {
+            font-size: 11px;
+        }
     }
     & .filters {
         background-color: #fff;
@@ -3476,14 +3479,4 @@ hr {
     margin: 10px;
     fill: white;
     // margin-top: -1px;
-}
-
-.sc-iyvyFf.fdAidD {
-    // position: unset !important;
-    // top: unset !important;
-    // left: unset !important;
-    // transform: translate(-50%, -50%);
-    // bottom: unset !important;
-    // right: unset !important;
-    // margin: unset !important;
 }

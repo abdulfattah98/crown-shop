@@ -44,6 +44,7 @@ const Checkout = ({ history }) => {
     let area = '';
     let streetName = '';
 
+    // eslint-disable-next-line no-unused-vars
     const [location, setLocation] = useState(defaultLocation);
     const [zoom, setZoom] = useState(DefaultZoom);
     // discount price
@@ -110,7 +111,7 @@ const Checkout = ({ history }) => {
 
                 setMapInfo({ country, city, area: format });
             });
-        setLocation({ ...location, lat, lng });
+        setLocation({ lat: lat, lng: lng });
     }
 
     function handleChangeZoom(newZoom) {

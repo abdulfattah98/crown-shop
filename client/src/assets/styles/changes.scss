@@ -726,6 +726,9 @@ span.MuiButtonBase-root-16.MuiIconButton-root-10.MuiSwitchBase-root-6.MuiCheckbo
         background: #ededed;
         font-size: 14px;
         font-weight: 600;
+        @include respond-to('sm') {
+            font-size: 12px;
+        }
     }
     & .btnqty {
         padding: 6px 10px !important;
@@ -773,6 +776,10 @@ span.MuiButtonBase-root-16.MuiIconButton-root-10.MuiSwitchBase-root-6.MuiCheckbo
             background: #ededed;
             font-size: 14px;
             font-weight: 600;
+
+            @include respond-to('sm') {
+                font-size: 12px;
+            }
         }
         & .btnqty {
             padding: 6px 10px !important;

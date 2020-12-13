@@ -86,9 +86,11 @@ const ProductCard = ({ product, caption }) => {
     const { images, title, slug, price, color } = product;
     //setCurrentImages(images);
 
-    let productName = title;
-    if (title.length > 45) {
-        productName = `${title.slice(0, 45)}...`;
+    let productName;
+    if (product && title) {
+        productName = `${
+            title.length > 45 ? title.slice(0, 45) + '...' : title
+        }`;
     }
     return (
         // <>
@@ -128,7 +130,7 @@ const ProductCard = ({ product, caption }) => {
         <div className="product">
             <Link to={`/product/${slug}`}>
                 <div className="product__image-container">
-                    {product.images.length ? (
+                    {product && product.images && product.images.length ? (
                         <div className="position-relative h-100 w-100">
                             <img
                                 src={SoldOut}
