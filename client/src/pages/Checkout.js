@@ -37,7 +37,7 @@ const Checkout = ({ history }) => {
         city: '',
         area: '',
     });
-    const [defaultLocation, setDefaultLocation] = useState(DefaultLocation);
+    // const [defaultLocation, setDefaultLocation] = useState(DefaultLocation);
 
     let country = '';
     let city = '';
@@ -45,7 +45,7 @@ const Checkout = ({ history }) => {
     let streetName = '';
 
     // eslint-disable-next-line no-unused-vars
-    const [location, setLocation] = useState(defaultLocation);
+    // const [location, setLocation] = useState(defaultLocation);
     const [zoom, setZoom] = useState(DefaultZoom);
     // discount price
     const [totalAfterDiscount, setTotalAfterDiscount] = useState(0);
@@ -247,8 +247,8 @@ const Checkout = ({ history }) => {
                         </span>
                         <MapPicker
                             className="map"
-                            defaultLocation={defaultLocation}
-                            zoom={zoom}
+                            defaultLocation={DefaultLocation}
+                            zoom={DefaultZoom}
                             style={{ height: '300px' }}
                             onChangeLocation={handleChangeLocation}
                             onChangeZoom={handleChangeZoom}
