@@ -10,8 +10,18 @@ const NewArrivals = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     // eslint-disable-next-line
+    // const body = document.querySelector('body');
 
     useEffect(() => {
+        // const owl = document.querySelector('.owl-carousel');
+
+        // owl.addEventListener('drag.owl.carousel', function (event) {
+        //     body.style.overflow = 'hidden';
+        // });
+
+        // owl.addEventListener('dragged.owl.carousel', function (event) {
+        //     body.removeAttribute('style');
+        // });
         loadAllProducts();
         // getProductsCount();
     }, []);
