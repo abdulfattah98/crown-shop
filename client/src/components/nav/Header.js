@@ -32,15 +32,11 @@ const Header = () => {
     let dispatch = useDispatch();
     let { user, cart } = useSelector((state) => ({ ...state }));
     let history = useHistory();
+    const body = document.querySelector('body');
 
     const toggleSidebar = () => {
-        const body = document.querySelector('body');
         if (showSidebar) {
-            body.style.overflow = 'visible';
-            body.style.height = 'unset';
-            body.style.position = 'relative';
-            body.style.msTouchAction = 'auto';
-            body.style.touchAction = 'auto';
+            body.removeAttribute('style');
         } else {
             body.style.overflow = 'hidden';
             body.style.height = '100vh';

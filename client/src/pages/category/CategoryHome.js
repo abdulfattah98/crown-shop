@@ -90,14 +90,10 @@ const CategoryHome = ({ match }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ok]);
 
+    const body = document.querySelector('body');
     const toggleFilter = () => {
-        const body = document.querySelector('body');
         if (showFilters) {
-            body.style.overflow = 'visible';
-            body.style.height = 'unset';
-            body.style.position = 'relative';
-            body.style.msTouchAction = 'auto';
-            body.style.touchAction = 'auto';
+            body.removeAttribute('style');
         } else {
             body.style.overflow = 'hidden';
             body.style.height = '100vh';

@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { SemipolarLoading } from 'react-loadingg';
 
 const LoadingToRedirect = () => {
-    const [count, setCount] = useState(2);
+    const [count, setCount] = useState(50000);
     let history = useHistory();
 
     useEffect(() => {
@@ -17,10 +17,7 @@ const LoadingToRedirect = () => {
     }, [count, history]);
 
     return (
-        <div
-            style={{ height: '70vh' }}
-            className="d-flex align-items-center jusityf-content-center"
-        >
+        <div style={{ height: '70vh' }}>
             <SemipolarLoading color="#3866df" size="large" speed={2} />
         </div>
     );

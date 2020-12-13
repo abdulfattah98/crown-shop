@@ -123,9 +123,7 @@ const App = () => {
     return (
         <Suspense
             fallback={
-                <div className="d-flex align-items-center justify-content-center">
-                    <SemipolarLoading color="#3866df" size="large" speed={2} />
-                </div>
+                <SemipolarLoading color="#3866df" size="large" speed={2} />
             }
         >
             <Header />
