@@ -9,11 +9,16 @@ import {
     createCashOrderForUser,
 } from '../functions/user';
 import MapPicker from 'react-google-map-picker';
-import { CheckCircleOutlined } from '@ant-design/icons';
+import {
+    CheckCircleOutlined,
+    CloseCircleOutlined,
+    CloseOutlined,
+} from '@ant-design/icons';
 
 import { ReactComponent as LocateIcon } from './locate.svg';
 
 import axios from 'axios';
+import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 const DefaultLocation = { lat: 31.950450627829785, lng: 35.91271972656252 };
@@ -30,6 +35,7 @@ const Checkout = ({ history }) => {
         personName: '',
     });
     const [total, setTotal] = useState(0);
+    const [address, setAddress] = useState([]);
     const [addressSaved, setAddressSaved] = useState(false);
     const [coupon, setCoupon] = useState('');
     const [mapInfo, setMapInfo] = useState({
@@ -37,15 +43,14 @@ const Checkout = ({ history }) => {
         city: '',
         area: '',
     });
-    // const [defaultLocation, setDefaultLocation] = useState(DefaultLocation);
+    const [defaultLocation, setDefaultLocation] = useState(DefaultLocation);
 
     let country = '';
     let city = '';
     let area = '';
     let streetName = '';
 
-    // eslint-disable-next-line no-unused-vars
-    // const [location, setLocation] = useState(defaultLocation);
+    const [location, setLocation] = useState(defaultLocation);
     const [zoom, setZoom] = useState(DefaultZoom);
     // discount price
     const [totalAfterDiscount, setTotalAfterDiscount] = useState(0);
@@ -57,10 +62,10 @@ const Checkout = ({ history }) => {
 
     useEffect(() => {
         getUserCart(user.token).then((res) => {
+            console.log('user cart res', JSON.stringify(res.data, null, 4));
             setProducts(res.data.products);
             setTotal(res.data.cartTotal);
         });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     const handleChange = (e, name) => {
         if (!e.target) {
@@ -73,6 +78,7 @@ const Checkout = ({ history }) => {
         }
     };
     function handleChangeLocation(lat, lng) {
+        console.log(lat, lng);
         axios
             .get(
                 `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyAQNvqdWwnrqSkXiCyUNryFx7vvpqSj3k4`
@@ -151,6 +157,7 @@ const Checkout = ({ history }) => {
             city: mapInfo.city,
             country: mapInfo.country,
         };
+        console.log(addressSaved);
         saveUserAddress(user.token, addressSaved).then((res) => {
             if (res.data.ok) {
                 setAddressSaved(true);
@@ -160,7 +167,9 @@ const Checkout = ({ history }) => {
     };
 
     const applyDiscountCoupon = () => {
+        console.log('send coupon to backend', coupon);
         applyCoupon(user.token, coupon).then((res) => {
+            console.log('RES ON COUPON APPLIED', res.data);
             if (res.data) {
                 setTotalAfterDiscount(res.data);
                 // update redux coupon applied true/false
@@ -188,6 +197,7 @@ const Checkout = ({ history }) => {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude,
                 });
+                console.log(position.coords.latitude);
                 let geolocation = {
                     lat: parseFloat(position.coords.latitude),
                     lng: parseFloat(position.coords.longitude),
@@ -247,8 +257,8 @@ const Checkout = ({ history }) => {
                         </span>
                         <MapPicker
                             className="map"
-                            defaultLocation={DefaultLocation}
-                            zoom={DefaultZoom}
+                            defaultLocation={defaultLocation}
+                            zoom={zoom}
                             style={{ height: '300px' }}
                             onChangeLocation={handleChangeLocation}
                             onChangeZoom={handleChangeZoom}
@@ -377,6 +387,7 @@ const Checkout = ({ history }) => {
     const createCashOrder = () => {
         createCashOrderForUser(user.token, COD, couponTrueOrFalse).then(
             (res) => {
+                console.log('USER CASH ORDER CREATED RES ', res);
                 // empty cart form redux, local Storage, reset coupon, reset COD, redirect
                 if (res.data.ok) {
                     // empty local storage

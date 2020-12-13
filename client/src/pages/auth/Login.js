@@ -92,6 +92,8 @@ const Login = ({ history }) => {
                                 token: idTokenResult.token,
                                 role: res.data.role,
                                 _id: res.data._id,
+                                wishlist: res.data.wishlist,
+                                address: res.data.address,
                             },
                         });
                         roleBasedRedirect(res);
