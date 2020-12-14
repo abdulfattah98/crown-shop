@@ -8,6 +8,7 @@ import {
     applyCoupon,
     createCashOrderForUser,
 } from '../functions/user';
+import MapPicker from 'react-google-map-picker';
 import {
     CheckCircleOutlined,
     CloseCircleOutlined,
@@ -19,7 +20,7 @@ import { ReactComponent as LocateIcon } from './locate.svg';
 import axios from 'axios';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import Map from './map';
+
 const DefaultLocation = { lat: 31.950450627829785, lng: 35.91271972656252 };
 const DefaultZoom = 11;
 
@@ -254,7 +255,7 @@ const Checkout = ({ history }) => {
                         >
                             <LocateIcon />
                         </span>
-                        {/* <MapPicker
+                        <MapPicker
                             className="map"
                             defaultLocation={defaultLocation}
                             zoom={zoom}
@@ -262,8 +263,7 @@ const Checkout = ({ history }) => {
                             onChangeLocation={handleChangeLocation}
                             onChangeZoom={handleChangeZoom}
                             apiKey="AIzaSyAQNvqdWwnrqSkXiCyUNryFx7vvpqSj3k4"
-                        /> */}
-                        <Map />
+                        />
                     </div>
                     <div className="col-12 mb-4 col-md-4 pl-0 pr-0 px-md-3">
                         <div className="form-group">

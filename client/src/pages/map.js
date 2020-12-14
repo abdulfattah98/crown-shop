@@ -56,7 +56,7 @@ class LocationSearchModal extends React.Component {
                             position.coords.longitude
                         ).then(
                             (response) => {
-                                console.log(response);
+                                console.log('123456');
                                 const address =
                                         response.results[0].formatted_address,
                                     addressArray =
@@ -151,35 +151,42 @@ class LocationSearchModal extends React.Component {
     onInfoWindowClose = (event) => {};
 
     onMarkerDragEnd = (event) => {
+        console.log(event);
         let newLat = event.latLng.lat(),
             newLng = event.latLng.lng();
 
-        Geocode.fromLatLng(newLat, newLng).then(
-            (response) => {
-                const address = response.results[0].formatted_address,
-                    addressArray = response.results[0].address_components,
-                    city = this.getCity(addressArray),
-                    area = this.getArea(addressArray),
-                    state = this.getState(addressArray);
-                this.setState({
-                    address: address ? address : '',
-                    area: area ? area : '',
-                    city: city ? city : '',
-                    state: state ? state : '',
-                    markerPosition: {
-                        lat: newLat,
-                        lng: newLng,
-                    },
-                    mapPosition: {
-                        lat: newLat,
-                        lng: newLng,
-                    },
-                });
+        this.setState({
+            markerPosition: {
+                lat: newLat,
+                lng: newLng,
             },
-            (error) => {
-                console.error(error);
-            }
-        );
+        });
+        // Geocode.fromLatLng(newLat, newLng).then(
+        //     (response) => {
+        //         const address = response.results[0].formatted_address,
+        //             addressArray = response.results[0].address_components,
+        //             city = this.getCity(addressArray),
+        //             area = this.getArea(addressArray),
+        //             state = this.getState(addressArray);
+        //         this.setState({
+        //             address: address ? address : '',
+        //             area: area ? area : '',
+        //             city: city ? city : '',
+        //             state: state ? state : '',
+        //             markerPosition: {
+        //                 lat: newLat,
+        //                 lng: newLng,
+        //             },
+        //             mapPosition: {
+        //                 lat: newLat,
+        //                 lng: newLng,
+        //             },
+        //         });
+        //     },
+        //     (error) => {
+        //         console.error(error);
+        //     }
+        // );
     };
 
     onPlaceSelected = (place) => {
@@ -291,9 +298,7 @@ class LocationSearchModal extends React.Component {
                 <AsyncMap
                     googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQNvqdWwnrqSkXiCyUNryFx7vvpqSj3k4&libraries=places"
                     loadingElement={<div style={{ height: `100%` }} />}
-                    containerElement={
-                        <div style={{ height: this.state.height }} />
-                    }
+                    containerElement={<div style={{ height: '200px' }} />}
                     mapElement={<div style={{ height: `100%` }} />}
                 />
                 <div className="row mt-5 p-2">
