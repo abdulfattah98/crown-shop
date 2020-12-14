@@ -67,7 +67,11 @@ const Sidebar = (props) => {
                         ></CloseIcon>
                     </div>
                 </div>
-                <ul className="sidebar__main-links">
+                <ul
+                    className={`sidebar__main-links ${
+                        user ? 'justify-content-around' : ''
+                    }`}
+                >
                     <li className="sidebar__main-links__item">
                         <Link to="/" className="sidebar__main-links__item-link">
                             <div className="icon-container">
@@ -78,6 +82,21 @@ const Sidebar = (props) => {
                             </span>
                         </Link>
                     </li>
+                    {user ? (
+                        <li className="sidebar__main-links__item">
+                            <Link
+                                to="/user/orders"
+                                className="sidebar__main-links__item-link"
+                            >
+                                <div className="icon-container position-relative">
+                                    <SigninIcon className="sidebar__main-links__item-link-icon new-icon" />
+                                </div>
+                                <span className="sidebar__main-links__item-link-text">
+                                    Account
+                                </span>
+                            </Link>
+                        </li>
+                    ) : null}
                     <li className="sidebar__main-links__item">
                         <Link
                             to={`${user ? '/' : '/login'}`}

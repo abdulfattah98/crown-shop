@@ -2016,7 +2016,7 @@ form {
         color: #404553;
         margin-left: 4px;
         @include respond-to('sm') {
-            font-size: 11px;
+            font-size: 12px;
         }
     }
     & .filters {
@@ -3478,6 +3478,7 @@ hr {
     width: 20px;
     height: 20px;
     margin: 10px;
+    margin-left: 0;
     fill: white;
     // margin-top: -1px;
 }
@@ -3498,20 +3499,32 @@ hr {
 .gallery-loading {
     align-items: center !important;
     & .thumbs-container {
-        @include respond-to('md') {
+        @media only screen and (min-width: 768px) and (max-width: 992px) {
             display: flex;
             align-items: center;
-            justify-content: space-evenly;
+            justify-content: center;
             & .thumb {
-                width: 70px;
-                height: 46px;
+                margin-right: 10px;
+            }
+        }
+        @media only screen and (min-width: 576px) and (max-width: 767px) {
+            display: block !important;
+            // align-items: unset;
+            // justify-content: unset;
+        }
+        @media only screen and (max-width: 567px) {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            & .thumb {
+                margin-right: 10px;
             }
         }
     }
     & .thumb {
         background-color: rgba(190, 190, 190, 0.2);
-        width: 46px;
-        height: 70px;
+        width: 60px;
+        height: 80px;
         border-radius: 3px;
         margin-bottom: 20px;
     }
@@ -3519,5 +3532,67 @@ hr {
         height: 200px;
         height: 320px;
         background-color: rgba(190, 190, 190, 0.2);
+    }
+}
+
+.login-register-button {
+    background-color: rgb(56, 102, 223);
+    color: white;
+    padding: 10px 15px;
+    font-size: 15px;
+    height: 50px;
+    border: 0;
+    border-radius: 5px !important;
+    outline: 0;
+    transition: all 0.2s ease-out;
+    & .text {
+        text-transform: uppercase;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+
+    &:hover {
+        background-color: rgb(43, 76, 215);
+        color: white;
+    }
+    &:focus {
+        outline: 0;
+    }
+}
+
+.login-register-button.google-button {
+    background-color: #de4e3b;
+    color: white;
+    display: flex;
+    // align-items: center;
+    padding-top: 0;
+    border-radius: 5px !important;
+    overflow: hidden;
+    padding-bottom: 0;
+    padding-left: 0;
+    & .anticon {
+        height: 100%;
+        display: flex;
+        width: 50px;
+        background-color: #b83c2b;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+        & svg {
+            width: 20px;
+            height: 20px;
+            margin: 0 10px;
+            // align-self: stretch;
+        }
+    }
+    & .text {
+        display: flex;
+        height: 100%;
+        align-items: center;
+        text-transform: capitalize;
+    }
+
+    &:hover {
+        background-color: hsl(7, 70%, 52%);
     }
 }

@@ -94,13 +94,13 @@ const LoadingCard = ({
             {isPdpCard ? (
                 <div className="col-12 col-md-6 bg-white h-100 pt-4 pl-4 pr-4">
                     <div className="row h-100 gallery-loading">
-                        <div className="col-lg-3 col-12 overflow-hidden thumbs-container order-1 order-lg-0">
+                        <div className="col-lg-3 col-12 col-md-12 order-md-1 col-sm-3 order-sm-0 overflow-hidden thumbs-container order-1 order-lg-0">
                             <div className="thumb">&nbsp;</div>
                             <div className="thumb">&nbsp;</div>
                             <div className="thumb">&nbsp;</div>
                             <div className="thumb">&nbsp;</div>
                         </div>
-                        <div className="col-lg-9 col-12 order-0 order-lg-1 main-image mb-4">
+                        <div className="col-lg-9 col-12  col-md-12 order-md-0 order-0 col-sm-9 order-sm-1 order-lg-1 main-image mb-4">
                             &nbsp;
                         </div>
                     </div>

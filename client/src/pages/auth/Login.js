@@ -11,8 +11,8 @@ import {
 } from '../../functions/auth';
 
 const Login = ({ history }) => {
-    const [email, setEmail] = useState('abood.alkasaji81@gmail.com');
-    const [password, setPassword] = useState('12345678');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
 
     const { user } = useSelector((state) => ({ ...state }));
@@ -143,20 +143,17 @@ const Login = ({ history }) => {
             </div>
             <Button
                 onClick={handleSubmit}
-                type="primary"
-                className="online login_btn_page w-100"
-                icon={<MailOutlined />}
+                className="login-register-button w-100"
                 // size="large"
-                disabled={!email || password.length < 6}
             >
-                Login with Email/Password
+                <div className="text">Sign In</div>
             </Button>
         </form>
     );
 
     return (
-        <div className="row">
-            <div className="col col-sm-6 offset-sm-3 col-md-4 offset-md-4 login-form">
+        <div className="row py-5 justify-content-center">
+            <div className="col col-sm-6 col-md-3 login-form">
                 <div className="py-5">
                     <div className="login-form__header">
                         {loading ? (
@@ -181,13 +178,12 @@ const Login = ({ history }) => {
 
                     <Button
                         onClick={googleLogin}
-                        type="danger"
-                        className="mb-3 mt-3"
+                        className="mb-3 mt-3 login-register-button google-button"
                         block
                         icon={<GoogleOutlined />}
                         size="large"
                     >
-                        Login with Google
+                        <span className="text">Sign In With Google</span>
                     </Button>
                 </div>
             </div>
