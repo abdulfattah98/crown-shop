@@ -319,7 +319,9 @@ form {
                 position: absolute;
                 list-style: none;
                 z-index: 500;
-                bottom: -224px;
+                bottom: -227px;
+                width: 170px;
+                right: -23px;
                 // height: 100px;
 
                 @include respond-to('sm') {
@@ -328,7 +330,6 @@ form {
                     display: none !important;
                 }
 
-                width: 170px;
                 color: #333;
                 padding-top: 19px;
                 margin-bottom: 0;
@@ -1079,7 +1080,7 @@ form {
 
     &__bottom {
         background-color: #f7f9fe;
-        border-top: 1px solid $color-light;
+        // border-top: 1px solid $color-light;
         padding: 0;
         padding: 2rem 0;
         & .copyright {
@@ -1087,7 +1088,7 @@ form {
             font-size: 12px;
             @include respond-to('md') {
                 text-align: center;
-                margin-top: 2rem;
+                // margin-top: 2rem;
             }
         }
 
@@ -3479,4 +3480,44 @@ hr {
     margin: 10px;
     fill: white;
     // margin-top: -1px;
+}
+
+.pdp-loading {
+    height: 100% !important;
+    & .ant-card.ant-card-bordered {
+        padding-top: 1.5rem !important;
+
+        border: 0;
+        height: 100% !important;
+        &.first {
+            align-items: center !important;
+        }
+    }
+}
+
+.gallery-loading {
+    align-items: center !important;
+    & .thumbs-container {
+        @include respond-to('md') {
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            & .thumb {
+                width: 70px;
+                height: 46px;
+            }
+        }
+    }
+    & .thumb {
+        background-color: rgba(190, 190, 190, 0.2);
+        width: 46px;
+        height: 70px;
+        border-radius: 3px;
+        margin-bottom: 20px;
+    }
+    & .main-image {
+        height: 200px;
+        height: 320px;
+        background-color: rgba(190, 190, 190, 0.2);
+    }
 }

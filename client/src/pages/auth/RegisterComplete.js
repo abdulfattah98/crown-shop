@@ -1,51 +1,46 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { auth } from '../../firebase';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { createOrUpdateUser } from '../../functions/auth';
-
+import { SemipolarLoading } from 'react-loadingg';
 const RegisterComplete = ({ history }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
+    const Email = window.localStorage.getItem('emailForRegistration');
+    const Name = window.localStorage.getItem('nameForRegistration');
+    const Password = window.localStorage.getItem('passwordForRegistration');
 
     // const { user } = useSelector((state) => ({ ...state }));
     let dispatch = useDispatch();
 
-    useEffect(() => {
-        setEmail(window.localStorage.getItem('emailForRegistration'));
+    const fetchUser = async () => {
+        console.log('ddd');
         // console.log(window.location.href);
         // console.log(window.localStorage.getItem("emailForRegistration"));
-    }, [history]);
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        // validation
-        if (!email || !password) {
-            toast.error('Email and password is required');
-            return;
-        }
-
-        if (password.length < 6) {
-            toast.error('Password must be at least 6 characters long');
-            return;
-        }
 
         try {
             const result = await auth.signInWithEmailLink(
                 email,
                 window.location.href
             );
+            console.log(result);
             //   console.log("RESULT", result);
             if (result.user.emailVerified) {
                 // remove user email fom local storage
                 window.localStorage.removeItem('emailForRegistration');
+                window.localStorage.removeItem('nameForRegistration');
+                window.localStorage.removeItem('passwordForRegistration');
                 // get user id token
                 let user = auth.currentUser;
                 await user.updatePassword(password);
+                //await user.updateName(password);
                 const idTokenResult = await user.getIdTokenResult();
                 // redux store
+                // console.log("user", user, "idTokenResult", idTokenResult);
 
-                createOrUpdateUser(idTokenResult.token)
+                createOrUpdateUser(idTokenResult.token, name)
                     .then((res) => {
                         dispatch({
                             type: 'LOGGED_IN_USER',
@@ -55,6 +50,8 @@ const RegisterComplete = ({ history }) => {
                                 token: idTokenResult.token,
                                 role: res.data.role,
                                 _id: res.data._id,
+                                wishlist: res.data.wishlist,
+                                address: res.data.address,
                             },
                         });
                     })
@@ -69,39 +66,31 @@ const RegisterComplete = ({ history }) => {
         }
     };
 
-    const completeRegistrationForm = () => (
-        <form onSubmit={handleSubmit}>
-            <input
-                type="email"
-                className="form-control"
-                value={email}
-                disabled
-            />
+    useEffect(() => {
+        setEmail(Email);
+        setName(Name);
+        setPassword(Password);
+    }, []);
 
-            <input
-                type="password"
-                className="form-control"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                autoFocus
-            />
-            <br />
-            <button type="submit" className="btn btn-raised">
-                Complete Registration
-            </button>
-        </form>
-    );
+    useEffect(() => {
+        if (password.length) {
+            fetchUser();
+        }
+    }, [password]);
 
     return (
-        <div className="container p-5">
-            <div className="row">
-                <div className="col-md-6 offset-md-3">
-                    <h4>Register Complete</h4>
-                    {completeRegistrationForm()}
+        <Suspense
+            fallback={
+                <div className="d-flex align-items-center justify-content-center">
+                    <SemipolarLoading color="#3866df" size="large" speed={2} />
                 </div>
-            </div>
-        </div>
+            }
+        >
+            {/* <button className="d-none" onLoad={fetchUser}>
+                {' '}
+                click
+            </button> */}
+        </Suspense>
     );
 };
 

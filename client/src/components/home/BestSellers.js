@@ -45,7 +45,7 @@ const BestSellers = () => {
                             <Card
                                 style={{
                                     height: '300px',
-                                    width: '220px',
+                                    width: '233px',
                                     paddingTop: '130px',
                                 }}
                             >
@@ -58,7 +58,7 @@ const BestSellers = () => {
                             <Card
                                 style={{
                                     height: '300px',
-                                    width: '220px',
+                                    width: '233px',
                                     paddingTop: '130px',
                                 }}
                             >
@@ -71,7 +71,7 @@ const BestSellers = () => {
                             <Card
                                 style={{
                                     height: '300px',
-                                    width: '220px',
+                                    width: '233px',
                                     paddingTop: '130px',
                                 }}
                             >

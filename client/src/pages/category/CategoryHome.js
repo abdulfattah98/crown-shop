@@ -47,6 +47,26 @@ const CategoryHome = ({ match }) => {
         'Silver',
         'White',
         'Blue',
+        'Red',
+        'Gray',
+        'Pink',
+        'MidnightGreen',
+        'Gold',
+        'LightGreen',
+        'Purple',
+        'Graphite',
+        'PacificBlue',
+        'SpaceGrey',
+        'CloudBlue',
+        'CloudNavy',
+        'CloudLavender',
+        'Bronze',
+        'AuraGlow',
+        'PrismWhite',
+        'PrismBlue',
+        'MirrorPurple',
+        'SilkyWhite',
+        'StarryNight',
     ]);
     const [viewLoading, setViewLoading] = useState(false);
     const [waitForFilter, setwaitForFilter] = useState(false);
@@ -197,19 +217,24 @@ const CategoryHome = ({ match }) => {
     };
 
     // 8. show products based on color
-    const showColors = () =>
-        colors.map((c) => (
-            <Radio
-                key={c}
-                value={c}
-                name={c}
-                checked={c === color}
-                onChange={handleColor}
-                className="pb-1 pl-4"
-            >
-                {c}
-            </Radio>
-        ));
+    const showColors = () => (
+        <div className="row">
+            {colors.map((c) => (
+                <div className="col-6 mb-1" key={c}>
+                    <Radio
+                        key={c}
+                        value={c}
+                        name={c}
+                        checked={c === color}
+                        onChange={handleColor}
+                        className="pb-1 pl-4"
+                    >
+                        {c}
+                    </Radio>
+                </div>
+            ))}
+        </div>
+    );
 
     const handleColor = (e) => {
         setwaitForFilter(true);

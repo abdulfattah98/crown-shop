@@ -76,12 +76,19 @@ const Header = () => {
 
     let name = '';
     if (user) {
+        console.log(user.name.toString());
         const userName = user.name.toString();
-        for (let i = 0; i <= userName.length; i++) {
-            if (userName[i] !== '.') {
-                name += userName[i];
-            } else {
+        for (let i = 0; i < userName.length; i++) {
+            if (
+                userName[i] === ' ' ||
+                i > 18 ||
+                userName[i] === '.' ||
+                userName[i] === '_' ||
+                userName[i] === '-'
+            ) {
                 break;
+            } else {
+                name += userName[i];
             }
         }
     }

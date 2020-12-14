@@ -1222,3 +1222,52 @@ div.ant-modal[role='document'] {
 //         margin-top: 30px;
 //     }
 // }
+
+.login_btn_page {
+    font-size: 15px;
+    background-color: #2b4cd7;
+    height: 40px;
+    color: #fff;
+    border: none !important;
+    &:hover,
+    &:focus {
+        background-color: #2b4cd7;
+    }
+}
+.ant-btn-primary :hover {
+    background-color: transparent !important;
+}
+
+.forgget_pass {
+    text-align: center;
+    margin-bottom: 32px;
+    color: rgb(56, 102, 223);
+    font-size: 13px;
+}
+
+.label_form {
+    color: rgb(126, 133, 155);
+    font-size: 13px !important;
+}
+
+.cont-div_for {
+    margin-top: 16px;
+    margin-bottom: 20px;
+}
+
+.link_register {
+    margin: 12px 5px;
+    color: rgb(56, 102, 223);
+    cursor: pointer;
+}
+
+.cont_div_register {
+    font-size: 14px;
+}
+
+.subtitle {
+    color: #404553;
+    font-size: 20px;
+    font-weight: 900;
+    text-align: center;
+}

@@ -62,7 +62,7 @@ const NewArrivals = () => {
                             <Card
                                 style={{
                                     height: '300px',
-                                    width: '220px',
+                                    width: '233px',
                                     paddingTop: '130px',
                                 }}
                             >
@@ -75,7 +75,7 @@ const NewArrivals = () => {
                             <Card
                                 style={{
                                     height: '300px',
-                                    width: '220px',
+                                    width: '233px',
                                     paddingTop: '130px',
                                 }}
                             >
@@ -88,7 +88,7 @@ const NewArrivals = () => {
                             <Card
                                 style={{
                                     height: '300px',
-                                    width: '220px',
+                                    width: '233px',
                                     paddingTop: '130px',
                                 }}
                             >

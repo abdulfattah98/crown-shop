@@ -5,7 +5,10 @@ import { Button } from 'antd';
 import { MailOutlined, GoogleOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { createOrUpdateUser } from '../../functions/auth';
+import {
+    createOrUpdateUser,
+    createOrUpdateUserGoogle,
+} from '../../functions/auth';
 
 const Login = ({ history }) => {
     const [email, setEmail] = useState('abood.alkasaji81@gmail.com');
@@ -51,6 +54,7 @@ const Login = ({ history }) => {
             // console.log(result);
             const { user } = result;
             const idTokenResult = await user.getIdTokenResult();
+            console.log(idTokenResult);
             createOrUpdateUser(idTokenResult.token)
                 .then((res) => {
                     dispatch({
@@ -82,7 +86,7 @@ const Login = ({ history }) => {
             .then(async (result) => {
                 const { user } = result;
                 const idTokenResult = await user.getIdTokenResult();
-                createOrUpdateUser(idTokenResult.token)
+                createOrUpdateUserGoogle(idTokenResult.token)
                     .then((res) => {
                         dispatch({
                             type: 'LOGGED_IN_USER',
@@ -110,6 +114,7 @@ const Login = ({ history }) => {
     const loginForm = () => (
         <form onSubmit={handleSubmit}>
             <div className="form-group">
+                <label className="label_form">Email</label>
                 <input
                     type="email"
                     className="form-control"
@@ -121,6 +126,7 @@ const Login = ({ history }) => {
             </div>
 
             <div className="form-group">
+                <label className="label_form">Password</label>
                 <input
                     type="password"
                     className="form-control"
@@ -130,15 +136,17 @@ const Login = ({ history }) => {
                 />
             </div>
 
-            <br />
+            <div className="w-100 text-center cont-div_for">
+                <Link to="/forgot/password" className="forgget_pass">
+                    Forgot Password
+                </Link>
+            </div>
             <Button
                 onClick={handleSubmit}
                 type="primary"
-                className="mb-3"
-                block
-                shape="round"
+                className="online login_btn_page w-100"
                 icon={<MailOutlined />}
-                size="large"
+                // size="large"
                 disabled={!email || password.length < 6}
             >
                 Login with Email/Password
@@ -147,9 +155,9 @@ const Login = ({ history }) => {
     );
 
     return (
-        <div className="p-5">
-            <div className="row">
-                <div className="col col-sm-3 offset-sm-4 col-md-6 offset-md-3 login-form">
+        <div className="row">
+            <div className="col col-sm-6 offset-sm-3 col-md-4 offset-md-4 login-form">
+                <div className="py-5">
                     <div className="login-form__header">
                         {loading ? (
                             <h4 className="text-danger">Loading...</h4>
@@ -162,26 +170,25 @@ const Login = ({ history }) => {
                             </>
                         )}
                     </div>
+                    <div className="text-center cont_div_register">
+                        Don't have an account?
+                        <Link to="/register" className="link_register">
+                            Sign Up
+                        </Link>
+                    </div>
+
                     {loginForm()}
 
                     <Button
                         onClick={googleLogin}
                         type="danger"
-                        className="mb-3"
+                        className="mb-3 mt-3"
                         block
-                        shape="round"
                         icon={<GoogleOutlined />}
                         size="large"
                     >
                         Login with Google
                     </Button>
-
-                    <Link
-                        to="/forgot/password"
-                        className="float-right text-danger"
-                    >
-                        Forgot Password
-                    </Link>
                 </div>
             </div>
         </div>
