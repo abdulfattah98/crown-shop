@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import laptop from '../../images/laptop.png';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { showAverage } from '../../functions/rating';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeWishlist, addToWishlist } from '../../functions/user';
@@ -22,6 +22,8 @@ const ProductCard = ({ product, caption }) => {
     // redux
     const { user } = useSelector((state) => ({ ...state }));
     const dispatch = useDispatch();
+
+    const location = useLocation();
 
     const removetowish = (id) => {
         removeWishlist(id, user.token);
@@ -296,13 +298,19 @@ const ProductCard = ({ product, caption }) => {
                         />
                     </div>
                 ) : null}
-                <div className="product__arrival">
-                    {caption === 'New Arrival' ? (
-                        <span className="font-weight-bold">NEW ARRIVAL</span>
-                    ) : (
-                        <span className="font-weight-bold">Best Seller</span>
-                    )}
-                </div>
+                {location.pathname === '/' ? (
+                    <div className="product__arrival">
+                        {caption === 'New Arrival' ? (
+                            <span className="font-weight-bold">
+                                NEW ARRIVAL
+                            </span>
+                        ) : (
+                            <span className="font-weight-bold">
+                                Best Seller
+                            </span>
+                        )}
+                    </div>
+                ) : null}
             </div>
         </div>
     );
