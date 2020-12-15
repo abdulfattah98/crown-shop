@@ -3583,7 +3583,7 @@ hr {
     & .anticon {
         height: 100%;
         display: flex;
-        flex-basis: 20%;
+        flex-basis: 15%;
         background-color: #b83c2b;
         align-items: center;
         justify-content: center;
@@ -3598,7 +3598,7 @@ hr {
     & .text {
         display: flex;
         height: 100%;
-        flex-basis: 80%;
+        flex-basis: 85%;
         justify-content: center;
         align-items: center;
         text-transform: capitalize;
@@ -3640,4 +3640,15 @@ hr {
     &::-webkit-input-placeholder {
         color: #ff3333;
     }
+}
+
+.view-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    width: 20px;
+    fill: rgb(143, 143, 143);
+    height: 20px;
+    cursor: pointer;
+    transform: translateY(-50%);
 }

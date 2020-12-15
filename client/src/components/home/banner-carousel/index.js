@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-
+import { Link } from 'react-router-dom';
 // react owl carousel 2
 import OwlCarousel from 'react-owl-carousel2';
 import 'react-owl-carousel2/src/owl.theme.default.css';
@@ -24,7 +24,7 @@ const BannerCarousel = (props) => {
         items: 1,
         nav: true,
         rewind: true,
-        // autoplay: true,
+        autoplay: true,
         navText: [
             "<i class='fa fa-chevron-left'></i>",
             "<i class='fa fa-chevron-right'></i>",
@@ -33,72 +33,80 @@ const BannerCarousel = (props) => {
     return (
         <OwlCarousel ref={ref} options={options}>
             <div>
-                <img
-                    src={Banner4}
-                    alt="banner4"
-                    className="banner-image d-none d-lg-block"
-                />
-                <img
-                    src={Banner4Md}
-                    alt="banner4-md"
-                    className="banner-image d-none d-md-block d-lg-none"
-                />
-                <img
-                    src={Banner4Sm}
-                    alt="banner4-sm"
-                    className="banner-image d-block d-md-none"
-                />
+                <Link to="/category/smart-phone">
+                    <img
+                        src={Banner4}
+                        alt="banner4"
+                        className="banner-image d-none d-lg-block"
+                    />
+                    <img
+                        src={Banner4Md}
+                        alt="banner4-md"
+                        className="banner-image d-none d-md-block d-lg-none"
+                    />
+                    <img
+                        src={Banner4Sm}
+                        alt="banner4-sm"
+                        className="banner-image d-block d-md-none"
+                    />
+                </Link>
             </div>
             <div>
-                <img
-                    src={Banner1}
-                    alt="banner1"
-                    className="banner-image d-none d-lg-block"
-                />
-                <img
-                    src={Banner1Md}
-                    alt="banner1-md"
-                    className="banner-image d-none d-md-block d-lg-none"
-                />
-                <img
-                    src={Banner1Sm}
-                    alt="banner1-sm"
-                    className="banner-image d-block d-md-none"
-                />
+                <Link to="/shop">
+                    <img
+                        src={Banner1}
+                        alt="banner1"
+                        className="banner-image d-none d-lg-block"
+                    />
+                    <img
+                        src={Banner1Md}
+                        alt="banner1-md"
+                        className="banner-image d-none d-md-block d-lg-none"
+                    />
+                    <img
+                        src={Banner1Sm}
+                        alt="banner1-sm"
+                        className="banner-image d-block d-md-none"
+                    />
+                </Link>
             </div>
             <div>
-                <img
-                    src={Banner2}
-                    alt="banner2"
-                    className="banner-image d-none d-lg-block"
-                />
-                <img
-                    src={Banner2Md}
-                    alt="banner2-md"
-                    className="banner-image d-none d-md-block d-lg-none"
-                />
-                <img
-                    src={Banner2Sm}
-                    alt="banner2-sm"
-                    className="banner-image d-block d-md-none"
-                />
+                <Link to="/category/wearable">
+                    <img
+                        src={Banner2}
+                        alt="banner2"
+                        className="banner-image d-none d-lg-block"
+                    />
+                    <img
+                        src={Banner2Md}
+                        alt="banner2-md"
+                        className="banner-image d-none d-md-block d-lg-none"
+                    />
+                    <img
+                        src={Banner2Sm}
+                        alt="banner2-sm"
+                        className="banner-image d-block d-md-none"
+                    />
+                </Link>
             </div>
             <div>
-                <img
-                    src={Banner3}
-                    alt="banner3"
-                    className="banner-image d-none d-lg-block"
-                />
-                <img
-                    src={Banner3Md}
-                    alt="banner3-md"
-                    className="banner-image d-none d-md-block d-lg-none"
-                />
-                <img
-                    src={Banner3Sm}
-                    alt="banner3-sm"
-                    className="banner-image d-block d-md-none"
-                />
+                <Link to="/category/tablet">
+                    <img
+                        src={Banner3}
+                        alt="banner3"
+                        className="banner-image d-none d-lg-block"
+                    />
+                    <img
+                        src={Banner3Md}
+                        alt="banner3-md"
+                        className="banner-image d-none d-md-block d-lg-none"
+                    />
+                    <img
+                        src={Banner3Sm}
+                        alt="banner3-sm"
+                        className="banner-image d-block d-md-none"
+                    />
+                </Link>
             </div>
         </OwlCarousel>
     );

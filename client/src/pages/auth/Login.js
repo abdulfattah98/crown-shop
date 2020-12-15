@@ -5,6 +5,7 @@ import { Button } from 'antd';
 import { GoogleOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { ReactComponent as ViewIcon } from './view.svg';
 import {
     createOrUpdateUser,
     createOrUpdateUserGoogle,
@@ -14,6 +15,7 @@ const Login = ({ history }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const [view, setView] = useState('password');
 
     const emailRef = useRef();
     const passwordRef = useRef();
@@ -156,10 +158,20 @@ const Login = ({ history }) => {
                 />
             </div>
 
-            <div className="form-group">
+            <div className="form-group position-relative">
+                <ViewIcon
+                    className="view-icon"
+                    onClick={() => {
+                        if (view === 'password') {
+                            setView('text');
+                        } else {
+                            setView('password');
+                        }
+                    }}
+                />
                 <input
                     ref={passwordRef}
-                    type="password"
+                    type={view}
                     className="form-control"
                     value={password}
                     onChange={(e) => {
@@ -193,7 +205,7 @@ const Login = ({ history }) => {
 
     return (
         <div className="row py-5 flex-grow-1 px-3 justify-content-center">
-            <div className="col col-sm-6 col-md-5 col-lg-4 col-xl-3 login-form">
+            <div className="col col-sm-6 col-md-5 col-lg-4  login-form">
                 <div className="py-5">
                     <div className="login-form__header">
                         {loading ? (

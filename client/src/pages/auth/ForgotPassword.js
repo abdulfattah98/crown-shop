@@ -88,7 +88,7 @@ const ForgotPassword = ({ history }) => {
 
         // </div>
         <div className="row py-5  flex-grow-1 px-3 justify-content-center">
-            <div className="col col-sm-6 align-items-center col-md-5 col-lg-4 col-xl-3 login-form log-reg-form-container forgetPassword">
+            <div className="col col-sm-6 align-items-center col-md-5 col-lg-4 login-form log-reg-form-container forgetPassword">
                 <div className="py-5 w-100">
                     <div className="login-form__header">
                         {loading ? (

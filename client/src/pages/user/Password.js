@@ -3,9 +3,12 @@ import UserNav from '../../components/nav/UserNav';
 import { auth } from '../../firebase';
 import { toast } from 'react-toastify';
 
+import { ReactComponent as ViewIcon } from './view.svg';
+
 const Password = () => {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const [view, setView] = useState('password');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -30,9 +33,18 @@ const Password = () => {
             <div className="row">
                 <div className="col-12 col-md-8 col-lg-6 px-0 mb-4 mb-md-0 pr-md-2 pl-md-0">
                     <div className="form-group mb-0">
-                        <label>Your Password</label>
+                        <ViewIcon
+                            className="view-icon"
+                            onClick={() => {
+                                if (view === 'password') {
+                                    setView('text');
+                                } else {
+                                    setView('password');
+                                }
+                            }}
+                        />
                         <input
-                            type="password"
+                            type={view}
                             onChange={(e) => setPassword(e.target.value)}
                             className="form-control"
                             placeholder="Enter new password"
