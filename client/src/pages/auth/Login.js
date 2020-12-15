@@ -234,7 +234,7 @@ const Login = ({ history }) => {
                     >
                         <span className="button-inner">
                             <span className="google-icon">
-                                <i class="fab fa-google"></i>
+                                <i className="fab fa-google"></i>
                             </span>
                             <span className="text">Sign In With Google</span>
                         </span>

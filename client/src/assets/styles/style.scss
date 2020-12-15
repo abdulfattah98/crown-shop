@@ -3581,14 +3581,13 @@ hr {
 .login-register-button.google-button {
     background-color: #de4e3b;
     color: white;
-    display: flex;
-    align-items: stretch;
     width: 100%;
     border-radius: 5px !important;
     overflow: hidden;
     margin-right: 0;
     padding: 0;
     & .button-inner {
+        height: 100%;
         width: 100%;
         display: flex;
         align-items: center;
@@ -3666,4 +3665,11 @@ hr {
     height: 20px;
     cursor: pointer;
     transform: translateY(-50%);
+}
+
+input::placeholder {
+    text-align: left !important;
+}
+input::-webkit-input-placeholder {
+    text-align: left !important;
 }
