@@ -179,16 +179,14 @@ const Cart = ({ history }) => {
                                         </>
                                     ) : (
                                         <button className="login-to-pay">
-                                            <div className="col-6 pl-0">
-                                                <Link
-                                                    to={{
-                                                        pathname: '/login',
-                                                        state: { from: 'cart' },
-                                                    }}
-                                                >
-                                                    Login to Checkout
-                                                </Link>
-                                            </div>
+                                            <Link
+                                                to={{
+                                                    pathname: '/login',
+                                                    state: { from: 'cart' },
+                                                }}
+                                            >
+                                                Sign In To Checkout
+                                            </Link>
                                         </button>
                                     )}
                                 </div>
