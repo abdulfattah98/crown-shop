@@ -228,15 +228,17 @@ const Login = ({ history }) => {
 
                     {loginForm()}
 
-                    <Button
+                    <button
                         onClick={googleLogin}
                         className="mb-3 mt-3 login-register-button google-button"
-                        block
-                        icon={<GoogleOutlined />}
-                        size="large"
                     >
-                        <span className="text">Sign In With Google</span>
-                    </Button>
+                        <span className="button-inner">
+                            <span className="google-icon">
+                                <i class="fab fa-google"></i>
+                            </span>
+                            <span className="text">Sign In With Google</span>
+                        </span>
+                    </button>
                 </div>
             </div>
         </div>

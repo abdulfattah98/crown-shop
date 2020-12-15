@@ -3583,34 +3583,40 @@ hr {
     color: white;
     display: flex;
     align-items: stretch;
-    // align-items: center;
-    padding-top: 0;
+    width: 100%;
     border-radius: 5px !important;
     overflow: hidden;
-    padding-bottom: 0;
-    padding-left: 0;
-    & .anticon {
-        height: 100%;
+    margin-right: 0;
+    padding: 0;
+    & .button-inner {
+        width: 100%;
         display: flex;
-        flex-basis: 15%;
-        background-color: #b83c2b;
         align-items: center;
-        justify-content: center;
-        margin-right: 10px;
-        & svg {
-            width: 20px;
-            height: 20px;
-            // margin: 0 10px;
-            // align-self: stretch;
+        justify-content: space-between;
+        & .google-icon {
+            height: 100%;
+            display: flex;
+            flex-basis: 15%;
+            background-color: #b83c2b;
+            align-items: center;
+            justify-content: center;
+            // margin-right: 10px;
+            & i.fa-google {
+                // width: 20px;
+                font-size: 18px;
+                // height: 20px;
+                // margin: 0 10px;
+                // align-self: stretch;
+            }
         }
-    }
-    & .text {
-        display: flex;
-        height: 100%;
-        flex-basis: 85%;
-        justify-content: center;
-        align-items: center;
-        text-transform: capitalize;
+        & .text {
+            display: flex;
+            height: 100%;
+            flex-basis: 85%;
+            justify-content: center;
+            align-items: center;
+            text-transform: capitalize;
+        }
     }
 
     &:hover {
