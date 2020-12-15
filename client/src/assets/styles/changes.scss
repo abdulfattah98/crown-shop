@@ -134,6 +134,9 @@
         padding-left: 0 !important;
     }
 }
+.owl-carousel.owl-theme.owl-loaded.owl-drag.owl-grab {
+    transition: all 0s linear 0s !important;
+}
 
 .owl-nav {
     margin-top: 0 !important;

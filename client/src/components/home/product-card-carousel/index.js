@@ -13,6 +13,8 @@ const ProductCarousel = (props) => {
         dots: false,
         slideBy: 3,
         rewind: false,
+        // smartSpeed: 1000,
+        // fluidSpeed: 2500,
         mergeFit: true,
 
         margin: 10,

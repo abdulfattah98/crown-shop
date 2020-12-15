@@ -390,7 +390,7 @@ const CategoryHome = ({ match }) => {
                                         <div className="col-5 col-md-6 pl-3">
                                             <span className="items-found">
                                                 {products.length >= 1
-                                                    ? `${products.length} Products in ${category.name}`
+                                                    ? `${products.length} Products Found`
                                                     : 'no products found'}
                                             </span>
                                         </div>
