@@ -71,7 +71,7 @@ const CategoryCreate = () => {
     };
 
     return (
-        <div className="container-fluid dashboard">
+        <div className="container-fluid dashboard flex-grow-1">
             <div className="row">
                 <div className="d-none d-md-block col-3 pl-0">
                     <AdminNav />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import {
@@ -9,16 +9,11 @@ import {
     createCashOrderForUser,
 } from '../functions/user';
 import MapPicker from 'react-google-map-picker';
-import {
-    CheckCircleOutlined,
-    CloseCircleOutlined,
-    CloseOutlined,
-} from '@ant-design/icons';
+import { CheckCircleOutlined } from '@ant-design/icons';
 
 import { ReactComponent as LocateIcon } from './locate.svg';
 
 import axios from 'axios';
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 const DefaultLocation = { lat: 31.950450627829785, lng: 35.91271972656252 };
@@ -35,6 +30,7 @@ const Checkout = ({ history }) => {
         personName: '',
     });
     const [total, setTotal] = useState(0);
+    // eslint-disable-next-line no-unused-vars
     const [address, setAddress] = useState([]);
     const [addressSaved, setAddressSaved] = useState(false);
     const [coupon, setCoupon] = useState('');
@@ -50,6 +46,13 @@ const Checkout = ({ history }) => {
     let area = '';
     let streetName = '';
 
+    const addressNameRef = useRef();
+    const phoneNumberRef = useRef();
+    const areaRef = useRef();
+    const cityRef = useRef();
+    const countryRef = useRef();
+
+    // eslint-disable-next-line no-unused-vars
     const [location, setLocation] = useState(defaultLocation);
     const [zoom, setZoom] = useState(DefaultZoom);
     // discount price
@@ -62,10 +65,10 @@ const Checkout = ({ history }) => {
 
     useEffect(() => {
         getUserCart(user.token).then((res) => {
-            console.log('user cart res', JSON.stringify(res.data, null, 4));
             setProducts(res.data.products);
             setTotal(res.data.cartTotal);
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     const handleChange = (e, name) => {
         if (!e.target) {
@@ -78,44 +81,48 @@ const Checkout = ({ history }) => {
         }
     };
     function handleChangeLocation(lat, lng) {
-        console.log(lat, lng);
         axios
             .get(
                 `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyAQNvqdWwnrqSkXiCyUNryFx7vvpqSj3k4`
             )
             .then((data) => {
-                const result = data.data.results[0].address_components;
-                city = '';
-                country = '';
-                streetName = '';
-                area = '';
-                for (let i = 0; i < result.length; i++) {
-                    if (result[i].types.indexOf('route') >= 0) {
-                        if (result[i].long_name !== 'Unnamed Road') {
-                            streetName = result[i].long_name;
+                if (
+                    data.data.results[0] &&
+                    data.data.results[0].address_components
+                ) {
+                    const result = data.data.results[0].address_components;
+                    city = '';
+                    country = '';
+                    streetName = '';
+                    area = '';
+                    for (let i = 0; i < result.length; i++) {
+                        if (result[i].types.indexOf('route') >= 0) {
+                            if (result[i].long_name !== 'Unnamed Road') {
+                                streetName = result[i].long_name;
+                            }
+                        }
+                        if (result[i].types.indexOf('locality') >= 0) {
+                            city = result[i].long_name;
+                        }
+
+                        if (result[i].types.indexOf('country') >= 0) {
+                            country = result[i].long_name;
+                        }
+                        if (result[i].types.indexOf('sublocality') >= 0) {
+                            area = result[i].long_name;
                         }
                     }
-                    if (result[i].types.indexOf('locality') >= 0) {
-                        city = result[i].long_name;
+                    let format = '';
+                    if (streetName.length && area.length) {
+                        format = `${streetName} - ${area}`;
+                    } else if (!streetName.length && area.length) {
+                        format = `${area}`;
+                    } else if (streetName.length && !area.length) {
+                        format = `${streetName}`;
                     }
 
-                    if (result[i].types.indexOf('country') >= 0) {
-                        country = result[i].long_name;
-                    }
-                    if (result[i].types.indexOf('sublocality') >= 0) {
-                        area = result[i].long_name;
-                    }
+                    setMapInfo({ country, city, area: format });
                 }
-                let format = '';
-                if (streetName.length && area.length) {
-                    format = `${streetName} - ${area}`;
-                } else if (!streetName.length && area.length) {
-                    format = `${area}`;
-                } else if (streetName.length && !area.length) {
-                    format = `${streetName}`;
-                }
-
-                setMapInfo({ country, city, area: format });
             });
         setLocation({ lat: lat, lng: lng });
     }
@@ -149,6 +156,80 @@ const Checkout = ({ history }) => {
     };
 
     const saveAddressToDb = (e) => {
+        if (
+            Addrescomponet.name &&
+            /^[A-z]*((\s)*[A-z])*$/.test(Addrescomponet.name) &&
+            Addrescomponet.name.length <= 18
+        ) {
+        } else {
+            if (!Addrescomponet.name) {
+                toast.error('Address name must not be empty');
+                addressNameRef.current.classList.add('notValid');
+                e.preventDefault();
+                return;
+            } else if (Addrescomponet.name.length > 18) {
+                toast.error('Address name must not be more than 18 characters');
+                addressNameRef.current.classList.add('notValid');
+                e.preventDefault();
+                return;
+            } else {
+                toast.error('Address name must be only (letters, _) ');
+                addressNameRef.current.classList.add('notValid');
+                e.preventDefault();
+                return;
+            }
+        }
+
+        if (
+            Addrescomponet.phone &&
+            /^\d+$/.test(Addrescomponet.phone) &&
+            Addrescomponet.phone.length >= 6 &&
+            Addrescomponet.phone.length <= 15
+        ) {
+        } else {
+            if (!Addrescomponet.phone) {
+                toast.error('Phone number must not be empty');
+                phoneNumberRef.current.classList.add('notValid');
+                e.preventDefault();
+                return;
+            } else if (
+                Addrescomponet.phone.length < 6 ||
+                Addrescomponet.phone.length > 15
+            ) {
+                toast.error('Phone number must be between 6 and 15 digit');
+                phoneNumberRef.current.classList.add('notValid');
+                e.preventDefault();
+                return;
+            } else {
+                toast.error('Phone number is not valid');
+                phoneNumberRef.current.classList.add('notValid');
+                e.preventDefault();
+                return;
+            }
+        }
+
+        if (mapInfo.area.length) {
+        } else {
+            toast.error('Please fill the area field');
+            areaRef.current.classList.add('notValid');
+            e.preventDefault();
+            return;
+        }
+        if (mapInfo.city.length) {
+        } else {
+            toast.error('Please fill the city field');
+            cityRef.current.classList.add('notValid');
+            e.preventDefault();
+            return;
+        }
+        if (mapInfo.country.length) {
+        } else {
+            toast.error('Please fill the country field');
+            countryRef.current.classList.add('notValid');
+            e.preventDefault();
+            return;
+        }
+
         e.preventDefault();
         const addressSaved = {
             name: Addrescomponet.name,
@@ -157,7 +238,6 @@ const Checkout = ({ history }) => {
             city: mapInfo.city,
             country: mapInfo.country,
         };
-        console.log(addressSaved);
         saveUserAddress(user.token, addressSaved).then((res) => {
             if (res.data.ok) {
                 setAddressSaved(true);
@@ -167,9 +247,7 @@ const Checkout = ({ history }) => {
     };
 
     const applyDiscountCoupon = () => {
-        console.log('send coupon to backend', coupon);
         applyCoupon(user.token, coupon).then((res) => {
-            console.log('RES ON COUPON APPLIED', res.data);
             if (res.data) {
                 setTotalAfterDiscount(res.data);
                 // update redux coupon applied true/false
@@ -197,7 +275,6 @@ const Checkout = ({ history }) => {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude,
                 });
-                console.log(position.coords.latitude);
                 let geolocation = {
                     lat: parseFloat(position.coords.latitude),
                     lng: parseFloat(position.coords.longitude),
@@ -224,11 +301,23 @@ const Checkout = ({ history }) => {
                         <div className="form-group">
                             <label>Address Name</label>
                             <input
+                                ref={addressNameRef}
                                 className="form-control"
                                 type="text"
                                 placeholder="eg. Home"
                                 name="name"
-                                onChange={(e) => handleChange(e)}
+                                onChange={(e) => {
+                                    if (
+                                        [
+                                            ...addressNameRef.current.classList,
+                                        ].includes('notValid')
+                                    ) {
+                                        addressNameRef.current.classList.remove(
+                                            'notValid'
+                                        );
+                                    }
+                                    handleChange(e);
+                                }}
                                 value={Addrescomponet.name}
                             />
                         </div>
@@ -237,12 +326,24 @@ const Checkout = ({ history }) => {
                         <div className="form-group">
                             <label>Phone Number</label>
                             <input
+                                ref={phoneNumberRef}
                                 value={Addrescomponet.phone}
                                 className="form-control"
                                 type="text"
                                 placeholder=""
                                 name="phone"
-                                onChange={(e) => handleChange(e)}
+                                onChange={(e) => {
+                                    if (
+                                        [
+                                            ...phoneNumberRef.current.classList,
+                                        ].includes('notValid')
+                                    ) {
+                                        phoneNumberRef.current.classList.remove(
+                                            'notValid'
+                                        );
+                                    }
+                                    handleChange(e);
+                                }}
                             />
                         </div>
                     </div>
@@ -269,17 +370,27 @@ const Checkout = ({ history }) => {
                         <div className="form-group">
                             <label>Area</label>
                             <input
+                                ref={areaRef}
                                 value={mapInfo.area}
                                 className="form-control"
                                 type="text"
                                 placeholder=""
                                 name="area"
-                                onChange={(e) =>
+                                onChange={(e) => {
+                                    if (
+                                        [...areaRef.current.classList].includes(
+                                            'notValid'
+                                        )
+                                    ) {
+                                        areaRef.current.classList.remove(
+                                            'notValid'
+                                        );
+                                    }
                                     setMapInfo({
                                         ...mapInfo,
                                         area: e.target.value,
-                                    })
-                                }
+                                    });
+                                }}
                             />
                         </div>
                     </div>
@@ -287,17 +398,27 @@ const Checkout = ({ history }) => {
                         <div className="form-group">
                             <label>City</label>
                             <input
+                                ref={cityRef}
                                 value={mapInfo.city}
                                 className="form-control"
                                 type="text"
                                 placeholder=""
                                 name="city"
-                                onChange={(e) =>
+                                onChange={(e) => {
+                                    if (
+                                        [...cityRef.current.classList].includes(
+                                            'notValid'
+                                        )
+                                    ) {
+                                        cityRef.current.classList.remove(
+                                            'notValid'
+                                        );
+                                    }
                                     setMapInfo({
                                         ...mapInfo,
                                         city: e.target.value,
-                                    })
-                                }
+                                    });
+                                }}
                             />
                         </div>
                     </div>
@@ -305,17 +426,27 @@ const Checkout = ({ history }) => {
                         <div className="form-group">
                             <label>Country</label>
                             <input
+                                ref={countryRef}
                                 value={mapInfo.country}
                                 className="form-control"
                                 type="text"
                                 placeholder=""
                                 name="country"
-                                onChange={(e) =>
+                                onChange={(e) => {
+                                    if (
+                                        [
+                                            ...countryRef.current.classList,
+                                        ].includes('notValid')
+                                    ) {
+                                        countryRef.current.classList.remove(
+                                            'notValid'
+                                        );
+                                    }
                                     setMapInfo({
                                         ...mapInfo,
                                         country: e.target.value,
-                                    })
-                                }
+                                    });
+                                }}
                             />
                         </div>
                     </div>
@@ -387,7 +518,6 @@ const Checkout = ({ history }) => {
     const createCashOrder = () => {
         createCashOrderForUser(user.token, COD, couponTrueOrFalse).then(
             (res) => {
-                console.log('USER CASH ORDER CREATED RES ', res);
                 // empty cart form redux, local Storage, reset coupon, reset COD, redirect
                 if (res.data.ok) {
                     // empty local storage
@@ -420,7 +550,7 @@ const Checkout = ({ history }) => {
     };
 
     return (
-        <div className="p-0 py-5">
+        <div className="p-0 py-5 flex-grow-1">
             <div className="row checkout">
                 <div className="col-12 col-md-8">
                     <h4 className="checkout__header">Delivery Address</h4>

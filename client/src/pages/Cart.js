@@ -37,7 +37,6 @@ const Cart = ({ history }) => {
         });
         userCart(cart, user.token)
             .then((res) => {
-                console.log('CART POST RES', res);
                 if (res.data.ok) history.push('/checkout');
             })
             .catch((err) => console.log('cart save err', err));
@@ -70,7 +69,7 @@ const Cart = ({ history }) => {
     );
 
     return (
-        <div className="px-0 px-md-2 py-5">
+        <div className="px-0 px-md-2 py-5 flex-grow-1">
             <div className="cart">
                 {!cart.length ? (
                     <div className="row">

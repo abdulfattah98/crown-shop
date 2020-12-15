@@ -885,10 +885,19 @@ form {
     }
 }
 
+#root {
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
 .footer {
     // position: absolute;
     // min-height: 100vh;
     // top: 100%;
+    flex-shrink: 0;
     width: 100%;
     &__top {
         width: 100;
@@ -3540,14 +3549,15 @@ hr {
     color: white;
     padding: 10px 15px;
     font-size: 15px;
-    height: 50px;
+    height: 45px;
+    cursor: pointer !important;
     border: 0;
     border-radius: 5px !important;
     outline: 0;
     transition: all 0.2s ease-out;
     & .text {
         text-transform: uppercase;
-        font-weight: 600;
+        font-weight: 600 !important;
         letter-spacing: 1px;
     }
 
@@ -3573,7 +3583,7 @@ hr {
     & .anticon {
         height: 100%;
         display: flex;
-        width: 50px;
+        flex-basis: 20%;
         background-color: #b83c2b;
         align-items: center;
         justify-content: center;
@@ -3588,11 +3598,46 @@ hr {
     & .text {
         display: flex;
         height: 100%;
+        flex-basis: 80%;
+        justify-content: center;
         align-items: center;
         text-transform: capitalize;
     }
 
     &:hover {
         background-color: hsl(7, 70%, 52%);
+    }
+}
+
+.log-reg-form-container {
+    border-radius: 3px;
+}
+
+.register-form-group:not(:last-of-type) {
+    margin-bottom: 15px !important;
+}
+
+.login-register-button.regbutton {
+    margin-top: 15px;
+    text-transform: uppercase;
+}
+
+.forgot-width {
+    width: 50%;
+    @include respond-to('lg') {
+        width: 100%;
+    }
+}
+
+.forgetPassword {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.notValid {
+    border: 1px solid #ff3333 !important;
+    &::-webkit-input-placeholder {
+        color: #ff3333;
     }
 }

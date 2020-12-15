@@ -9,7 +9,7 @@ const promise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
 const Payment = () => {
     return (
-        <div className="text-center py-5">
+        <div className="text-center flex-grow-1 py-5">
             <h4
                 style={{
                     fontSize: '20px',

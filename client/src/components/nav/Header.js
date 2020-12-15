@@ -76,7 +76,6 @@ const Header = () => {
 
     let name = '';
     if (user) {
-        console.log(user.name.toString());
         const userName = user.name.toString();
         for (let i = 0; i < userName.length; i++) {
             if (

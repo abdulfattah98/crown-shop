@@ -145,7 +145,7 @@ const StripeCheckout = () => {
 
     return (
         <>
-            <div key="Payment">
+            <div key="Payment" className="flex-grow-1">
                 <div className="App-payment">
                     <div className="row">
                         <div className="col-12 mb-5 mb-lg-0 col-lg-6">

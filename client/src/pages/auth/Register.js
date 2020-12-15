@@ -1,35 +1,67 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { auth } from '../../firebase';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { createOrUpdateUser } from '../../functions/auth';
 
 const Register = ({ history }) => {
     const [email, setEmail] = useState('');
+    // eslint-disable-next-line no-unused-vars
     const [loading, setLoading] = useState(false);
     const { user } = useSelector((state) => ({ ...state }));
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
+
+    const emailRef = useRef();
+    const passwordRef = useRef();
+    const nameRef = useRef();
+
     useEffect(() => {
         if (user && user.token) history.push('/');
     }, [user, history]);
 
     const handleSubmit = async (e) => {
+        if (name && /^[A-z]*((\s)*[A-z])*$/.test(name) && name.length <= 18) {
+        } else {
+            if (!name) {
+                toast.error('Name must not be empty');
+                nameRef.current.classList.add('notValid');
+                e.preventDefault();
+                return;
+            } else if (name.length > 18) {
+                toast.error('Name must not be more than 18 characters');
+                nameRef.current.classList.add('notValid');
+                e.preventDefault();
+                return;
+            } else {
+                toast.error('Name must be only (letters, _) ');
+                nameRef.current.classList.add('notValid');
+                e.preventDefault();
+                return;
+            }
+        }
+        if (/^[a-zA-Z0-9.-_]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email) && email) {
+        } else {
+            if (!email) {
+                toast.error('Email must not be empty');
+                emailRef.current.classList.add('notValid');
+                e.preventDefault();
+                return;
+            } else {
+                toast.error('Email is not valid');
+                emailRef.current.classList.add('notValid');
+                e.preventDefault();
+                return;
+            }
+        }
+        if (password && password.length > 6) {
+        } else {
+            toast.error('Password must be at least 6 digits');
+            passwordRef.current.classList.add('notValid');
+            e.preventDefault();
+            return;
+        }
         e.preventDefault();
-        if (!password) {
-            toast.error('Name is required');
-            return;
-        }
-        if (password.length < 6) {
-            toast.error('Password must be at least 6 characters long');
-            return;
-        }
-        if (!email) {
-            toast.error('Email  is required');
-            return;
-        }
 
         // console.log("ENV --->", process.env.REACT_APP_REGISTER_REDIRECT_URL);
         const config = {
@@ -52,49 +84,82 @@ const Register = ({ history }) => {
     };
 
     const registerForm = () => (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
             <div className="row">
                 <div className="col-12">
-                    <div className="form-group">
-                        <label className="label_form">Name</label>
+                    <div className="form-group register-form-group">
                         <input
+                            ref={nameRef}
                             type="name"
                             className="form-control"
                             value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            onChange={(e) => {
+                                if (
+                                    [...nameRef.current.classList].includes(
+                                        'notValid'
+                                    )
+                                ) {
+                                    nameRef.current.classList.remove(
+                                        'notValid'
+                                    );
+                                }
+                                setName(e.target.value);
+                            }}
                             placeholder="Name"
                             autoFocus
                         />
                     </div>
 
-                    <div className="form-group">
-                        <label className="label_form">Email</label>
+                    <div className="form-group register-form-group">
                         <input
+                            ref={emailRef}
                             type="email"
                             className="form-control"
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e) => {
+                                if (
+                                    [...emailRef.current.classList].includes(
+                                        'notValid'
+                                    )
+                                ) {
+                                    emailRef.current.classList.remove(
+                                        'notValid'
+                                    );
+                                }
+                                setEmail(e.target.value);
+                            }}
                             placeholder="email"
                             autoFocus
                         />
                     </div>
 
-                    <div className="form-group">
-                        <label className="label_form">Password</label>
+                    <div className="form-group register-form-group">
                         <input
+                            ref={passwordRef}
                             type="password"
                             className="form-control"
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e) => {
+                                if (
+                                    [...passwordRef.current.classList].includes(
+                                        'notValid'
+                                    )
+                                ) {
+                                    passwordRef.current.classList.remove(
+                                        'notValid'
+                                    );
+                                }
+                                setPassword(e.target.value);
+                            }}
                             placeholder="password"
                         />
                     </div>
                 </div>
                 <br />
-                <div className="offset-3 col-6">
+                <div className="col-12">
                     <button
                         type="submit"
-                        className="online login_btn_page w-100"
+                        className="login-register-button regbutton w-100"
                     >
                         Register
                     </button>
@@ -113,8 +178,8 @@ const Register = ({ history }) => {
         //   </div>
         // </div>
 
-        <div className="row">
-            <div className="col col-sm-6 offset-sm-3 col-md-4 offset-md-4 login-form">
+        <div className="row py-5 flex-grow-1  px-3 justify-content-center">
+            <div className="col col-sm-6 col-md-5 col-lg-4 col-xl-3 login-form log-reg-form-container">
                 <div className="py-5">
                     <div className="login-form__header">
                         {loading ? (
@@ -125,10 +190,10 @@ const Register = ({ history }) => {
                             </>
                         )}
                     </div>
-                    <div className="text-center cont_div_register">
+                    <div className="text-center cont_div_register mb-3">
                         Already have an account?
                         <Link to="/login" className="link_register">
-                            Sign Up
+                            Sign In
                         </Link>
                     </div>
 

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { auth, googleAuthProvider } from '../../firebase';
 import { toast } from 'react-toastify';
 import { Button } from 'antd';
-import { MailOutlined, GoogleOutlined } from '@ant-design/icons';
+import { GoogleOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
@@ -14,6 +14,9 @@ const Login = ({ history }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+
+    const emailRef = useRef();
+    const passwordRef = useRef();
 
     const { user } = useSelector((state) => ({ ...state }));
 
@@ -43,9 +46,30 @@ const Login = ({ history }) => {
     };
 
     const handleSubmit = async (e) => {
+        if (/^[a-zA-Z0-9.-_]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email) && email) {
+        } else {
+            if (!email) {
+                toast.error('Email must not be empty');
+                emailRef.current.classList.add('notValid');
+                e.preventDefault();
+                return;
+            } else {
+                toast.error('Email is not valid');
+                emailRef.current.classList.add('notValid');
+                e.preventDefault();
+                return;
+            }
+        }
+        if (password && password.length > 6) {
+        } else {
+            toast.error('Password must be at least 6 digits');
+            passwordRef.current.classList.add('notValid');
+            e.preventDefault();
+            return;
+        }
         e.preventDefault();
         setLoading(true);
-        // console.table(email, password);
+        console.table(email, password);
         try {
             const result = await auth.signInWithEmailAndPassword(
                 email,
@@ -73,10 +97,10 @@ const Login = ({ history }) => {
                 })
                 .catch((err) => console.log(err));
 
-            // history.push("/");
+            history.push('/');
         } catch (error) {
-            console.log(error);
-            toast.error(error.message);
+            //console.log(error);
+            //toast.error(error.message);
             setLoading(false);
         }
     };
@@ -112,48 +136,64 @@ const Login = ({ history }) => {
     };
 
     const loginForm = () => (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
             <div className="form-group">
-                <label className="label_form">Email</label>
                 <input
+                    ref={emailRef}
                     type="email"
                     className="form-control"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Your email"
+                    onChange={(e) => {
+                        if (
+                            [...emailRef.current.classList].includes('notValid')
+                        ) {
+                            emailRef.current.classList.remove('notValid');
+                        }
+                        setEmail(e.target.value);
+                    }}
+                    placeholder="email"
                     autoFocus
                 />
             </div>
 
             <div className="form-group">
-                <label className="label_form">Password</label>
                 <input
+                    ref={passwordRef}
                     type="password"
                     className="form-control"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Your password"
+                    onChange={(e) => {
+                        if (
+                            [...passwordRef.current.classList].includes(
+                                'notValid'
+                            )
+                        ) {
+                            passwordRef.current.classList.remove('notValid');
+                        }
+                        setPassword(e.target.value);
+                    }}
+                    placeholder="password"
                 />
             </div>
 
-            <div className="w-100 text-center cont-div_for">
+            <div className="w-100 text-right cont-div_for">
                 <Link to="/forgot/password" className="forgget_pass">
                     Forgot Password
                 </Link>
             </div>
-            <Button
+            <button
                 onClick={handleSubmit}
                 className="login-register-button w-100"
                 // size="large"
             >
                 <div className="text">Sign In</div>
-            </Button>
+            </button>
         </form>
     );
 
     return (
-        <div className="row py-5 justify-content-center">
-            <div className="col col-sm-6 col-md-3 login-form">
+        <div className="row py-5 flex-grow-1 px-3 justify-content-center">
+            <div className="col col-sm-6 col-md-5 col-lg-4 col-xl-3 login-form">
                 <div className="py-5">
                     <div className="login-form__header">
                         {loading ? (
@@ -167,7 +207,7 @@ const Login = ({ history }) => {
                             </>
                         )}
                     </div>
-                    <div className="text-center cont_div_register">
+                    <div className="text-center cont_div_register mb-3">
                         Don't have an account?
                         <Link to="/register" className="link_register">
                             Sign Up

@@ -70,12 +70,14 @@ const RegisterComplete = ({ history }) => {
         setEmail(Email);
         setName(Name);
         setPassword(Password);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
         if (password.length) {
             fetchUser();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [password]);
 
     return (
