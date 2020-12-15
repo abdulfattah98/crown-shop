@@ -3582,6 +3582,7 @@ hr {
     background-color: #de4e3b;
     color: white;
     display: flex;
+    align-items: stretch;
     // align-items: center;
     padding-top: 0;
     border-radius: 5px !important;
@@ -3590,9 +3591,7 @@ hr {
     padding-left: 0;
     & .anticon {
         height: 100%;
-        // display: flex;
-        display: block !important;
-        position: relative;
+        display: flex;
         flex-basis: 15%;
         background-color: #b83c2b;
         align-items: center;
@@ -3600,10 +3599,6 @@ hr {
         margin-right: 10px;
         & svg {
             width: 20px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             height: 20px;
             // margin: 0 10px;
             // align-self: stretch;
