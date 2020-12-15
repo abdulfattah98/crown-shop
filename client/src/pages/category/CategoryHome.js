@@ -342,17 +342,9 @@ const CategoryHome = ({ match }) => {
                             <div className="views-filters d-flex d-md-none py-2">
                                 <span className="products-found">
                                     {products.length >= 1 ? (
-                                        <>
-                                            <span>
-                                                {products.length} Products Found
-                                                In{' '}
-                                            </span>
-                                            <span
-                                                style={{ fontWeight: 'bold' }}
-                                            >
-                                                {category.name}s
-                                            </span>
-                                        </>
+                                        <span>
+                                            {products.length} Products Found
+                                        </span>
                                     ) : (
                                         'no products found'
                                     )}
