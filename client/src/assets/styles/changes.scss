@@ -712,9 +712,9 @@ span.MuiButtonBase-root-16.MuiIconButton-root-10.MuiSwitchBase-root-6.MuiCheckbo
 }
 
 .js-qty-selector {
-    width: 100px;
+    width: 120px;
     background: #ededed;
-    padding: 4px 0;
+    height: 40px;
     border-radius: 3px;
     display: flex;
     align-items: center;
@@ -722,6 +722,10 @@ span.MuiButtonBase-root-16.MuiIconButton-root-10.MuiSwitchBase-root-6.MuiCheckbo
     // &  .js-qty-selector-minus .btnqty {
     // }
     & .js-qty-selector-input {
+        flex-basis: 50%;
+        @include respond-to('sm') {
+            flex-basis: 35%;
+        }
         outline: none;
         border: none;
         text-align: center;
@@ -735,6 +739,7 @@ span.MuiButtonBase-root-16.MuiIconButton-root-10.MuiSwitchBase-root-6.MuiCheckbo
     }
     & .btnqty {
         padding: 6px 10px !important;
+        height: 100%;
         border: none;
         background: transparent;
         margin: 0;
@@ -761,17 +766,19 @@ span.MuiButtonBase-root-16.MuiIconButton-root-10.MuiSwitchBase-root-6.MuiCheckbo
     & .js-qty-selector {
         width: 130px;
         background: #ededed;
-        padding: 10px 0;
+        // padding: 10px 0;
+        height: 47px;
         @include respond-to('sm') {
             padding: 11.5px 0;
         }
         border-radius: 3px;
         display: flex;
-        align-items: center;
+        align-items: stretch;
         justify-content: space-between;
         // &  .js-qty-selector-minus .btnqty {
         // }
         & .js-qty-selector-input {
+            flex-basis: 50% !important;
             outline: none;
             border: none;
             text-align: center;
@@ -779,9 +786,8 @@ span.MuiButtonBase-root-16.MuiIconButton-root-10.MuiSwitchBase-root-6.MuiCheckbo
             background: #ededed;
             font-size: 14px;
             font-weight: 600;
-
-            @include respond-to('sm') {
-                font-size: 12px;
+            & div {
+                height: 100%;
             }
         }
         & .btnqty {
@@ -790,6 +796,7 @@ span.MuiButtonBase-root-16.MuiIconButton-root-10.MuiSwitchBase-root-6.MuiCheckbo
             background: transparent;
             margin: 0;
             outline: none;
+            height: 100%;
         }
         .icon-plus,
         .icon-minus {

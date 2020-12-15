@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { auth, googleAuthProvider } from '../../firebase';
 import { toast } from 'react-toastify';
-import { Button } from 'antd';
-import { GoogleOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ReactComponent as ViewIcon } from './view.svg';
