@@ -500,8 +500,8 @@ span.MuiButtonBase-root-16.MuiIconButton-root-10.MuiSwitchBase-root-6.MuiCheckbo
 
 .currentColor {
     & label {
-        // border: 2px solid #c2c2c2;
-        animation: selectedColor 1s infinite;
+        box-shadow: 0 0 0 2px #cccccc;
+        border: 2px solid #fff;
     }
 }
 
@@ -693,8 +693,8 @@ span.MuiButtonBase-root-16.MuiIconButton-root-10.MuiSwitchBase-root-6.MuiCheckbo
 
     & .currentColor {
         & label {
-            // border: 2px solid #c2c2c2;
-            animation: selectedColor 1s infinite;
+            box-shadow: 0 0 0 2px #cccccc;
+            border: 2px solid #fff;
         }
     }
 }
