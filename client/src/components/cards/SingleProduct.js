@@ -154,6 +154,7 @@ const SingleProduct = ({ product, onStarClick, star }) => {
     };
 
     useEffect(() => {
+        setCounter(1);
         if (product && product.color && !currentColor.length) {
             setCurrentColor(product.color[0]);
             loadcolorimages(product.color[0]);

@@ -649,6 +649,10 @@ form {
                 width: 100%;
                 padding: 2rem 0;
 
+                & span {
+                    font-weight: 600;
+                }
+
                 &:active,
                 &:hover {
                     color: $color-dark;
@@ -2033,7 +2037,7 @@ form {
         color: #404553;
         margin-left: 4px;
         @include respond-to('sm') {
-            font-size: 12px;
+            margin-left: 10px;
         }
     }
     & .filters {
@@ -3672,4 +3676,27 @@ input::placeholder {
 }
 input::-webkit-input-placeholder {
     text-align: left !important;
+}
+
+.price-from-to {
+    font-size: 14px;
+    font-weight: 600;
+    & .price-from,
+    & .price-to {
+        border: 1px solid rgb(192, 192, 192);
+        padding: 5px 10px;
+        border-radius: 2px;
+
+        & .value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #38ae04;
+        }
+        & .currency {
+            font-size: 12px;
+            margin-right: 1px;
+            font-weight: 300;
+            color: #38ae04;
+        }
+    }
 }

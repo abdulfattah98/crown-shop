@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
     getProductsByCount,
     fetchProductsByFilter,
 } from '../functions/product';
 
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import LoadingCard from '../components/cards/LoadingCard';
 import { getCategories } from '../functions/category';
 import { useSelector, useDispatch } from 'react-redux';
@@ -32,7 +32,7 @@ const Shop = () => {
     const [categoryIds, setCategoryIds] = useState([]);
     const [star, setStar] = useState(null);
     // const [subs, setSubs] = useState([]);
-    const [showFilters, setShowFilters] = useState(false);
+    // const [showFilters, setShowFilters] = useState(false);
     // eslint-disable-next-line no-unused-vars
     const [brands, setBrands] = useState([
         'Apple',
@@ -80,6 +80,9 @@ const Shop = () => {
     let { search } = useSelector((state) => ({ ...state }));
     let { text } = search;
 
+    const filterOpen = useRef();
+    const filtersSm = useRef();
+
     useEffect(() => {
         // fetch categories
         getCategories().then((res) => setCategories(res.data));
@@ -100,16 +103,18 @@ const Shop = () => {
 
     const body = document.querySelector('body');
     const toggleFilter = () => {
-        if (showFilters) {
+        filterOpen.current = !filterOpen.current;
+        if (filterOpen.current) {
+            filtersSm.current.classList.add('active');
             body.removeAttribute('style');
         } else {
+            filtersSm.current.classList.remove('active');
             body.style.overflow = 'hidden';
             body.style.height = '100vh';
             body.style.position = 'fixed';
             body.style.msTouchAction = 'none';
             body.style.touchAction = 'none';
         }
-        setShowFilters(!showFilters);
     };
 
     // useEffect(() => {
@@ -135,14 +140,12 @@ const Shop = () => {
     //     console.log('componentDidUpdateFunction');
     // }, []);
 
-    const location = useLocation();
-
-    useEffect(() => {
-        if (showFilters) {
-            toggleFilter();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [location]);
+    // useEffect(() => {
+    //     if (filterOpen.current) {
+    //         toggleFilter();
+    //     }
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [location]);
 
     // 1. load products by default on page load
     const loadAllProducts = () => {
@@ -156,7 +159,7 @@ const Shop = () => {
     // 2. load products on user search input
     useEffect(() => {
         const delayed = setTimeout(() => {
-            setPrice([0, 0]);
+            setPrice([1, 3000]);
             setStar('');
             setBrand('');
             setColor('');
@@ -175,6 +178,7 @@ const Shop = () => {
     // 3. load products based on price range
     // let priceTime;
     const handleSlider = (value) => {
+        setPrice(value);
         setwaitForFilter(true);
         setallowPrice(true);
         dispatch({
@@ -184,7 +188,6 @@ const Shop = () => {
 
         // reset
         setCategoryIds([]);
-        setPrice(value);
         setStar('');
         setBrand('');
         setColor('');
@@ -240,17 +243,6 @@ const Shop = () => {
     // handle check for categories
     const handleCheck = (e, value) => {
         if (e) {
-            setwaitForFilter(true);
-            // reset
-            dispatch({
-                type: 'SEARCH_QUERY',
-                payload: { text: '' },
-            });
-            setPrice([0, 0]);
-            setStar('');
-            setBrand('');
-            setColor('');
-            setShipping('');
             let inTheState = [...categoryIds];
             let justChecked = e.target.value;
             let foundInTheState = inTheState.indexOf(justChecked); // index or -1
@@ -269,18 +261,18 @@ const Shop = () => {
             } else {
                 fetchProducts({ category: inTheState });
             }
-        } else {
             setwaitForFilter(true);
             // reset
             dispatch({
                 type: 'SEARCH_QUERY',
                 payload: { text: '' },
             });
-            setPrice([0, 0]);
+            setPrice([1, 3000]);
             setStar('');
             setBrand('');
             setColor('');
             setShipping('');
+        } else {
             let inTheState = [...categoryIds];
             let justChecked = value;
             let foundInTheState = inTheState.indexOf(justChecked); // index or -1
@@ -299,19 +291,30 @@ const Shop = () => {
             } else {
                 fetchProducts({ category: inTheState });
             }
+            setwaitForFilter(true);
+            // reset
+            dispatch({
+                type: 'SEARCH_QUERY',
+                payload: { text: '' },
+            });
+            setPrice([1, 3000]);
+            setStar('');
+            setBrand('');
+            setColor('');
+            setShipping('');
         }
     };
 
     // 5. show products by star rating
     const handleStarClick = (num) => {
+        setStar(num);
         setwaitForFilter(true);
         dispatch({
             type: 'SEARCH_QUERY',
             payload: { text: '' },
         });
-        setPrice([0, 0]);
+        setPrice([1, 3000]);
         setCategoryIds([]);
-        setStar(num);
         setBrand('');
         setColor('');
         setShipping('');
@@ -360,16 +363,16 @@ const Shop = () => {
     };
 
     const handleBrand = (e) => {
+        setBrand(e.target.value);
         setwaitForFilter(true);
         dispatch({
             type: 'SEARCH_QUERY',
             payload: { text: '' },
         });
-        setPrice([0, 0]);
+        setPrice([1, 3000]);
         setCategoryIds([]);
         setStar('');
         setColor('');
-        setBrand(e.target.value);
         setShipping('');
         fetchProducts({ brand: e.target.value });
     };
@@ -395,16 +398,16 @@ const Shop = () => {
     );
 
     const handleColor = (e) => {
+        setColor(e.target.value);
         setwaitForFilter(true);
         dispatch({
             type: 'SEARCH_QUERY',
             payload: { text: '' },
         });
-        setPrice([0, 0]);
+        setPrice([1, 3000]);
         setCategoryIds([]);
         setStar('');
         setBrand('');
-        setColor(e.target.value);
         setShipping('');
         fetchProducts({ color: e.target.value });
     };
@@ -433,17 +436,17 @@ const Shop = () => {
     );
 
     const handleShippingchange = (e) => {
+        setShipping(e.target.value);
         setwaitForFilter(true);
         dispatch({
             type: 'SEARCH_QUERY',
             payload: { text: '' },
         });
-        setPrice([0, 0]);
+        setPrice([1, 3000]);
         setCategoryIds([]);
         setStar('');
         setBrand('');
         setColor('');
-        setShipping(e.target.value);
         fetchProducts({ shipping: e.target.value });
     };
 
@@ -492,12 +495,12 @@ const Shop = () => {
                                     <button
                                         className="views"
                                         onClick={() => {
-                                            setViewLoading(true);
                                             setView(
                                                 view === 'grid'
                                                     ? 'list'
                                                     : 'grid'
                                             );
+                                            setViewLoading(true);
                                         }}
                                     >
                                         {view === 'grid' ? (
@@ -525,8 +528,8 @@ const Shop = () => {
                                                     cursor: 'pointer',
                                                 }}
                                                 onClick={() => {
-                                                    setViewLoading(true);
                                                     setView('list');
+                                                    setViewLoading(true);
                                                 }}
                                             >
                                                 <span className="views__text">
@@ -554,8 +557,8 @@ const Shop = () => {
                                                     cursor: 'pointer',
                                                 }}
                                                 onClick={() => {
-                                                    setViewLoading(true);
                                                     setView('grid');
+                                                    setViewLoading(true);
                                                 }}
                                             >
                                                 <span className="views__text">
@@ -571,9 +574,7 @@ const Shop = () => {
                             </div>
                         </div>
                     </div>
-                    <div
-                        className={`filters-sm ${showFilters ? 'active' : ''}`}
-                    >
+                    <div ref={filtersSm} className={`filters-sm`}>
                         <Menu
                             className="products-fliters pt-0 pt-md-5"
                             defaultOpenKeys={['1']}
@@ -587,9 +588,29 @@ const Shop = () => {
                                 className="products-filters__filter-outer"
                                 key="1"
                                 title={
-                                    <div>
-                                        {/* <DollarOutlined /> Price */}
-                                        <h3>Price</h3>
+                                    <div className="d-flex align-items-center justify-content-between">
+                                        <div className="d-flex align-items-center">
+                                            <h3>Price</h3>
+                                            <span className="ml-5 mt-1 price-from-to">
+                                                <span className="price-from">
+                                                    <span className="currency">
+                                                        JD
+                                                    </span>
+                                                    <span className="value">
+                                                        {price[0]}
+                                                    </span>
+                                                </span>
+                                                &nbsp;&nbsp;—&nbsp;&nbsp;
+                                                <span className="price-to">
+                                                    <span className="currency">
+                                                        JD
+                                                    </span>
+                                                    <span className="value">
+                                                        {price[1]}
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </div>
                                         <div className="arrow"></div>
                                     </div>
                                 }
@@ -599,6 +620,7 @@ const Shop = () => {
                                         className="ml-5 mr-4"
                                         tipFormatter={(v) => `JD${v}`}
                                         range
+                                        value={price}
                                         defaultValue={[1, 3000]}
                                         onChange={handleSlider}
                                         max="3000"
@@ -727,8 +749,9 @@ const Shop = () => {
                                     <div>
                                         <Slider
                                             className="ml-5 mr-4"
-                                            tipFormatter={(v) => `$${v}`}
+                                            tipFormatter={(v) => `JD${v}`}
                                             range
+                                            value={price}
                                             defaultValue={[1, 3000]}
                                             onChange={handleSlider}
                                             max="3000"
