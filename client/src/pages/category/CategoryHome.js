@@ -117,14 +117,14 @@ const CategoryHome = ({ match }) => {
         filterOpen.current = !filterOpen.current;
         if (filterOpen.current) {
             filtersSm.current.classList.add('active');
-            body.removeAttribute('style');
-        } else {
-            filtersSm.current.classList.remove('active');
             body.style.overflow = 'hidden';
             body.style.height = '100vh';
             body.style.position = 'fixed';
             body.style.msTouchAction = 'none';
             body.style.touchAction = 'none';
+        } else {
+            body.removeAttribute('style');
+            filtersSm.current.classList.remove('active');
         }
     };
 
