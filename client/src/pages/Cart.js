@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ProductCardInCheckout from '../components/cards/ProductCardInCheckout';
@@ -28,6 +28,14 @@ const Cart = ({ history }) => {
             })
             .catch((err) => console.log('cart save err', err));
     };
+
+    useEffect(() => {
+        dispatch({
+            type: 'COD',
+            payload: false,
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const saveCashOrderToDb = () => {
         // console.log("cart", JSON.stringify(cart, null, 4));

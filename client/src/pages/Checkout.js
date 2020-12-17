@@ -64,6 +64,10 @@ const Checkout = ({ history }) => {
     const couponTrueOrFalse = useSelector((state) => state.coupon);
 
     useEffect(() => {
+        dispatch({
+            type: 'COUPON_APPLIED',
+            payload: false,
+        });
         getUserCart(user.token).then((res) => {
             setProducts(res.data.products);
             setTotal(res.data.cartTotal);
