@@ -33,7 +33,7 @@ const BannerCarousel = (props) => {
     return (
         <OwlCarousel ref={ref} options={options}>
             <div>
-                <Link to="/category/smart-phone">
+                <Link to="/category/smartphones">
                     <img
                         src={Banner4}
                         alt="banner4"
@@ -71,7 +71,7 @@ const BannerCarousel = (props) => {
                 </Link>
             </div>
             <div>
-                <Link to="/category/wearable">
+                <Link to="/category/smartwatches">
                     <img
                         src={Banner2}
                         alt="banner2"
@@ -90,7 +90,7 @@ const BannerCarousel = (props) => {
                 </Link>
             </div>
             <div>
-                <Link to="/category/tablet">
+                <Link to="/category/tablets">
                     <img
                         src={Banner3}
                         alt="banner3"
