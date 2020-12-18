@@ -8,6 +8,8 @@ import {
     createOrUpdateUser,
     createOrUpdateUserGoogle,
 } from '../../functions/auth';
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 const Login = ({ history }) => {
     const [email, setEmail] = useState('');
@@ -19,6 +21,8 @@ const Login = ({ history }) => {
     const passwordRef = useRef();
 
     const { user } = useSelector((state) => ({ ...state }));
+
+    const antIcon = <LoadingOutlined style={{ fontSize: 25 }} spin />;
 
     useEffect(() => {
         let intended = history.location.state;
@@ -69,7 +73,6 @@ const Login = ({ history }) => {
         }
         e.preventDefault();
         setLoading(true);
-        console.table(email, password);
         try {
             const result = await auth.signInWithEmailAndPassword(
                 email,
@@ -78,7 +81,6 @@ const Login = ({ history }) => {
             // console.log(result);
             const { user } = result;
             const idTokenResult = await user.getIdTokenResult();
-            console.log(idTokenResult);
             createOrUpdateUser(idTokenResult.token)
                 .then((res) => {
                     dispatch({
@@ -100,9 +102,11 @@ const Login = ({ history }) => {
             history.push('/');
         } catch (error) {
             //console.log(error);
-            //toast.error(error.message);
-            setLoading(false);
+            toast.error('Your email or password is incorrect');
         }
+        setLoading(false);
+        setEmail('');
+        setPassword('');
     };
 
     const googleLogin = async () => {
@@ -193,10 +197,15 @@ const Login = ({ history }) => {
             </div>
             <button
                 onClick={handleSubmit}
+                disabled={loading ? true : false}
                 className="login-register-button w-100"
                 // size="large"
             >
-                <div className="text">Sign In</div>
+                {loading ? (
+                    <Spin indicator={antIcon} />
+                ) : (
+                    <div className="text">Sign In</div>
+                )}
             </button>
         </form>
     );
@@ -206,16 +215,12 @@ const Login = ({ history }) => {
             <div className="col col-sm-6 col-md-5 col-lg-4  login-form">
                 <div className="py-5">
                     <div className="login-form__header">
-                        {loading ? (
-                            <h4 className="text-danger">Loading...</h4>
-                        ) : (
-                            <>
-                                <h2 className="title">Welcome back!</h2>
-                                <h2 className="subtitle">
-                                    Sign in to your account
-                                </h2>
-                            </>
-                        )}
+                        <>
+                            <h2 className="title">Welcome back!</h2>
+                            <h2 className="subtitle">
+                                Sign in to your account
+                            </h2>
+                        </>
                     </div>
                     <div className="text-center cont_div_register mb-3">
                         Don't have an account?

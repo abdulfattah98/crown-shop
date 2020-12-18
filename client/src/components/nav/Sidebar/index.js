@@ -150,12 +150,9 @@ const Sidebar = (props) => {
                     )}
                 </ul>
                 <ul className="sidebar__categories">
-                    <p className="sidebar__categories-text mb-0">
-                        all categories
-                    </p>
                     <li className="sidebar__categories-item">
                         <Link
-                            to="/category/smart-phone"
+                            to="/category/smartphones"
                             className="sidebar__categories-item-link"
                         >
                             <span className="link-text">Smartphones</span>
@@ -163,7 +160,7 @@ const Sidebar = (props) => {
                     </li>
                     <li className="sidebar__categories-item">
                         <Link
-                            to={`/category/laptop`}
+                            to={`/category/laptops`}
                             className="sidebar__categories-item-link"
                         >
                             <span className="link-text">Laptops</span>
@@ -171,7 +168,7 @@ const Sidebar = (props) => {
                     </li>
                     <li className="sidebar__categories-item">
                         <Link
-                            to="/category/tablet"
+                            to="/category/tablets"
                             className="sidebar__categories-item-link"
                         >
                             <span className="link-text">Tablets</span>
@@ -179,7 +176,7 @@ const Sidebar = (props) => {
                     </li>
                     <li className="sidebar__categories-item">
                         <Link
-                            to="/category/wearable"
+                            to="/category/smartwatches"
                             className="sidebar__categories-item-link"
                         >
                             <span className="link-text">Smartwatches</span>

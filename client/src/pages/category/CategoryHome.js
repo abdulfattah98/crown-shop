@@ -347,7 +347,8 @@ const CategoryHome = ({ match }) => {
                                 <span className="products-found">
                                     {products.length >= 1 ? (
                                         <span>
-                                            {products.length} Products Found
+                                            {products.length} Products Found In
+                                            <b>&nbsp;{category.name}</b>
                                         </span>
                                     ) : (
                                         'no products found'
@@ -385,9 +386,18 @@ const CategoryHome = ({ match }) => {
                                     <div className="row align-items-center justify-content-between">
                                         <div className="col-5 col-md-6 pl-3">
                                             <span className="items-found">
-                                                {products.length >= 1
-                                                    ? `${products.length} Products Found`
-                                                    : 'no products found'}
+                                                {products.length >= 1 ? (
+                                                    <span>
+                                                        {products.length}{' '}
+                                                        Products Found In
+                                                        <b>
+                                                            &nbsp;
+                                                            {category.name}
+                                                        </b>
+                                                    </span>
+                                                ) : (
+                                                    'no products found'
+                                                )}
                                             </span>
                                         </div>
                                         <div className="col-4">

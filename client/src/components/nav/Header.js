@@ -93,72 +93,6 @@ const Header = () => {
     }
 
     return (
-        // <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
-        //     <Item key="home" icon={<AppstoreOutlined />}>
-        //         <Link to="/">Home</Link>
-        //     </Item>
-
-        //     <Item key="shop" icon={<ShoppingOutlined />}>
-        //         <Link to="/shop">Shop</Link>
-        //     </Item>
-
-        //     <Item key="cart" icon={<ShoppingCartOutlined />}>
-        //         <Link to="/cart">
-        //             <Badge count={cart.length} offset={[9, 0]}>
-        //                 Cart
-        //             </Badge>
-        //         </Link>
-        //     </Item>
-
-        //     {!user && (
-        //         <Item
-        //             key="register"
-        //             icon={<UserAddOutlined />}
-        //             className="float-right"
-        //         >
-        //             <Link to="/register">Register</Link>
-        //         </Item>
-        //     )}
-
-        //     {!user && (
-        //         <Item
-        //             key="login"
-        //             icon={<UserOutlined />}
-        //             className="float-right"
-        //         >
-        //             <Link to="/login">Login</Link>
-        //         </Item>
-        //     )}
-
-        //     {user && (
-        //         <SubMenu
-        //             icon={<SettingOutlined />}
-        //             title={user.email && user.email.split('@')[0]}
-        //             className="float-right"
-        //         >
-        //             {user && user.role === 'subscriber' && (
-        //                 <Item>
-        //                     <Link to="/user/history">Dashboard</Link>
-        //                 </Item>
-        //             )}
-
-        //             {user && user.role === 'admin' && (
-        //                 <Item>
-        //                     <Link to="/admin/dashboard">Dashboard</Link>
-        //                 </Item>
-        //             )}
-
-        //             <Item icon={<LogoutOutlined />} onClick={logout}>
-        //                 Logout
-        //             </Item>
-        //         </SubMenu>
-        //     )}
-
-        //     <span className="float-right p-1">
-        //         <Search />
-        //     </span>
-        // </Menu>
-
         <div className="Navbar-outer">
             <header
                 className="Navbar"
@@ -183,12 +117,6 @@ const Header = () => {
                         </Link>
                     </div>
                     <Search />
-                    {/* {!user && <Link  to="/register">Register</Link>}
-                    {!user && <Link to="/login">Login</Link>} */}
-
-                    {/* <Link to="/shop">Shop</Link> */}
-                    {/* <Link to="/cart">Cart {cart.length}</Link>{' '} */}
-
                     <div className="Navbar__right">
                         <div className="Navbar__auth">
                             {user && user.role === 'subscriber' ? (
@@ -378,7 +306,7 @@ const Header = () => {
                     <li className="Navbar__links-item">
                         <Link
                             className="Navbar__links-item-link"
-                            to={`/category/smart-phone`}
+                            to={`/category/smartphones`}
                         >
                             smartphones
                         </Link>
@@ -386,7 +314,7 @@ const Header = () => {
                     <li className="Navbar__links-item">
                         <Link
                             className="Navbar__links-item-link"
-                            to={`/category/laptop`}
+                            to={`/category/laptops`}
                         >
                             laptops
                         </Link>
@@ -394,7 +322,7 @@ const Header = () => {
                     <li className="Navbar__links-item">
                         <Link
                             className="Navbar__links-item-link"
-                            to={`/category/tablet`}
+                            to={`/category/tablets`}
                         >
                             tablets
                         </Link>
@@ -402,7 +330,7 @@ const Header = () => {
                     <li className="Navbar__links-item">
                         <Link
                             className="Navbar__links-item-link"
-                            to={`/category/wearable`}
+                            to={`/category/smartwatches`}
                         >
                             smartwatches
                         </Link>

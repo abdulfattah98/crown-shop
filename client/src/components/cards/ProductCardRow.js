@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import laptop from '../../images/laptop.png';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 import SoldOut from '../../images/sold-out.png';
 
@@ -11,7 +12,7 @@ import { Link } from 'react-router-dom';
 import Star from '../forms/Star';
 
 import { removeWishlist, addToWishlist } from '../../functions/user';
-import { currentUser } from '../../functions/auth';
+// import { currentUser } from '../../functions/auth';
 
 import { ReactComponent as NotWishlistIcon } from './notwishlist.svg';
 import { ReactComponent as DeleteIcon } from './delete.svg';
@@ -39,41 +40,21 @@ const ProductCardRow = ({ p, wishListCard, loadWishlist }) => {
     };
 
     const removetowishPLP = async (id) => {
+        dispatch({
+            type: 'LOGGED_IN_USER',
+            payload: {
+                ...user,
+                wishlist: user.wishlist.filter((w) => w !== id),
+            },
+        });
         await removeWishlist(id, user.token);
-        currentUser(user.token)
-            .then((res) => {
-                dispatch({
-                    type: 'LOGGED_IN_USER',
-                    payload: {
-                        name: res.data.name,
-                        email: res.data.email,
-                        token: user.token,
-                        role: res.data.role,
-                        _id: res.data._id,
-                        wishlist: res.data.wishlist,
-                    },
-                });
-            })
-            .catch((err) => console.log(err));
     };
     const addtowishPLP = async (id) => {
+        dispatch({
+            type: 'LOGGED_IN_USER',
+            payload: { ...user, wishlist: [...user.wishlist, id] },
+        });
         await addToWishlist(id, user.token);
-
-        currentUser(user.token)
-            .then((res) => {
-                dispatch({
-                    type: 'LOGGED_IN_USER',
-                    payload: {
-                        name: res.data.name,
-                        email: res.data.email,
-                        token: user.token,
-                        role: res.data.role,
-                        _id: res.data._id,
-                        wishlist: res.data.wishlist,
-                    },
-                });
-            })
-            .catch((err) => console.log(err));
     };
 
     useEffect(() => {
@@ -87,25 +68,17 @@ const ProductCardRow = ({ p, wishListCard, loadWishlist }) => {
         setCurrentImages(currentImgs);
     };
 
-    const handleRemove = (id) => {
-        removeWishlist(id, user.token);
-        currentUser(user.token)
-            .then((res) => {
-                dispatch({
-                    type: 'LOGGED_IN_USER',
-                    payload: {
-                        name: res.data.name,
-                        email: res.data.email,
-                        token: user.token,
-                        role: res.data.role,
-                        _id: res.data._id,
-                        wishlist: res.data.wishlist,
-                    },
-                });
-                loadcolorimages(currentColor);
-                loadWishlist();
-            })
-            .catch((err) => console.log(err));
+    const handleRemove = async (id) => {
+        dispatch({
+            type: 'LOGGED_IN_USER',
+            payload: {
+                ...user,
+                wishlist: user.wishlist.filter((w) => w !== id),
+            },
+        });
+        await removeWishlist(id, user.token);
+        loadcolorimages(currentColor);
+        loadWishlist();
     };
 
     const handleAddToCart = () => {
@@ -126,18 +99,29 @@ const ProductCardRow = ({ p, wishListCard, loadWishlist }) => {
                 count: counter,
             };
             let sameProduct = false;
+            let outofstock = false;
             cart.filter((p) => {
+                console.log(p);
                 if (
                     p._id === productAddToCart._id &&
                     p.color === productAddToCart.color
                 ) {
-                    p.count += productAddToCart.count;
+                    let value = p.count + productAddToCart.count;
+                    if (value <= p.quantity) {
+                        p.count = value;
+                        sameProduct = true;
+                    } else {
+                        toast.error(
+                            'Sorry, there is insufficient stock for your cart.'
+                        );
 
-                    sameProduct = true;
+                        outofstock = true;
+                        return 0;
+                    }
                 }
                 return 0;
             });
-            if (!sameProduct) {
+            if (!sameProduct && !outofstock) {
                 cart.push({
                     ...p,
                     images: currentImages,
@@ -145,7 +129,9 @@ const ProductCardRow = ({ p, wishListCard, loadWishlist }) => {
                     count: counter,
                 });
             }
-            handleRemove(productAddToCart._id);
+            if (!outofstock) {
+                handleRemove(productAddToCart._id);
+            }
 
             setCounter(1);
             // push new product to cart
@@ -179,11 +165,9 @@ const ProductCardRow = ({ p, wishListCard, loadWishlist }) => {
                 <div
                     className="product__wishlist"
                     style={{ right: '10px', top: '10' }}
+                    onClick={() => removetowishPLP(p._id)}
                 >
-                    <WishlistIcon
-                        className="product__wishlist-icon"
-                        onClick={() => removetowishPLP(p._id)}
-                    />
+                    <WishlistIcon className="product__wishlist-icon" />
                 </div>
             ) : !wishListCard &&
               user &&
@@ -192,11 +176,9 @@ const ProductCardRow = ({ p, wishListCard, loadWishlist }) => {
                 <div
                     className="product__wishlist"
                     style={{ right: '10px', top: '10' }}
+                    onClick={() => addtowishPLP(p._id)}
                 >
-                    <NotWishlistIcon
-                        className="product__wishlist-icon"
-                        onClick={() => addtowishPLP(p._id)}
-                    />
+                    <NotWishlistIcon className="product__wishlist-icon" />
                 </div>
             ) : null}
             <div className="product-image-info">

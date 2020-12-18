@@ -9,7 +9,7 @@ import {
     createCashOrderForUser,
 } from '../functions/user';
 import MapPicker from 'react-google-map-picker';
-import { CheckCircleOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 
 import { ReactComponent as LocateIcon } from './locate.svg';
 
@@ -251,25 +251,27 @@ const Checkout = ({ history }) => {
     };
 
     const applyDiscountCoupon = () => {
-        applyCoupon(user.token, coupon).then((res) => {
-            if (res.data) {
-                setTotalAfterDiscount(res.data);
-                // update redux coupon applied true/false
-                dispatch({
-                    type: 'COUPON_APPLIED',
-                    payload: true,
-                });
-            }
-            // error
-            if (res.data.err) {
-                setDiscountError(res.data.err);
-                // update redux coupon applied true/false
-                dispatch({
-                    type: 'COUPON_APPLIED',
-                    payload: false,
-                });
-            }
-        });
+        if (coupon.length) {
+            applyCoupon(user.token, coupon).then((res) => {
+                if (res.data) {
+                    setTotalAfterDiscount(res.data);
+                    // update redux coupon applied true/false
+                    dispatch({
+                        type: 'COUPON_APPLIED',
+                        payload: true,
+                    });
+                }
+                // error
+                if (res.data.err) {
+                    setDiscountError(res.data.err);
+                    // update redux coupon applied true/false
+                    dispatch({
+                        type: 'COUPON_APPLIED',
+                        payload: false,
+                    });
+                }
+            });
+        }
     };
 
     async function handleResetLocation() {
@@ -485,7 +487,7 @@ const Checkout = ({ history }) => {
                     ={' '}
                     <span
                         style={{
-                            color: '#38ae04',
+                            color: '#3866df',
                         }}
                     >
                         JD{p.price * p.count}
@@ -572,26 +574,12 @@ const Checkout = ({ history }) => {
                     <h4 className="mb-3">Got Coupon?</h4>
                     {showApplyCoupon()}
                     <br />
-                    {discountError && (
-                        <p className="bg-danger p-2">{discountError}</p>
-                    )}
+                    {/* {discountError && <p className="p-2">{discountError}</p>} */}
+                    {/* {totalAfterDiscount <= 0 && (
+                        
+                    )} */}
 
-                    {totalAfterDiscount <= 0 && (
-                        <h4 className="total">
-                            Total: <b style={{ color: '#38ae04' }}>{total}</b>
-                            <span
-                                style={{
-                                    fontWeight: '300',
-                                    color: '#38ae04',
-                                    fontSize: '17px',
-                                }}
-                            >
-                                JD
-                            </span>
-                        </h4>
-                    )}
-
-                    {totalAfterDiscount > 0 && (
+                    {totalAfterDiscount > 0 ? (
                         <>
                             <h4 className="total">
                                 Total:{' '}
@@ -619,13 +607,13 @@ const Checkout = ({ history }) => {
                                     <span className="line_dis"></span>
                                 </div>
                                 &nbsp;
-                                <b style={{ color: '#38ae04' }}>
+                                <b style={{ color: '#3866df' }}>
                                     {parseInt(totalAfterDiscount)}
                                 </b>
                                 <span
                                     style={{
                                         fontWeight: '300',
-                                        color: '#38ae04',
+                                        color: '#3866df',
                                         fontSize: '17px',
                                     }}
                                 >
@@ -643,6 +631,42 @@ const Checkout = ({ history }) => {
                                 % discount applied
                             </span>
                         </>
+                    ) : discountError ? (
+                        <h4 className="total">
+                            <div>
+                                Total:{' '}
+                                <b style={{ color: '#3866df' }}>{total}</b>
+                                <span
+                                    style={{
+                                        fontWeight: '300',
+                                        color: '#3866df',
+                                        fontSize: '17px',
+                                    }}
+                                >
+                                    JD
+                                </span>
+                            </div>
+                            <span className="invalid-coupon">
+                                <CloseCircleOutlined />
+                                {discountError}
+                            </span>
+                        </h4>
+                    ) : (
+                        <h4 className="total">
+                            <div>
+                                Total:{' '}
+                                <b style={{ color: '#3866df' }}>{total}</b>
+                                <span
+                                    style={{
+                                        fontWeight: '300',
+                                        color: '#3866df',
+                                        fontSize: '17px',
+                                    }}
+                                >
+                                    JD
+                                </span>
+                            </div>
+                        </h4>
                     )}
                     <div className="payment-buttons mt-4 row">
                         <div className="col-12 col-lg-6 px-0 pl-lg-0 pr-lg-3 mb-4">

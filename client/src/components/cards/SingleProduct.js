@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Card } from 'antd';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 // import { Carousel } from 'react-responsive-carousel';
 // import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Laptop from '../../images/laptop.png';
@@ -13,7 +15,7 @@ import { showAverage } from '../../functions/rating';
 import { useSelector, useDispatch } from 'react-redux';
 import Gallery from './Gallery';
 import { RadioButton, RadioGroup } from '@trendmicro/react-radio';
-import { currentUser } from '../../functions/auth';
+// import { currentUser } from '../../functions/auth';
 import { addToWishlist, removeWishlist } from '../../functions/user';
 
 import { ReactComponent as NotWishlistIcon } from './notwishlist.svg';
@@ -56,18 +58,29 @@ const SingleProduct = ({ product, onStarClick, star }) => {
                 count: counter,
             };
             let sameProduct = false;
+            let outofstock = false;
             cart.filter((p) => {
+                console.log(p);
                 if (
                     p._id === productAddToCart._id &&
                     p.color === productAddToCart.color
                 ) {
-                    p.count += productAddToCart.count;
+                    let value = p.count + productAddToCart.count;
+                    if (value <= p.quantity) {
+                        p.count = value;
+                        sameProduct = true;
+                    } else {
+                        toast.error(
+                            'Sorry, there is insufficient stock for your cart.'
+                        );
 
-                    sameProduct = true;
+                        outofstock = true;
+                        return 0;
+                    }
                 }
                 return 0;
             });
-            if (!sameProduct) {
+            if (!sameProduct && !outofstock) {
                 cart.push({
                     ...product,
                     images: currentImages,
@@ -97,42 +110,22 @@ const SingleProduct = ({ product, onStarClick, star }) => {
         }
     };
 
-    const removetowish = (id) => {
-        removeWishlist(id, user.token);
-        currentUser(user.token)
-            .then((res) => {
-                dispatch({
-                    type: 'LOGGED_IN_USER',
-                    payload: {
-                        name: res.data.name,
-                        email: res.data.email,
-                        token: user.token,
-                        role: res.data.role,
-                        _id: res.data._id,
-                        wishlist: res.data.wishlist,
-                    },
-                });
-            })
-            .catch((err) => console.log(err));
+    const removetowish = async (id) => {
+        dispatch({
+            type: 'LOGGED_IN_USER',
+            payload: {
+                ...user,
+                wishlist: user.wishlist.filter((w) => w !== id),
+            },
+        });
+        await removeWishlist(id, user.token);
     };
     const addtowish = async (id) => {
+        dispatch({
+            type: 'LOGGED_IN_USER',
+            payload: { ...user, wishlist: [...user.wishlist, id] },
+        });
         await addToWishlist(id, user.token);
-
-        currentUser(user.token)
-            .then((res) => {
-                dispatch({
-                    type: 'LOGGED_IN_USER',
-                    payload: {
-                        name: res.data.name,
-                        email: res.data.email,
-                        token: user.token,
-                        role: res.data.role,
-                        _id: res.data._id,
-                        wishlist: res.data.wishlist,
-                    },
-                });
-            })
-            .catch((err) => console.log(err));
     };
 
     // const handleAddToWishlist = (e) => {
@@ -215,20 +208,18 @@ const SingleProduct = ({ product, onStarClick, star }) => {
                     {user && user.role === 'subscriber' ? (
                         <div>
                             {user && user.wishlist.includes(product._id) ? (
-                                <div className="product-wishlist">
-                                    <WishlistIcon
-                                        className="product-wishlist__icon"
-                                        onClick={() =>
-                                            removetowish(product._id)
-                                        }
-                                    />
+                                <div
+                                    className="product-wishlist"
+                                    onClick={() => removetowish(product._id)}
+                                >
+                                    <WishlistIcon className="product-wishlist__icon" />
                                 </div>
                             ) : user && !user.wishlist.includes(product.id) ? (
-                                <div className="product-wishlist">
-                                    <NotWishlistIcon
-                                        className="product-wishlist__icon"
-                                        onClick={() => addtowish(product._id)}
-                                    />
+                                <div
+                                    className="product-wishlist"
+                                    onClick={() => addtowish(product._id)}
+                                >
+                                    <NotWishlistIcon className="product-wishlist__icon" />
                                 </div>
                             ) : null}
                         </div>

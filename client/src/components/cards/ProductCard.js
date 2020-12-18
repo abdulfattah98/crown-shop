@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { showAverage } from '../../functions/rating';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeWishlist, addToWishlist } from '../../functions/user';
-import { currentUser } from '../../functions/auth';
+// import { currentUser } from '../../functions/auth';
 //SVGs
 import { ReactComponent as NotWishlistIcon } from './notwishlist.svg';
 import { ReactComponent as WishlistIcon } from './wishlist.svg';
@@ -25,42 +25,22 @@ const ProductCard = ({ product, caption }) => {
 
     const location = useLocation();
 
-    const removetowish = (id) => {
-        removeWishlist(id, user.token);
-        currentUser(user.token)
-            .then((res) => {
-                dispatch({
-                    type: 'LOGGED_IN_USER',
-                    payload: {
-                        name: res.data.name,
-                        email: res.data.email,
-                        token: user.token,
-                        role: res.data.role,
-                        _id: res.data._id,
-                        wishlist: res.data.wishlist,
-                    },
-                });
-            })
-            .catch((err) => console.log(err));
+    const removetowish = async (id) => {
+        dispatch({
+            type: 'LOGGED_IN_USER',
+            payload: {
+                ...user,
+                wishlist: user.wishlist.filter((w) => w !== id),
+            },
+        });
+        await removeWishlist(id, user.token);
     };
     const addtowish = async (id) => {
+        dispatch({
+            type: 'LOGGED_IN_USER',
+            payload: { ...user, wishlist: [...user.wishlist, id] },
+        });
         await addToWishlist(id, user.token);
-
-        currentUser(user.token)
-            .then((res) => {
-                dispatch({
-                    type: 'LOGGED_IN_USER',
-                    payload: {
-                        name: res.data.name,
-                        email: res.data.email,
-                        token: user.token,
-                        role: res.data.role,
-                        _id: res.data._id,
-                        wishlist: res.data.wishlist,
-                    },
-                });
-            })
-            .catch((err) => console.log(err));
     };
 
     const loadcolorimages = (value) => {
@@ -282,20 +262,20 @@ const ProductCard = ({ product, caption }) => {
                 user.role === 'subscriber' &&
                 user.wishlist.length &&
                 user.wishlist.includes(product._id) ? (
-                    <div className="product__wishlist">
-                        <WishlistIcon
-                            className="product__wishlist-icon"
-                            onClick={() => removetowish(product._id)}
-                        />
+                    <div
+                        className="product__wishlist"
+                        onClick={() => removetowish(product._id)}
+                    >
+                        <WishlistIcon className="product__wishlist-icon" />
                     </div>
                 ) : user &&
                   user.role === 'subscriber' &&
                   !user.wishlist.includes(product.id) ? (
-                    <div className="product__wishlist">
-                        <NotWishlistIcon
-                            className="product__wishlist-icon"
-                            onClick={() => addtowish(product._id)}
-                        />
+                    <div
+                        className="product__wishlist"
+                        onClick={() => addtowish(product._id)}
+                    >
+                        <NotWishlistIcon className="product__wishlist-icon" />
                     </div>
                 ) : null}
                 {location.pathname === '/' ? (

@@ -219,7 +219,7 @@ const Shop = () => {
     const showCategories = () =>
         categories.map((c) => {
             return (
-                <div key={c._id}>
+                <div key={c._id} className="shop-inputs">
                     <Checkbox
                         onChange={handleCheck}
                         className="pb-2 pl-4"
@@ -343,7 +343,7 @@ const Shop = () => {
     // 7. show products based on brand name
     const showBrands = () => {
         return (
-            <div className="row">
+            <div className="row shop-inputs">
                 {brands.map((b) => (
                     <div key={b} className="col-6 mb-1">
                         <Radio
@@ -379,7 +379,7 @@ const Shop = () => {
 
     // 8. show products based on color
     const showColors = () => (
-        <div className="row">
+        <div className="row shop-inputs">
             {colors.map((c) => (
                 <div className="col-6 mb-1" key={c}>
                     <Radio
@@ -414,7 +414,7 @@ const Shop = () => {
 
     // 9. show products based on shipping yes/no
     const showShipping = () => (
-        <>
+        <div className="shop-inputs">
             <Checkbox
                 className="pb-2 pl-4"
                 onChange={handleShippingchange}
@@ -432,7 +432,7 @@ const Shop = () => {
             >
                 No
             </Checkbox>
-        </>
+        </div>
     );
 
     const handleShippingchange = (e) => {
@@ -657,7 +657,10 @@ const Shop = () => {
                                     </div>
                                 }
                             >
-                                <div style={{ maringTop: '-10px' }}>
+                                <div
+                                    className="shop-inputs"
+                                    style={{ maringTop: '-10px' }}
+                                >
                                     {showStars()}
                                 </div>
                             </SubMenu>

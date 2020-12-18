@@ -9,7 +9,6 @@ import { showAverage } from '../../functions/rating';
 import Star from '../forms/Star';
 
 import { addToWishlist } from '../../functions/user';
-import { currentUser } from '../../functions/auth';
 
 import { ReactComponent as DeleteIcon } from './delete.svg';
 import { ReactComponent as WishlistIcon } from './notwishlist.svg';
@@ -23,24 +22,12 @@ const ProductCardInCheckout = ({ p }) => {
     const [counter, setCounter] = useState(p ? p.count : 1);
 
     const addtowish = async (id) => {
+        dispatch({
+            type: 'LOGGED_IN_USER',
+            payload: { ...user, wishlist: [...user.wishlist, id] },
+        });
         await addToWishlist(id, user.token);
-
-        currentUser(user.token)
-            .then((res) => {
-                dispatch({
-                    type: 'LOGGED_IN_USER',
-                    payload: {
-                        name: res.data.name,
-                        email: res.data.email,
-                        token: user.token,
-                        role: res.data.role,
-                        _id: res.data._id,
-                        wishlist: res.data.wishlist,
-                    },
-                });
-                return handleRemove(p._id);
-            })
-            .catch((err) => console.log(err));
+        return handleRemove(p._id);
     };
 
     const handlePlus = () => {

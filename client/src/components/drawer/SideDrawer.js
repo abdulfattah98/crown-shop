@@ -30,6 +30,19 @@ const SideDrawer = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location]);
 
+    const body = document.querySelector('body');
+    useEffect(() => {
+        if (drawer) {
+            body.style.overflow = 'hidden';
+            body.style.height = '100vh';
+            body.style.position = 'fixed';
+            body.style.msTouchAction = 'none';
+            body.style.touchAction = 'none';
+        } else {
+            body.removeAttribute('style');
+        }
+    });
+
     return (
         <Drawer
             className="text-center"

@@ -4,6 +4,8 @@ import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ReactComponent as ViewIcon } from './view.svg';
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 const Register = ({ history }) => {
     const [email, setEmail] = useState('');
@@ -17,6 +19,8 @@ const Register = ({ history }) => {
     const emailRef = useRef();
     const passwordRef = useRef();
     const nameRef = useRef();
+
+    const antIcon = <LoadingOutlined style={{ fontSize: 25 }} spin />;
 
     useEffect(() => {
         if (user && user.token) history.push('/');
@@ -64,6 +68,7 @@ const Register = ({ history }) => {
             return;
         }
         e.preventDefault();
+        setLoading(true);
 
         // console.log("ENV --->", process.env.REACT_APP_REGISTER_REDIRECT_URL);
         const config = {
@@ -83,6 +88,7 @@ const Register = ({ history }) => {
         setEmail('');
         setPassword('');
         setName('');
+        setLoading(false);
     };
 
     const registerForm = () => (
@@ -170,10 +176,15 @@ const Register = ({ history }) => {
                 <br />
                 <div className="col-12">
                     <button
+                        disabled={loading ? true : false}
                         type="submit"
                         className="login-register-button regbutton w-100"
                     >
-                        Register
+                        {loading ? (
+                            <Spin indicator={antIcon} />
+                        ) : (
+                            <div className="text"> Register</div>
+                        )}
                     </button>
                 </div>
             </div>
@@ -194,13 +205,7 @@ const Register = ({ history }) => {
             <div className="col col-sm-6 col-md-5 col-lg-4 login-form log-reg-form-container">
                 <div className="py-5">
                     <div className="login-form__header">
-                        {loading ? (
-                            <h4 className="text-danger">Loading...</h4>
-                        ) : (
-                            <>
-                                <h2 className="subtitle">Create an account</h2>
-                            </>
-                        )}
+                        <h2 className="subtitle">Create an account</h2>
                     </div>
                     <div className="text-center cont_div_register mb-3">
                         Already have an account?

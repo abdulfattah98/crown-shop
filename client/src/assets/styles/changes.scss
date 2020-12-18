@@ -329,7 +329,7 @@ span.MuiButtonBase-root-16.MuiIconButton-root-10.MuiSwitchBase-root-6.MuiCheckbo
 }
 
 .color-select:not(:last-of-type) {
-    margin-right: 5px;
+    margin-right: 10px;
 }
 
 .color-select.Black {
@@ -1281,4 +1281,16 @@ div.ant-modal[role='document'] {
     font-size: 20px;
     font-weight: 900;
     text-align: center;
+}
+
+.Toastify__toast-container.Toastify__toast-container--top-right {
+    left: 1rem !important;
+    bottom: 1rem !important;
+    top: unset !important;
+
+    @include respond-to('sm') {
+        top: 0 !important;
+        right: unset !important;
+        left: unset !important;
+    }
 }

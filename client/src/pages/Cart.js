@@ -132,7 +132,7 @@ const Cart = ({ history }) => {
                                             ={' '}
                                             <span
                                                 style={{
-                                                    color: '#38ae04',
+                                                    color: '#3866df',
                                                 }}
                                             >
                                                 JD{c.price * c.count}
@@ -143,13 +143,13 @@ const Cart = ({ history }) => {
                                 <hr className="my-4" />
                                 <h4 className="total my-4">
                                     Total:{' '}
-                                    <b style={{ color: '#38ae04' }}>
+                                    <b style={{ color: '#3866df' }}>
                                         {getTotal()}
                                     </b>
                                     <span
                                         style={{
                                             fontWeight: '300',
-                                            color: '#38ae04',
+                                            color: '#3866df',
                                             fontSize: '17px',
                                         }}
                                     >

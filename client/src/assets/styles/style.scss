@@ -631,16 +631,11 @@ form {
             }
         }
     }
+
     &__categories {
         padding: 2rem;
+        padding-top: 0;
         list-style: none;
-        &-text {
-            color: $color-blue-light;
-            font-size: 1.2rem;
-            font-weight: 700;
-            display: inline-block;
-            text-transform: uppercase;
-        }
         &-item {
             border-bottom: 1px solid #ddd;
             &-link {
@@ -696,6 +691,13 @@ form {
     overflow: hidden;
     height: 100%;
 
+    & .anticon.anticon-loading.anticon-spin.ant-spin-dot {
+        margin-bottom: 5px !important;
+        & svg {
+            fill: #f46044 !important;
+        }
+    }
+
     flex-direction: column;
     position: relative;
     background-color: #fff;
@@ -729,7 +731,7 @@ form {
                 font-weight: 400;
                 color: $color-blue-light;
                 font-size: 14px;
-                color: #38ae04;
+                color: #3866df;
                 @include respond-to('sm') {
                     font-size: 12px;
                 }
@@ -738,7 +740,7 @@ form {
                 // @include font-family;
                 margin: 0 5px 0 2px;
                 font-size: 20px;
-                color: #38ae04;
+                color: #3866df;
                 font-weight: 900;
                 @include respond-to('sm') {
                     font-size: 16px;
@@ -1320,13 +1322,13 @@ form {
         & .currency {
             font-size: 16px;
             font-weight: 300;
-            color: #38ae04;
+            color: #3866df;
             margin-right: 3px;
         }
         & .value {
             font-size: 19px;
             font-weight: 900;
-            color: #38ae04;
+            color: #3866df;
         }
     }
 
@@ -1683,14 +1685,14 @@ form {
                             & .product-price {
                                 & .value {
                                     font-size: 16px;
-                                    color: #38ae04;
+                                    color: #3866df;
                                     font-weight: 700;
                                 }
                                 & .currency {
                                     font-weight: 400;
                                     color: $color-blue-light;
                                     font-size: 14px;
-                                    color: #38ae04;
+                                    color: #3866df;
                                     margin: 0 3px 0 0px;
                                 }
                             }
@@ -1727,14 +1729,14 @@ form {
             & .product-price {
                 & .value {
                     font-size: 16px;
-                    color: #38ae04;
+                    color: #3866df;
                     font-weight: 700;
                 }
                 & .currency {
                     font-weight: 400;
                     color: $color-blue-light;
                     font-size: 14px;
-                    color: #38ae04;
+                    color: #3866df;
                     margin: 0 3px 0 0px;
                 }
             }
@@ -1803,12 +1805,12 @@ form {
                         font-weight: 400;
                         color: $color-blue-light;
                         font-size: 14px;
-                        color: #38ae04;
+                        color: #3866df;
                     }
                     & .value {
                         margin: 0 5px 0 2px;
                         font-size: 18px;
-                        color: #38ae04;
+                        color: #3866df;
                         font-weight: 700;
                     }
                 }
@@ -2739,6 +2741,8 @@ form {
 .coupon-input {
     width: 70%;
     float: left;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
     padding-right: 0 !important;
 }
 
@@ -2753,7 +2757,7 @@ form {
     text-transform: uppercase;
     background-color: #3866df;
     // font-weight: 600;
-    height: 37px;
+    height: 38px;
     padding: 0px 10px;
     color: white;
     border: none;
@@ -3411,6 +3415,10 @@ hr {
 .login-form {
     background-color: white;
 
+    & .anticon.anticon-loading svg {
+        fill: white;
+    }
+
     &__header {
         padding: 20px;
         & .title {
@@ -3690,13 +3698,84 @@ input::-webkit-input-placeholder {
         & .value {
             font-size: 14px;
             font-weight: 600;
-            color: #38ae04;
+            color: #3866df;
         }
         & .currency {
             font-size: 12px;
             margin-right: 1px;
             font-weight: 300;
-            color: #38ae04;
+            color: #3866df;
         }
+    }
+}
+
+.categories {
+    min-height: 400px;
+
+    background-image: linear-gradient(to right bottom, #feee00, #665f00);
+    padding: 10px;
+    &__title {
+        font-size: 25px;
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 30px;
+        margin-top: 20px;
+        color: white;
+    }
+    &__category {
+        margin: auto;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        transition: all 0.2s ease-out;
+        &:hover {
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+        }
+        width: 230px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        border-radius: 2px;
+        height: 260px;
+        background-color: white;
+        & .image-container {
+            height: 170px;
+            width: 100%;
+            position: relative;
+            & img {
+                max-width: 100%;
+                max-height: 100%;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+        &-name {
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+    }
+}
+
+.shop-inputs {
+    & .ant-radio-wrapper,
+    & .ant-checkbox-wrapper {
+        & span:last-of-type {
+            text-transform: capitalize !important;
+        }
+    }
+}
+
+.invalid-coupon {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-weight: 400;
+    & svg {
+        fill: #f15151;
+        margin-right: 5px;
+        width: 12px;
     }
 }
