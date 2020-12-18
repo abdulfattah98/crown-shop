@@ -7,7 +7,7 @@ import IPhoneSm from '../../../images/iphone-sm.gif';
 const Banner = () => {
     return (
         <div>
-            <Link to="/category/smartwatches">
+            <Link to="/category/smartphones">
                 <img
                     src={IPhone}
                     alt="iphone banner"
