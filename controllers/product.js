@@ -258,7 +258,7 @@ const handleShipping = async (req, res, shipping) => {
 };
 
 const handleColor = async (req, res, color) => {
-    const products = await Product.find({ color })
+    const products = await Product.find({ "color": { "$in": color } })
         .populate('category', '_id name')
         .populate('subs', '_id name')
         .populate('postedBy', '_id name')
@@ -484,7 +484,7 @@ const handleShippingCat = async (req, res, ProductCategory, shipping) => {
 };
 
 const handleColorCat = async (req, res, ProductCategory, color) => {
-    const products = await Product.find({ color, category: ProductCategory })
+        const products = await Product.find({ "color": { "$in": color }, category: ProductCategory })
         .populate('category', '_id name')
         .populate('subs', '_id name')
         .populate('postedBy', '_id name')

@@ -3779,3 +3779,22 @@ input::-webkit-input-placeholder {
         width: 12px;
     }
 }
+
+.color-search-autocomplete {
+    width: 50%;
+    margin: 1rem 0 0 1rem;
+    height: 40px;
+    border: none;
+    // border-radius: 3px;
+    padding: 1.7rem;
+    font-size: 1.7rem;
+    color: #555;
+
+    &::placeholder {
+        font-size: 1.5rem;
+    }
+
+    &:focus {
+        outline: none;
+    }
+}

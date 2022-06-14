@@ -1,0 +1,10 @@
+
+
+mongodb+srv://moath_abd:TBErfNIU1OjlkIYQ@cluster0.zqwvq.mongodb.net/ecommerce?retryWrites=true&w=majority
+
+`mongodb+srv://ecommerceMern:YHwoGjrDzILPka3c@cluster0.toxxf.mongodb.net/$?retryWrites=true&w=majority`
+
+
+DB_USER=ecommerceMern
+DB_PASSWORD=YHwoGjrDzILPka3c
+DB_NAME=ecommerce

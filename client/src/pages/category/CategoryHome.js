@@ -70,9 +70,12 @@ const CategoryHome = ({ match }) => {
     const [viewLoading, setViewLoading] = useState(false);
     const [waitForFilter, setwaitForFilter] = useState(false);
     const [brand, setBrand] = useState('');
-    const [color, setColor] = useState('');
     const [shipping, setShipping] = useState('');
     const [view, setView] = useState('grid');
+    const [searchText, setSearchText] = useState('');
+    const [flagText, setFlagText] = useState(true);
+    const [filteredColors, setFilteredColors] = useState([]);
+    const prevSearchTextLength = useRef(0);
 
     const filterOpen = useRef();
     const filtersSm = useRef();
@@ -82,13 +85,18 @@ const CategoryHome = ({ match }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        setLoading(true);
+        getCategoryProducts(setLoading);
+    }, [slug]);
+
+    const getCategoryProducts = (setLoadingFunc) => {
+        setLoadingFunc(true);
         getCategory(slug).then((res) => {
             setCategory(res.data.category);
             setProducts(res.data.products);
-            setLoading(false);
+            setLoadingFunc(false);
+            setwaitForFilter(false);
         });
-    }, [slug]);
+    }
 
     const fetchProducts = (arg) => {
         fetchProductsByFilterCat([category, arg]).then((res) => {
@@ -111,6 +119,24 @@ const CategoryHome = ({ match }) => {
         fetchProducts({ price });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ok]);
+
+    useEffect(() => {
+        let timer;
+        if (searchText.length >= 2) {
+            timer = setTimeout(() => {
+                setwaitForFilter(true);
+                const filteredResult = colors.filter(color => color.toLowerCase().includes(searchText.toLowerCase()) ? color : false);
+                setFilteredColors(filteredResult);
+                fetchProducts({ color: filteredResult })
+            }, 500);
+        }
+        if (searchText.length < 2 && prevSearchTextLength.current >= 2 && flagText) {
+            setFilteredColors([]);
+            getCategoryProducts(setwaitForFilter);
+        }
+        prevSearchTextLength.current = searchText.length;
+        return () => clearTimeout(timer);
+    }, [searchText])
 
     const body = document.querySelector('body');
     const toggleFilter = () => {
@@ -139,7 +165,7 @@ const CategoryHome = ({ match }) => {
         // reset
         setStar('');
         setBrand('');
-        setColor('');
+        setFilteredColors([]);
         setShipping('');
         setTimeout(() => {
             setOk(!ok);
@@ -160,7 +186,7 @@ const CategoryHome = ({ match }) => {
         setPrice([1, 3000]);
         // setCategoryIds([]);
         setBrand('');
-        setColor('');
+        setFilteredColors([]);
         setShipping('');
         fetchProducts({ stars: num });
     };
@@ -215,33 +241,34 @@ const CategoryHome = ({ match }) => {
         setPrice([1, 3000]);
         // setCategoryIds([]);
         setStar('');
-        setColor('');
+        setFilteredColors([]);
         setShipping('');
         fetchProducts({ brand: e.target.value });
     };
 
     // 8. show products based on color
     const showColors = () => (
-        <div className="row">
+        <div className="row shop-inputs">
             {colors.map((c) => (
-                <div className="col-6 mb-1" key={c}>
-                    <Radio
-                        key={c}
-                        value={c}
-                        name={c}
-                        checked={c === color}
-                        onChange={handleColor}
-                        className="pb-1 pl-4"
-                    >
+                <div className="col-6 my-1" key={c}>
+                    <Checkbox checked={filteredColors.includes(c)} className="pb-1 pl-4 my-1 d-flex align-items-center" onChange={handleColor} value={c}>
                         {c}
-                    </Radio>
+                    </Checkbox>
                 </div>
             ))}
         </div>
     );
 
     const handleColor = (e) => {
-        setColor(e.target.value);
+        setFlagText(false);
+        setSearchText('');
+        let currentFilteredColors = filteredColors;
+        if (e.target.checked) {
+            currentFilteredColors.push(e.target.value)
+        } else {
+            currentFilteredColors = currentFilteredColors.filter(color => color !== e.target.value);
+        }
+        setFilteredColors(currentFilteredColors);
         setwaitForFilter(true);
         dispatch({
             type: 'SEARCH_QUERY',
@@ -252,7 +279,11 @@ const CategoryHome = ({ match }) => {
         setStar('');
         setBrand('');
         setShipping('');
-        fetchProducts({ color: e.target.value });
+        if (currentFilteredColors.length) {
+            fetchProducts({ color: currentFilteredColors });
+        } else {
+            getCategoryProducts(setwaitForFilter);
+        }
     };
 
     const showShipping = () => (
@@ -288,7 +319,7 @@ const CategoryHome = ({ match }) => {
         // setCategoryIds([]);
         setStar('');
         setBrand('');
-        setColor('');
+        setFilteredColors([]);
         fetchProducts({ shipping: e.target.value });
     };
 
@@ -451,6 +482,16 @@ const CategoryHome = ({ match }) => {
                                     </div>
                                 )}
                             </div>
+                            <input
+                                type="text"
+                                placeholder="Looking for specific colors?"
+                                className="color-search-autocomplete"
+                                onChange={({ target: { value } }) => {
+                                    setFlagText(true);
+                                    setSearchText(value)
+                                }}
+                                value={searchText}
+                            />
                         </div>
                     </div>
                     <div ref={filtersSm} className={`filters-sm`}>
